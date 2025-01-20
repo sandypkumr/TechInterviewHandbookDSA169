@@ -9,7 +9,7 @@ class Solution:
                 return
             for i in range(start, len(candidates)):
                 if candidates[i] > target:
-                    continue
+                    break
                 backtrack(i, target - candidates[i], path + [candidates[i]])
 
         res = []
