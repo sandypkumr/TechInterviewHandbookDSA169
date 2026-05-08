@@ -36,12 +36,12 @@ const hardProblems = allProblems
   .slice(0, 8);
 
 const quickLinks = [
-  { title: 'Python Collections',   href: `${base}/cheatsheets/python-collections`,  desc: 'dict, Counter, defaultdict, deque, heapq',  tag: 'Cheat Sheet', soon: true },
-  { title: 'Sliding Window',       href: `${base}/cheatsheets/sliding-window`,      desc: 'Variable & fixed window templates',          tag: 'Template',    soon: true },
-  { title: 'BFS / DFS Templates',  href: `${base}/cheatsheets/graph-templates`,     desc: 'Graph traversal, topological sort',          tag: 'Template',    soon: true },
-  { title: 'Complexity Reference', href: `${base}/cheatsheets/complexity`,          desc: 'Big-O table for common algorithms',          tag: 'Reference',   soon: true },
-  { title: 'Binary Search',        href: `${base}/cheatsheets/binary-search`,       desc: 'Left, right, answer-space patterns',         tag: 'Template',    soon: true },
-  { title: 'DP Patterns',          href: `${base}/cheatsheets/dp-patterns`,         desc: 'Transition types, common subproblems',       tag: 'Pattern',     soon: true },
+  { title: 'Python Collections',   href: `${base}/cheatsheets/python-collections`,  desc: 'dict, Counter, defaultdict, deque, heapq',  tag: 'Cheat Sheet' },
+  { title: 'Sliding Window',       href: `${base}/cheatsheets/sliding-window`,      desc: 'Variable & fixed window templates',          tag: 'Template'    },
+  { title: 'BFS / DFS Templates',  href: `${base}/cheatsheets/graph-templates`,     desc: 'Graph traversal, topological sort',          tag: 'Template'    },
+  { title: 'Complexity Reference', href: `${base}/cheatsheets/complexity`,          desc: 'Big-O table for common algorithms',          tag: 'Reference'   },
+  { title: 'Binary Search',        href: `${base}/cheatsheets/binary-search`,       desc: 'Left, right, answer-space patterns',         tag: 'Template'    },
+  { title: 'DP Patterns',          href: `${base}/cheatsheets/dp-patterns`,         desc: 'Transition types, common subproblems',       tag: 'Pattern'     },
 ];
 ---
 
@@ -178,14 +178,13 @@ const quickLinks = [
 
       <div class="quick-grid">
         {quickLinks.map(link => (
-          <div class:list={['quick-card', { 'quick-card--soon': link.soon }]} aria-label={link.soon ? `${link.title} — coming soon` : link.title}>
+          <a href={link.href} class="quick-card" aria-label={link.title}>
             <div class="quick-card__top">
               <span class="tag">{link.tag}</span>
-              {link.soon && <span class="soon-badge">Soon</span>}
             </div>
             <h3 class="quick-card__title">{link.title}</h3>
             <p class="quick-card__desc">{link.desc}</p>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -533,19 +532,24 @@ const quickLinks = [
   }
 
   .quick-card {
+    display: flex;
+    flex-direction: column;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: 1.25rem;
-    transition: border-color 0.15s ease;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
   }
 
-  .quick-card:not(.quick-card--soon):hover {
+  .quick-card:hover {
     border-color: var(--color-accent);
+    box-shadow: 0 4px 16px rgba(91, 91, 214, 0.1);
+    transform: translateY(-1px);
   }
 
-  .quick-card--soon {
-    opacity: 0.7;
+  [data-theme="dark"] .quick-card:hover {
+    box-shadow: 0 4px 16px rgba(129, 140, 248, 0.12);
   }
 
   .quick-card__top {
@@ -567,17 +571,6 @@ const quickLinks = [
     color: var(--color-text-2);
     margin: 0;
     line-height: 1.5;
-  }
-
-  .soon-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-medium);
-    background: var(--color-medium-bg);
-    border-radius: 999px;
-    padding: 0.15em 0.5em;
   }
 
   /* ── Pattern CTA ──────────────────────────────────────── */
