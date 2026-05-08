@@ -1,0 +1,91 @@
+---
+title: "Reverse Linked List"
+problemSlug: "reverse-linked-list"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/reverse-linked-list"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/reverse_linked_list.py"
+tags: ["Linked List", "Recursion"]
+patterns: ["Iterative Reversal", "Recursive Reversal"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["reverse-nodes-in-k-group", "palindrome-linked-list"]
+---
+
+## Problem Statement
+
+Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.
+
+ 
+
+**Example 1:**
+
+```
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+```
+
+**Example 2:**
+
+```
+Input: head = [1,2]
+Output: [2,1]
+```
+
+**Example 3:**
+
+```
+Input: head = []
+Output: []
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is the range `[0, 5000]`.
+- `-5000 <= Node.val <= 5000`
+
+ 
+
+**Follow up:** A linked list can be reversed either iteratively or recursively. Could you implement both?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev = None
+        while head:
+            current = head
+            head = head.next
+            current.next = prev
+            prev = current
+        return prev
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Reverse Nodes In K Group](/TechInterviewHandbookDSA169/problems/reverse-nodes-in-k-group)
+- [Palindrome Linked List](/TechInterviewHandbookDSA169/problems/palindrome-linked-list)

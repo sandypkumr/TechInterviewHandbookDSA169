@@ -1,0 +1,134 @@
+---
+title: "Sliding Window"
+description: "Variable and fixed-size sliding window Python templates for substring, subarray, and sequence problems."
+category: "Algorithm Templates"
+order: 2
+tags: ["Sliding Window", "Two Pointers", "Substring", "Subarray"]
+---
+
+## When to Use
+
+| Signal | Type |
+|---|---|
+| "contiguous subarray / substring" | Sliding Window |
+| "maximum/minimum length with constraint" | Variable window |
+| "exactly k distinct / sum = target" | Variable window |
+| "window of size k" | Fixed window |
+| "two sorted arrays / linked lists" | Two Pointers |
+
+---
+
+## Fixed-Size Window
+
+```python
+def fixed_window(arr, k):
+    window_sum = sum(arr[:k])
+    best = window_sum
+    for i in range(k, len(arr)):
+        window_sum += arr[i] - arr[i - k]   # slide: add right, drop left
+        best = max(best, window_sum)
+    return best
+```
+
+**Examples:** Maximum average subarray of size k, sliding window maximum.
+
+---
+
+## Variable-Size Window (Shrink When Invalid)
+
+```python
+def variable_window(s, target):
+    left = 0
+    best = 0               # or float('inf') for minimization
+    window_state = ...     # counter, sum, set, etc.
+
+    for right in range(len(s)):
+        # 1. Expand — add s[right] to window
+        window_state = update(window_state, s[right])
+
+        # 2. Shrink — while constraint is violated
+        while not valid(window_state):
+            window_state = remove(window_state, s[left])
+            left += 1
+
+        # 3. Record answer
+        best = max(best, right - left + 1)
+
+    return best
+```
+
+---
+
+## Template: Minimum Window Substring
+
+```python
+from collections import Counter
+
+def min_window(s, t):
+    need   = Counter(t)
+    have   = {}
+    formed = 0             # chars satisfying their required count
+    left   = 0
+    ans    = (float('inf'), 0, 0)   # (length, l, r)
+
+    for right, c in enumerate(s):
+        have[c] = have.get(c, 0) + 1
+        if c in need and have[c] == need[c]:
+            formed += 1
+
+        while formed == len(need):
+            if right - left + 1 < ans[0]:
+                ans = (right - left + 1, left, right)
+            lc = s[left]
+            have[lc] -= 1
+            if lc in need and have[lc] < need[lc]:
+                formed -= 1
+            left += 1
+
+    return s[ans[1]:ans[2]+1] if ans[0] != float('inf') else ""
+```
+
+---
+
+## Template: Longest Substring with At Most K Distinct
+
+```python
+from collections import defaultdict
+
+def longest_k_distinct(s, k):
+    freq  = defaultdict(int)
+    left  = 0
+    best  = 0
+
+    for right, c in enumerate(s):
+        freq[c] += 1
+        while len(freq) > k:
+            lc = s[left]
+            freq[lc] -= 1
+            if freq[lc] == 0:
+                del freq[lc]
+            left += 1
+        best = max(best, right - left + 1)
+
+    return best
+```
+
+---
+
+## Two Pointers (Sorted Input)
+
+```python
+def two_sum_sorted(arr, target):
+    left, right = 0, len(arr) - 1
+    while left < right:
+        s = arr[left] + arr[right]
+        if s == target:
+            return (left, right)
+        elif s < target:
+            left += 1
+        else:
+            right -= 1
+    return (-1, -1)
+```
+
+**Use when:** sorted array, pair/triplet sum, palindrome check, container problems.

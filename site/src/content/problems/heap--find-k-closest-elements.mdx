@@ -1,0 +1,85 @@
+---
+title: "Find K Closest Elements"
+problemSlug: "find-k-closest-elements"
+topic: "Heap"
+topicSlug: "heap"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/find-k-closest-elements"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/heap/find_k_closest_elements.py"
+tags: ["Array", "Two Pointers", "Binary Search", "Sorting", "Heap"]
+patterns: ["Binary Search", "Two Pointers"]
+timeComplexity: "O(log(n-k) + k)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["kth-largest-element-in-an-array"]
+---
+
+## Problem Statement
+
+Given a **sorted** integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.
+
+An integer `a` is closer to `x` than an integer `b` if:
+
+- `|a - x| < |b - x|`, or
+- `|a - x| == |b - x|` and `a < b`
+
+ 
+
+**Example 1:**
+
+**Input:** arr = [1,2,3,4,5], k = 4, x = 3
+
+**Output:** [1,2,3,4]
+
+**Example 2:**
+
+**Input:** arr = [1,1,2,3,4,5], k = 4, x = -1
+
+**Output:** [1,1,2,3]
+
+ 
+
+**Constraints:**
+
+- `1 <= k <= arr.length`
+- `1 <= arr.length <= 10^4`
+- `arr` is sorted in **ascending** order.
+- `-10^4 <= arr[i], x <= 10^4`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        if k == len(arr):
+            return arr
+        if x <= arr[0]:
+            return arr[:k]
+        if x >= arr[-1]:
+            return arr[-k:]
+        left, right = 0, len(arr) - k
+        while left < right:
+            mid = left + (right - left) // 2
+            if x - arr[mid] > arr[mid + k] - x:
+                left = mid + 1
+            else:
+                right = mid
+        return arr[left:left + k]
+```
+
+
+## Complexity
+
+- **Time**: `O(log(n-k) + k)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Kth Largest Element In An Array](/TechInterviewHandbookDSA169/problems/kth-largest-element-in-an-array)

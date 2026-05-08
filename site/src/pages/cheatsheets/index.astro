@@ -1,0 +1,118 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const sheets = (await getCollection('cheatsheets'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const categories = [...new Set(sheets.map(s => s.data.category))];
+---
+
+<BaseLayout
+  title="Cheat Sheets · DSA Python"
+  description={`${sheets.length} Python DSA cheat sheets — algorithm templates, data structure references, and complexity guides.`}
+>
+  <div class="page-container" style="padding-top:2rem;padding-bottom:4rem;">
+
+    <header class="cs-header">
+      <h1>Cheat Sheets</h1>
+      <p class="cs-sub">{sheets.length} references · templates, patterns, and complexity guides</p>
+    </header>
+
+    {categories.map(cat => (
+      <section class="cs-group" aria-labelledby={`cat-${cat.replace(/\s+/g, '-').toLowerCase()}`}>
+        <h2 class="cs-group-title" id={`cat-${cat.replace(/\s+/g, '-').toLowerCase()}`}>{cat}</h2>
+        <div class="cs-grid">
+          {sheets.filter(s => s.data.category === cat).map(s => (
+            <a href={`${base}/cheatsheets/${s.slug}`} class="cs-card" aria-label={s.data.title}>
+              <div class="cs-card__top">
+                <span class="category-chip">{s.data.category}</span>
+              </div>
+              <h3 class="cs-card__title">{s.data.title}</h3>
+              <p class="cs-card__desc">{s.data.description}</p>
+              <div class="cs-card__tags">
+                {s.data.tags.slice(0, 4).map(t => <span class="tag">{t}</span>)}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+  </div>
+</BaseLayout>
+
+<style>
+  .cs-header { margin-bottom: 2.5rem; }
+  .cs-header h1 { font-size: 1.8rem; margin: 0 0 0.3rem; }
+  .cs-sub { color: var(--color-text-2); font-size: 0.9rem; margin: 0; }
+
+  .cs-group { margin-bottom: 2.5rem; }
+  .cs-group-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-3);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .cs-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.125rem 1.25rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cs-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(91, 91, 214, 0.08);
+  }
+  [data-theme="dark"] .cs-card:hover {
+    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.1);
+  }
+
+  .cs-card__top { display: flex; align-items: center; }
+  .cs-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+  .cs-card:hover .cs-card__title { color: var(--color-accent); }
+  .cs-card__desc {
+    font-size: 0.82rem;
+    color: var(--color-text-2);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+  .cs-card__tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.25rem; }
+
+  .category-chip {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: var(--color-accent-bg);
+    border-radius: 999px;
+    padding: 0.15em 0.6em;
+  }
+
+  @media (max-width: 480px) {
+    .cs-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+title: "Binary Tree Zigzag Level Order Traversal"
+problemSlug: "binary-tree-zigzag-level-order-traversal"
+topic: "Binary Tree"
+topicSlug: "binary-tree"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_tree/binary_tree_zigzag_level_order_traversal.py"
+tags: ["Tree", "Breadth-First Search", "Binary Tree"]
+patterns: ["BFS Level Order", "Alternating Direction"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["binary-tree-level-order-traversal", "binary-tree-right-side-view"]
+---
+
+## Problem Statement
+
+Given the `root` of a binary tree, return _the zigzag level order traversal of its nodes' values_. (i.e., from left to right, then right to left for the next level and alternate between).
+
+ 
+
+**Example 1:**
+
+```
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[20,9],[15,7]]
+```
+
+**Example 2:**
+
+```
+Input: root = [1]
+Output: [[1]]
+```
+
+**Example 3:**
+
+```
+Input: root = []
+Output: []
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the tree is in the range `[0, 2000]`.
+- `-100 <= Node.val <= 100`
+
+## Solution
+
+```python
+from collections import deque
+from typing import Optional, List
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        q = deque([root])
+        level = 0
+        while q:
+            level += 1
+            new_q = deque()
+            level_res = []
+            for node in q:
+                level_res.append(node.val)
+                if node.left:
+                    new_q.append(node.left)
+                if node.right:
+                    new_q.append(node.right)
+            if level % 2 == 0:
+                level_res = level_res[::-1]
+            res.append(level_res)
+            q = new_q
+        return res
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Binary Tree Level Order Traversal](/TechInterviewHandbookDSA169/problems/binary-tree-level-order-traversal)
+- [Binary Tree Right Side View](/TechInterviewHandbookDSA169/problems/binary-tree-right-side-view)

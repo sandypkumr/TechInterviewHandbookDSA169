@@ -1,0 +1,108 @@
+---
+title: "Sort List"
+problemSlug: "sort-list"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/sort-list"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/sort_list.py"
+tags: ["Linked List", "Two Pointers", "Divide and Conquer", "Sorting", "Merge Sort"]
+patterns: ["Merge Sort", "Fast and Slow Pointers"]
+timeComplexity: "O(n log n)"
+spaceComplexity: "O(log n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["merge-two-sorted-lists", "merge-k-sorted-lists"]
+---
+
+## Problem Statement
+
+Given the `head` of a linked list, return _the list after sorting it in **ascending order**_.
+
+ 
+
+**Example 1:**
+
+```
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+```
+
+**Example 2:**
+
+```
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+```
+
+**Example 3:**
+
+```
+Input: head = []
+Output: []
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[0, 5 * 10^4]`.
+- `-10^5 <= Node.val <= 10^5`
+
+ 
+
+**Follow up:** Can you sort the linked list in `O(n logn)` time and `O(1)` memory (i.e. constant space)?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        mid = slow.next
+        slow.next = None
+        return self.merge(self.sortList(head), self.sortList(mid))
+
+    def merge(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        current = dummy
+        while list1 and list2:
+            if list1.val < list2.val:
+                current.next = list1
+                list1 = list1.next
+            else:
+                current.next = list2
+                list2 = list2.next
+            current = current.next
+        current.next = list1 if list1 else list2
+        return dummy.next
+```
+
+
+## Complexity
+
+- **Time**: `O(n log n)`
+- **Space**: `O(log n)`
+
+
+## Similar Problems
+
+- [Merge Two Sorted Lists](/TechInterviewHandbookDSA169/problems/merge-two-sorted-lists)
+- [Merge K Sorted Lists](/TechInterviewHandbookDSA169/problems/merge-k-sorted-lists)

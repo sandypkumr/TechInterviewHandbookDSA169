@@ -1,0 +1,97 @@
+---
+title: "Basic Calculator"
+problemSlug: "basic-calculator"
+topic: "Stack"
+topicSlug: "stack"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/basic-calculator"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/stack/basic_calculator.py"
+tags: ["Math", "String", "Stack", "Recursion"]
+patterns: ["Stack-based Evaluation", "Sign Tracking"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["basic-calculator-ii", "evaluate-reverse-polish-notation"]
+---
+
+## Problem Statement
+
+Given a string `s` representing a valid expression, implement a basic calculator to evaluate it, and return _the result of the evaluation_.
+
+**Note:** You are **not** allowed to use any built-in function which evaluates strings as mathematical expressions, such as `eval()`.
+
+ 
+
+**Example 1:**
+
+```
+Input: s = "1 + 1"
+Output: 2
+```
+
+**Example 2:**
+
+```
+Input: s = " 2-1 + 2 "
+Output: 3
+```
+
+**Example 3:**
+
+```
+Input: s = "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 3 * 10^5`
+- `s` consists of digits, `'+'`, `'-'`, `'('`, `')'`, and `' '`.
+- `s` represents a valid expression.
+- `'+'` is **not** used as a unary operation (i.e., `"+1"` and `"+(2 + 3)"` is invalid).
+- `'-'` could be used as a unary operation (i.e., `"-1"` and `"-(2 + 3)"` is valid).
+- There will be no two consecutive operators in the input.
+- Every number and running calculation will fit in a signed 32-bit integer.
+
+## Solution
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        num_stack, sign_stack = [], []
+        res, num, sign = 0, 0, '+'
+
+        for i, c in enumerate(s):
+            if c.isdigit():
+                num = num * 10 + int(c)
+            if c in '+-' or i == len(s) - 1:
+                res = res + num if sign == '+' else res - num
+                num, sign = 0, c
+            if c == '(':
+                num_stack.append(res)
+                sign_stack.append(sign)
+                res, num, sign = 0, 0, '+'
+            if c == ')':
+                res = res + num if sign == '+' else res - num
+                prv_res = num_stack.pop()
+                res = prv_res + res if sign_stack.pop() == '+' else prv_res - res
+                num = 0
+        return res
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Basic Calculator Ii](/TechInterviewHandbookDSA169/problems/basic-calculator-ii)
+- [Evaluate Reverse Polish Notation](/TechInterviewHandbookDSA169/problems/evaluate-reverse-polish-notation)

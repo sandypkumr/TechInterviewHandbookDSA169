@@ -1,0 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Light (default)
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --color-bg:        #F7F6F3;
+  --color-bg-alt:    #EEEEE8;
+  --color-surface:   #FFFFFF;
+  --color-surface-2: #F3F3F0;
+
+  /* Text */
+  --color-text:      #1C1C1E;
+  --color-text-2:    #52525B;
+  --color-text-3:    #A1A1AA;
+
+  /* Borders */
+  --color-border:    #E4E4E7;
+  --color-border-2:  #D4D4D8;
+
+  /* Accent — muted indigo */
+  --color-accent:    #5B5BD6;
+  --color-accent-2:  #4A4AC0;
+  --color-accent-bg: #EEEEF8;
+
+  /* Difficulty */
+  --color-easy:      #16A34A;
+  --color-easy-bg:   #DCFCE7;
+  --color-medium:    #D97706;
+  --color-medium-bg: #FEF3C7;
+  --color-hard:      #DC2626;
+  --color-hard-bg:   #FEE2E2;
+
+  /* Layout */
+  --nav-height:      60px;
+  --sidebar-width:   264px;
+  --radius:          8px;
+  --radius-sm:       4px;
+  --radius-lg:       12px;
+  --radius-xl:       16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Dark
+═══════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --color-bg:        #0D1117;
+  --color-bg-alt:    #161B22;
+  --color-surface:   #1C2128;
+  --color-surface-2: #22272E;
+
+  /* Text */
+  --color-text:      #CDD9E5;
+  --color-text-2:    #8B949E;
+  --color-text-3:    #545D68;
+
+  /* Borders */
+  --color-border:    #30363D;
+  --color-border-2:  #3D444D;
+
+  /* Accent */
+  --color-accent:    #818CF8;
+  --color-accent-2:  #A5B4FC;
+  --color-accent-bg: #1E1B4B;
+
+  /* Difficulty */
+  --color-easy:      #4ADE80;
+  --color-easy-bg:   #052E16;
+  --color-medium:    #FCD34D;
+  --color-medium-bg: #451A03;
+  --color-hard:      #F87171;
+  --color-hard-bg:   #450A0A;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE RESET & GLOBALS
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-accent-2);
+}
+
+code, pre, kbd, samp {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INLINE CODE
+═══════════════════════════════════════════════════════════ */
+:not(pre) > code {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+  color: var(--color-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCKS (Shiki)
+═══════════════════════════════════════════════════════════ */
+pre.astro-code {
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  tab-size: 4;
+  /* Light: use Shiki's emitted variable; fallback to surface */
+  background-color: var(--shiki-light-bg, var(--color-surface)) !important;
+}
+
+pre.astro-code span {
+  color: var(--shiki-light, var(--color-text)) !important;
+}
+
+pre.astro-code code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Dark mode — activate Shiki's dark palette (github-dark-dimmed bg: #22272e) */
+[data-theme="dark"] pre.astro-code {
+  background-color: var(--shiki-dark-bg, #22272e) !important;
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] pre.astro-code span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar          { width: 6px; height: 6px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: var(--color-border-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-3); }
+
+/* ═══════════════════════════════════════════════════════════
+   FOCUS & SELECTION
+═══════════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT UTILITIES
+═══════════════════════════════════════════════════════════ */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-container--narrow {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SURFACE / CARD
+═══════════════════════════════════════════════════════════ */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--color-border-2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DIFFICULTY BADGES
+═══════════════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.badge-easy   { background: var(--color-easy-bg);   color: var(--color-easy);   }
+.badge-medium { background: var(--color-medium-bg); color: var(--color-medium); }
+.badge-hard   { background: var(--color-hard-bg);   color: var(--color-hard);   }
+
+/* ═══════════════════════════════════════════════════════════
+   TAG (topic / pattern chips)
+═══════════════════════════════════════════════════════════ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25em 0.75em;
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════════════════════ */
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1.5rem 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COLLAPSIBLE SECTION
+═══════════════════════════════════════════════════════════ */
+details {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+details summary {
+  padding: 0.875rem 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+details summary::-webkit-details-marker { display: none; }
+
+details summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  color: var(--color-text-3);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details .details-body {
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COMPLEXITY DISPLAY
+═══════════════════════════════════════════════════════════ */
+.complexity-block {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.complexity-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.complexity-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-3);
+}
+
+.complexity-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SKIP LINK (a11y)
+═══════════════════════════════════════════════════════════ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  font-weight: 600;
+  z-index: 9999;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   TRANSITION — theme switch
+═══════════════════════════════════════════════════════════ */
+body,
+.card,
+pre,
+details {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

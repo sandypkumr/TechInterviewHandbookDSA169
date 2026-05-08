@@ -1,0 +1,88 @@
+---
+title: "Counting Bits"
+problemSlug: "counting-bits"
+topic: "Binary"
+topicSlug: "binary"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/counting-bits"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary/counting_bits.py"
+tags: ["Dynamic Programming", "Bit Manipulation"]
+patterns: ["Dynamic Programming", "Bit Manipulation", "Pop Count DP"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["number-of-1-bits", "missing-number"]
+---
+
+## Problem Statement
+
+Given an integer `n`, return _an array _`ans`_ of length _`n + 1`_ such that for each _`i`_ _(`0 <= i <= n`)_, _`ans[i]`_ is the **number of **_`1`_**'s** in the binary representation of _`i`.
+
+ 
+
+**Example 1:**
+
+```
+Input: n = 2
+Output: [0,1,1]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+```
+
+**Example 2:**
+
+```
+Input: n = 5
+Output: [0,1,1,2,1,2]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
+```
+
+ 
+
+**Constraints:**
+
+- `0 <= n <= 10^5`
+
+ 
+
+**Follow up:**
+
+- It is very easy to come up with a solution with a runtime of `O(n log n)`. Can you do it in linear time `O(n)` and possibly in a single pass?
+- Can you do it without using any built-in function (i.e., like `__builtin_popcount` in C++)?
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def countBits(self, n: int) -> List[int]:
+        dp = [0] * (n + 1)
+        for i in range(1, n + 1):
+            dp[i] = dp[i >> 1] + (i & 1)
+        return dp
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Number Of 1 Bits](/TechInterviewHandbookDSA169/problems/number-of-1-bits)
+- [Missing Number](/TechInterviewHandbookDSA169/problems/missing-number)

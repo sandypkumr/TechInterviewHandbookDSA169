@@ -1,0 +1,193 @@
+---
+title: "Graph Templates"
+description: "BFS, DFS, topological sort (BFS + DFS), and union-find Python templates with adjacency list patterns."
+category: "Algorithm Templates"
+order: 3
+tags: ["Graph", "BFS", "DFS", "Topological Sort", "Union Find", "Dijkstra"]
+---
+
+## Build Adjacency List
+
+```python
+from collections import defaultdict
+
+# Undirected
+graph = defaultdict(list)
+for u, v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+# Directed
+graph = defaultdict(list)
+for u, v in edges:
+    graph[u].append(v)
+```
+
+---
+
+## BFS — Shortest Path / Level Order
+
+```python
+from collections import deque
+
+def bfs(graph, start):
+    visited = {start}
+    queue   = deque([start])
+    dist    = {start: 0}
+
+    while queue:
+        node = queue.popleft()
+        for nbr in graph[node]:
+            if nbr not in visited:
+                visited.add(nbr)
+                dist[nbr] = dist[node] + 1
+                queue.append(nbr)
+    return dist
+```
+
+**Use:** shortest path in unweighted graph, level-by-level traversal, connected components.
+
+---
+
+## DFS — Iterative
+
+```python
+def dfs(graph, start):
+    visited = set()
+    stack   = [start]
+
+    while stack:
+        node = stack.pop()
+        if node in visited:
+            continue
+        visited.add(node)
+        for nbr in graph[node]:
+            if nbr not in visited:
+                stack.append(nbr)
+    return visited
+```
+
+## DFS — Recursive
+
+```python
+def dfs(graph, node, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(node)
+    for nbr in graph[node]:
+        if nbr not in visited:
+            dfs(graph, nbr, visited)
+    return visited
+```
+
+---
+
+## Topological Sort — Kahn's Algorithm (BFS)
+
+```python
+from collections import defaultdict, deque
+
+def topo_sort(n, edges):
+    graph   = defaultdict(list)
+    indegree = [0] * n
+    for u, v in edges:
+        graph[u].append(v)
+        indegree[v] += 1
+
+    queue = deque(i for i in range(n) if indegree[i] == 0)
+    order = []
+
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for nbr in graph[node]:
+            indegree[nbr] -= 1
+            if indegree[nbr] == 0:
+                queue.append(nbr)
+
+    return order if len(order) == n else []  # [] = cycle detected
+```
+
+## Topological Sort — DFS
+
+```python
+def topo_dfs(n, graph):
+    WHITE, GRAY, BLACK = 0, 1, 2
+    color  = [WHITE] * n
+    order  = []
+    cycle  = [False]
+
+    def dfs(u):
+        if cycle[0]: return
+        color[u] = GRAY
+        for v in graph[u]:
+            if color[v] == GRAY:
+                cycle[0] = True; return
+            if color[v] == WHITE:
+                dfs(v)
+        color[u] = BLACK
+        order.append(u)
+
+    for i in range(n):
+        if color[i] == WHITE:
+            dfs(i)
+
+    return [] if cycle[0] else order[::-1]
+```
+
+---
+
+## Union Find (Disjoint Set Union)
+
+```python
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank   = [0] * n
+        self.components = n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])  # path compression
+        return self.parent[x]
+
+    def union(self, x, y):
+        px, py = self.find(x), self.find(y)
+        if px == py:
+            return False            # already connected
+        if self.rank[px] < self.rank[py]:
+            px, py = py, px
+        self.parent[py] = px        # union by rank
+        if self.rank[px] == self.rank[py]:
+            self.rank[px] += 1
+        self.components -= 1
+        return True
+```
+
+**Use:** number of connected components, cycle detection, Kruskal's MST, accounts merge.
+
+---
+
+## Dijkstra — Shortest Path (Weighted)
+
+```python
+import heapq
+from collections import defaultdict
+
+def dijkstra(graph, src, n):
+    dist = [float('inf')] * n
+    dist[src] = 0
+    heap = [(0, src)]   # (distance, node)
+
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d > dist[u]:
+            continue
+        for v, w in graph[u]:
+            if dist[u] + w < dist[v]:
+                dist[v] = dist[u] + w
+                heapq.heappush(heap, (dist[v], v))
+    return dist
+```
+
+**Use:** cheapest flights, network delay time, path with minimum effort.

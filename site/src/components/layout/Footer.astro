@@ -1,0 +1,137 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="footer__inner page-container">
+
+    <div class="footer__brand">
+      <a href={`${base}/`} class="footer__logo" aria-label="DSA Python Home">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="var(--color-accent)"/>
+          <text x="5" y="23" font-family="monospace" font-size="16" font-weight="700" fill="white">Py</text>
+        </svg>
+        <span>DSAPython</span>
+      </a>
+      <p class="footer__tagline">169 Python DSA solutions · Interview preparation · Pattern recognition</p>
+    </div>
+
+    <nav class="footer__links" aria-label="Footer navigation">
+      <div class="footer__col">
+        <p class="footer__col-title">Explore</p>
+        <a href={`${base}/topics`}>Topics</a>
+        <a href={`${base}/patterns`}>Patterns</a>
+        <a href={`${base}/search`}>Search</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-title">Reference</p>
+        <a href={`${base}/cheatsheets`}>Cheat Sheets</a>
+        <a href={`${base}/cheatsheets/complexity`}>Complexity</a>
+        <a href={`${base}/cheatsheets/graph-templates`}>Templates</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-title">Source</p>
+        <a href="https://github.com/sandypkumr/TechInterviewHandbookDSA169" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+        <a href="https://leetcode.com" target="_blank" rel="noopener noreferrer">LeetCode ↗</a>
+      </div>
+    </nav>
+
+  </div>
+
+  <div class="footer__bottom page-container">
+    <p>&copy; {year} DSAPython · Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a></p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 5rem;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-alt);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+    align-items: start;
+  }
+
+  /* Brand */
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+  }
+  .footer__logo:hover { color: var(--color-accent); }
+  .footer__tagline {
+    font-size: 0.8rem;
+    color: var(--color-text-3);
+    margin: 0;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+
+  /* Links grid */
+  .footer__links {
+    display: flex;
+    gap: 3rem;
+  }
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .footer__col-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-3);
+    margin: 0 0 0.25rem;
+  }
+  .footer__col a {
+    font-size: 0.8rem;
+    color: var(--color-text-2);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .footer__col a:hover { color: var(--color-accent); }
+
+  /* Bottom */
+  .footer__bottom {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .footer__bottom p {
+    font-size: 0.78rem;
+    color: var(--color-text-3);
+    margin: 0;
+  }
+  .footer__bottom a {
+    color: var(--color-text-3);
+    text-decoration: none;
+  }
+  .footer__bottom a:hover { color: var(--color-accent); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .footer__links {
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+  }
+</style>

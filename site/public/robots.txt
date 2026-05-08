@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sandypkumr.github.io/TechInterviewHandbookDSA169/sitemap-index.xml

@@ -1,0 +1,639 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const [allProblems, allTopics] = await Promise.all([
+  getCollection('problems'),
+  getCollection('topics'),
+]);
+
+const sortedTopics = [...allTopics].sort((a, b) => a.data.order - b.data.order);
+
+const stats = {
+  total:  allProblems.length,
+  easy:   allProblems.filter(p => p.data.difficulty === 'Easy').length,
+  medium: allProblems.filter(p => p.data.difficulty === 'Medium').length,
+  hard:   allProblems.filter(p => p.data.difficulty === 'Hard').length,
+  topics: allTopics.length,
+};
+
+// Aggregate patterns ranked by frequency across all problems
+const patternFreq = new Map<string, number>();
+allProblems.forEach(p => p.data.patterns.forEach(pat => {
+  patternFreq.set(pat, (patternFreq.get(pat) ?? 0) + 1);
+}));
+const topPatterns = [...patternFreq.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 16)
+  .map(([name]) => name);
+
+// Hard problems for quick-revision spotlight
+const hardProblems = allProblems
+  .filter(p => p.data.difficulty === 'Hard')
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .slice(0, 8);
+
+const quickLinks = [
+  { title: 'Python Collections',   href: `${base}/cheatsheets/python-collections`,  desc: 'dict, Counter, defaultdict, deque, heapq',  tag: 'Cheat Sheet', soon: true },
+  { title: 'Sliding Window',       href: `${base}/cheatsheets/sliding-window`,      desc: 'Variable & fixed window templates',          tag: 'Template',    soon: true },
+  { title: 'BFS / DFS Templates',  href: `${base}/cheatsheets/graph-templates`,     desc: 'Graph traversal, topological sort',          tag: 'Template',    soon: true },
+  { title: 'Complexity Reference', href: `${base}/cheatsheets/complexity`,          desc: 'Big-O table for common algorithms',          tag: 'Reference',   soon: true },
+  { title: 'Binary Search',        href: `${base}/cheatsheets/binary-search`,       desc: 'Left, right, answer-space patterns',         tag: 'Template',    soon: true },
+  { title: 'DP Patterns',          href: `${base}/cheatsheets/dp-patterns`,         desc: 'Transition types, common subproblems',       tag: 'Pattern',     soon: true },
+];
+---
+
+<BaseLayout
+  title="DSA Python — Interview Preparation"
+  description="169 curated Python DSA solutions with walkthroughs, patterns, and quick-revision tools. Built for interview preparation."
+>
+
+  <!-- ── Hero ──────────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="page-container hero__inner">
+
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="tag">Python · Interview Ready</span>
+        </div>
+        <h1 id="hero-heading" class="hero__title">
+          Master DSA in Python.<br />
+          <span class="hero__title-accent">One problem at a time.</span>
+        </h1>
+        <p class="hero__desc">
+          169 hand-crafted Python solutions, organized by topic and pattern.
+          Built for fast revision, pattern recognition, and interview confidence.
+        </p>
+        <div class="hero__actions">
+          <a href={`${base}/topics`} class="btn btn-primary">Browse Topics</a>
+          <a href={`${base}/search`} class="btn btn-ghost">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            Search Problems
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="hero__stats" role="region" aria-label="Repository statistics">
+        <div class="stat-card">
+          <span class="stat-number">{stats.total}</span>
+          <span class="stat-label">Problems</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-card">
+          <span class="stat-number">{stats.topics}</span>
+          <span class="stat-label">Topics</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-card">
+          <span class="stat-number stat-easy">{stats.easy}</span>
+          <span class="stat-label">Easy</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-card">
+          <span class="stat-number stat-medium">{stats.medium}</span>
+          <span class="stat-label">Medium</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-card">
+          <span class="stat-number stat-hard">{stats.hard}</span>
+          <span class="stat-label">Hard</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Topics Grid ────────────────────────────────────── -->
+  <section class="section" aria-labelledby="topics-heading">
+    <div class="page-container">
+      <div class="section-header">
+        <h2 id="topics-heading">Browse by Topic</h2>
+        <a href={`${base}/topics`} class="section-link">View all →</a>
+      </div>
+
+      <div class="topics-grid">
+        {sortedTopics.map(t => {
+          const d = t.data;
+          return (
+            <a href={`${base}/topics/${t.slug}`} class="topic-card" aria-label={`${d.title} — ${d.problemCount} problems`}>
+              <div class="topic-card__header">
+                <span class="topic-card__icon" aria-hidden="true">{d.icon}</span>
+                <span class="topic-card__count">{d.problemCount}</span>
+              </div>
+              <h3 class="topic-card__name">{d.title}</h3>
+              <p class="topic-card__desc">{d.description}</p>
+              <div class="topic-card__badges">
+                {d.easyCount   > 0 && <span class="badge badge-easy">{d.easyCount}</span>}
+                {d.mediumCount > 0 && <span class="badge badge-medium">{d.mediumCount}</span>}
+                {d.hardCount   > 0 && <span class="badge badge-hard">{d.hardCount}</span>}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Hard Problems Spotlight ─────────────────────────── -->
+  <section class="section section--alt" aria-labelledby="hard-heading">
+    <div class="page-container">
+      <div class="section-header">
+        <div>
+          <h2 id="hard-heading">Hard Problems</h2>
+          <p class="section-subtitle">{stats.hard} problems · revisit these before your interview</p>
+        </div>
+        <a href={`${base}/topics`} class="section-link">All topics →</a>
+      </div>
+      <div class="hard-grid">
+        {hardProblems.map(p => (
+          <a href={`${base}/problems/${p.data.problemSlug}`} class="hard-card">
+            <span class="badge badge-hard" style="font-size:0.65rem;">Hard</span>
+            <span class="hard-card__title">{p.data.title}</span>
+            <span class="hard-card__topic">{p.data.topic}</span>
+          </a>
+        ))}
+        <a href={`${base}/topics`} class="hard-card hard-card--more">
+          <span class="hard-card__more-text">+{stats.hard - hardProblems.length} more Hard</span>
+          <span class="hard-card__cta">Browse all →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Quick Revision ─────────────────────────────────── -->
+  <section class="section" aria-labelledby="revision-heading">
+    <div class="page-container">
+      <div class="section-header">
+        <div>
+          <h2 id="revision-heading">Quick Revision</h2>
+          <p class="section-subtitle">Cheat sheets, templates, and reference guides</p>
+        </div>
+        <a href={`${base}/cheatsheets`} class="section-link">View all →</a>
+      </div>
+
+      <div class="quick-grid">
+        {quickLinks.map(link => (
+          <div class:list={['quick-card', { 'quick-card--soon': link.soon }]} aria-label={link.soon ? `${link.title} — coming soon` : link.title}>
+            <div class="quick-card__top">
+              <span class="tag">{link.tag}</span>
+              {link.soon && <span class="soon-badge">Soon</span>}
+            </div>
+            <h3 class="quick-card__title">{link.title}</h3>
+            <p class="quick-card__desc">{link.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pattern Index CTA ──────────────────────────────── -->
+  <section class="section" aria-labelledby="patterns-heading">
+    <div class="page-container">
+      <div class="cta-card">
+        <div class="cta-card__content">
+          <h2 id="patterns-heading" class="cta-card__title">Recognize Patterns, Not Just Problems</h2>
+          <p class="cta-card__desc">
+            Every problem is tagged with algorithmic patterns — sliding window, two pointers, BFS/DFS, union-find, and more.
+            Learn the pattern, solve any variant.
+          </p>
+          <a href={`${base}/patterns`} class="btn btn-primary">Explore Patterns</a>
+        </div>
+        <div class="cta-card__visual" aria-hidden="true">
+          <div class="pattern-chips">
+            {topPatterns.map(p => (
+              <span class="tag">{p}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+    letter-spacing: -0.025em;
+    max-width: 640px;
+  }
+
+  .hero__title-accent {
+    color: var(--color-accent);
+  }
+
+  .hero__desc {
+    font-size: 1.05rem;
+    color: var(--color-text-2);
+    max-width: 520px;
+    line-height: 1.7;
+    margin: 0 0 1.75rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Stats Bar */
+  .hero__stats {
+    display: flex;
+    align-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 1.25rem 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    width: fit-content;
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    min-width: 48px;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-easy   { color: var(--color-easy);   }
+  .stat-medium { color: var(--color-medium); }
+  .stat-hard   { color: var(--color-hard);   }
+
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-3);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--color-border);
+    flex-shrink: 0;
+  }
+
+  /* ── Buttons ──────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: white;
+    border: 1px solid transparent;
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-2);
+    color: white;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-2);
+    border: 1px solid var(--color-border);
+  }
+  .btn-ghost:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    border-color: var(--color-border-2);
+  }
+
+  /* ── Sections ─────────────────────────────────────────── */
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section--alt {
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    gap: 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+
+  .section-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-2);
+    margin: 0.25rem 0 0;
+  }
+
+  .section-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+    white-space: nowrap;
+    padding-top: 0.2rem;
+  }
+  .section-link:hover { color: var(--color-accent-2); }
+
+  /* ── Topics Grid ──────────────────────────────────────── */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  }
+
+  .topic-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 16px rgba(91, 91, 214, 0.1);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .topic-card:hover {
+    box-shadow: 0 4px 16px rgba(129, 140, 248, 0.12);
+  }
+
+  .topic-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .topic-card__icon {
+    font-size: 1.25rem;
+    color: var(--color-accent);
+  }
+
+  .topic-card__count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-3);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0.15em 0.6em;
+  }
+
+  .topic-card__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .topic-card__desc {
+    font-size: 0.78rem;
+    color: var(--color-text-2);
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .topic-card__badges {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Hard Problems Grid ──────────────────────────────── */
+  .hard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .hard-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 0.875rem 1rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .hard-card:hover {
+    border-color: var(--color-hard);
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.08);
+  }
+
+  [data-theme="dark"] .hard-card:hover {
+    box-shadow: 0 3px 10px rgba(248, 113, 113, 0.1);
+  }
+
+  .hard-card__title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+
+  .hard-card:hover .hard-card__title {
+    color: var(--color-hard);
+  }
+
+  .hard-card__topic {
+    font-size: 0.7rem;
+    color: var(--color-text-3);
+  }
+
+  .hard-card--more {
+    justify-content: center;
+    align-items: center;
+    border-style: dashed;
+    gap: 0.25rem;
+  }
+
+  .hard-card--more:hover {
+    border-color: var(--color-accent);
+    box-shadow: none;
+  }
+
+  .hard-card__more-text {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text-2);
+  }
+
+  .hard-card__cta {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* ── Quick Links Grid ─────────────────────────────────── */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .quick-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .quick-card:not(.quick-card--soon):hover {
+    border-color: var(--color-accent);
+  }
+
+  .quick-card--soon {
+    opacity: 0.7;
+  }
+
+  .quick-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .quick-card__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.4rem;
+  }
+
+  .quick-card__desc {
+    font-size: 0.78rem;
+    color: var(--color-text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .soon-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-medium);
+    background: var(--color-medium-bg);
+    border-radius: 999px;
+    padding: 0.15em 0.5em;
+  }
+
+  /* ── Pattern CTA ──────────────────────────────────────── */
+  .cta-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .cta-card__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+
+  .cta-card__desc {
+    font-size: 0.9rem;
+    color: var(--color-text-2);
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+  }
+
+  .pattern-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 2.5rem 0 2rem;
+    }
+
+    .hero__stats {
+      padding: 1rem 1.25rem;
+      gap: 1rem;
+    }
+
+    .stat-divider { display: none; }
+
+    .cta-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .topics-grid,
+    .quick-grid,
+    .hard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

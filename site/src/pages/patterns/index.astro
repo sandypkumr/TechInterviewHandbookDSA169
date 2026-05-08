@@ -1,0 +1,192 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const allProblems = await getCollection('problems');
+
+interface PatternEntry {
+  name:   string;
+  count:  number;
+  easy:   number;
+  medium: number;
+  hard:   number;
+  sample: Array<{ title: string; slug: string; difficulty: string }>;
+}
+
+const patternMap = new Map<string, PatternEntry>();
+allProblems.forEach(p => {
+  const { patterns, difficulty, title, problemSlug } = p.data;
+  patterns.forEach(pat => {
+    if (!patternMap.has(pat)) {
+      patternMap.set(pat, { name: pat, count: 0, easy: 0, medium: 0, hard: 0, sample: [] });
+    }
+    const entry = patternMap.get(pat)!;
+    entry.count++;
+    if (difficulty === 'Easy')   entry.easy++;
+    if (difficulty === 'Medium') entry.medium++;
+    if (difficulty === 'Hard')   entry.hard++;
+    if (entry.sample.length < 3) entry.sample.push({ title, slug: problemSlug, difficulty });
+  });
+});
+
+const patterns      = [...patternMap.values()].sort((a, b) => b.count - a.count);
+const totalPatterns = patterns.length;
+---
+
+<BaseLayout
+  title="Patterns · DSA Python"
+  description={`${totalPatterns} algorithmic patterns across ${allProblems.length} Python DSA problems — sliding window, BFS, DFS, DP, backtracking and more.`}
+>
+  <div class="page-container" style="padding-top:2rem;padding-bottom:4rem;">
+
+    <header class="patterns-header">
+      <h1>Algorithmic Patterns</h1>
+      <p class="patterns-sub">
+        {totalPatterns} patterns · {allProblems.length} problems
+        <span class="patterns-hint">ranked by frequency</span>
+      </p>
+    </header>
+
+    <div class="patterns-grid">
+      {patterns.map((p, i) => (
+        <div class="pattern-card">
+          <div class="pattern-card__top">
+            <span class="pattern-rank">#{i + 1}</span>
+            <span class="pattern-count">{p.count} problems</span>
+          </div>
+          <h2 class="pattern-name">{p.name}</h2>
+          <div class="pattern-badges">
+            {p.easy   > 0 && <span class="badge badge-easy">{p.easy} E</span>}
+            {p.medium > 0 && <span class="badge badge-medium">{p.medium} M</span>}
+            {p.hard   > 0 && <span class="badge badge-hard">{p.hard} H</span>}
+          </div>
+          {p.sample.length > 0 && (
+            <ul class="pattern-sample">
+              {p.sample.map(s => (
+                <li>
+                  <a href={`${base}/problems/${s.slug}`} class="sample-link">
+                    <span class:list={['sample-dot', `sample-dot--${s.difficulty.toLowerCase()}`]}></span>
+                    {s.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .patterns-header { margin-bottom: 2rem; }
+  .patterns-header h1 { font-size: 1.8rem; margin: 0 0 0.4rem; }
+
+  .patterns-sub {
+    color: var(--color-text-2);
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .patterns-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-3);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0.15em 0.6em;
+  }
+
+  .patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .pattern-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pattern-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(91, 91, 214, 0.08);
+  }
+  [data-theme="dark"] .pattern-card:hover {
+    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.1);
+  }
+
+  .pattern-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pattern-rank {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-text-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .pattern-count {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: var(--color-accent-bg);
+    border-radius: 999px;
+    padding: 0.15em 0.55em;
+  }
+
+  .pattern-name {
+    font-size: 0.925rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .pattern-badges { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+
+  .pattern-sample {
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0.6rem 0 0;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .sample-link {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    color: var(--color-text-2);
+    text-decoration: none;
+    line-height: 1.3;
+  }
+  .sample-link:hover { color: var(--color-accent); }
+
+  .sample-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .sample-dot--easy   { background: var(--color-easy);   }
+  .sample-dot--medium { background: var(--color-medium); }
+  .sample-dot--hard   { background: var(--color-hard);   }
+
+  @media (max-width: 480px) {
+    .patterns-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+title: "Construct Binary Tree from Preorder and Inorder Traversal"
+problemSlug: "construct-binary-tree-from-preorder-and-inorder-traversal"
+topic: "Binary Tree"
+topicSlug: "binary-tree"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_tree/construct_binary_tree_from_preorder_and_inorder_traversal.py"
+tags: ["Array", "Hash Table", "Divide and Conquer", "Tree", "Binary Tree"]
+patterns: ["Divide and Conquer", "Hash Map for Index Lookup"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: []
+---
+
+## Problem Statement
+
+Given two integer arrays `preorder` and `inorder` where `preorder` is the preorder traversal of a binary tree and `inorder` is the inorder traversal of the same tree, construct and return _the binary tree_.
+
+ 
+
+**Example 1:**
+
+```
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+```
+
+**Example 2:**
+
+```
+Input: preorder = [-1], inorder = [-1]
+Output: [-1]
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= preorder.length <= 3000`
+- `inorder.length == preorder.length`
+- `-3000 <= preorder[i], inorder[i] <= 3000`
+- `preorder` and `inorder` consist of **unique** values.
+- Each value of `inorder` also appears in `preorder`.
+- `preorder` is **guaranteed** to be the preorder traversal of the tree.
+- `inorder` is **guaranteed** to be the inorder traversal of the tree.
+
+## Solution
+
+```python
+from typing import List, Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def helper(preorder_left, preorder_right, inorder_left, inorder_right):
+            if preorder_left > preorder_right:
+                return None
+            preorder_root = preorder_left
+            inorder_root = index[preorder[preorder_root]]
+            root = TreeNode(preorder[preorder_root])
+            size_left_subtree = inorder_root - inorder_left
+            root.left = helper(preorder_left + 1, preorder_left + size_left_subtree, inorder_left, inorder_root - 1)
+            root.right = helper(preorder_left + size_left_subtree + 1, preorder_right, inorder_root + 1, inorder_right)
+            return root
+
+        index = {element: i for i, element in enumerate(inorder)}
+        return helper(0, len(preorder) - 1, 0, len(inorder) - 1)
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`

@@ -1,0 +1,84 @@
+---
+title: "Longest Valid Parentheses"
+problemSlug: "longest-valid-parentheses"
+topic: "Stack"
+topicSlug: "stack"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/longest-valid-parentheses"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/stack/longest_valid_parentheses.py"
+tags: ["String", "Dynamic Programming", "Stack"]
+patterns: ["Stack", "Dynamic Programming"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["valid-parentheses"]
+---
+
+## Problem Statement
+
+Given a string containing just the characters `'('` and `')'`, return _the length of the longest valid (well-formed) parentheses __substring_.
+
+ 
+
+**Example 1:**
+
+```
+Input: s = "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()".
+```
+
+**Example 2:**
+
+```
+Input: s = ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()".
+```
+
+**Example 3:**
+
+```
+Input: s = ""
+Output: 0
+```
+
+ 
+
+**Constraints:**
+
+- `0 <= s.length <= 3 * 10^4`
+- `s[i]` is `'('`, or `')'`.
+
+## Solution
+
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        stack = [-1]
+        max_len = 0
+        for i, c in enumerate(s):
+            if c == '(':
+                stack.append(i)
+            else:
+                stack.pop()
+                if stack:
+                    max_len = max(max_len, i - stack[-1])
+                else:
+                    stack.append(i)
+        return max_len
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Valid Parentheses](/TechInterviewHandbookDSA169/problems/valid-parentheses)

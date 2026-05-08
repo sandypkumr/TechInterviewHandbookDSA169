@@ -1,0 +1,170 @@
+---
+title: "DP Patterns"
+description: "Dynamic programming transition types, common subproblem shapes, bottom-up vs top-down guide, and space optimisation tricks."
+category: "Reference"
+order: 6
+tags: ["Dynamic Programming", "DP", "Memoization", "Bottom-Up", "Knapsack"]
+---
+
+## Top-Down vs Bottom-Up
+
+| Aspect | Top-Down (Memoization) | Bottom-Up (Tabulation) |
+|---|---|---|
+| Direction | Start from answer, recurse | Start from base cases, fill table |
+| Code style | Recursive + cache | Iterative loops |
+| Stack depth | O(depth) — risk of recursion limit | O(1) stack |
+| Subproblem order | Automatic (lazy) | Must determine fill order |
+| Space optimisation | Harder | Often easy (rolling array) |
+
+---
+
+## Top-Down Template
+
+```python
+from functools import lru_cache
+
+def solve(n):
+    @lru_cache(maxsize=None)
+    def dp(state):
+        # base case
+        if state == base:
+            return base_value
+        # transition
+        return min/max/sum(dp(next_state) for next_state in transitions(state))
+    return dp(initial_state)
+```
+
+---
+
+## Bottom-Up Template
+
+```python
+def solve(n):
+    dp = [0] * (n + 1)        # or 2D for two-variable problems
+    dp[0] = base_value        # base case(s)
+
+    for i in range(1, n + 1):
+        dp[i] = transition(dp[i-1], dp[i-2], ...)   # recurrence
+
+    return dp[n]
+```
+
+---
+
+## Common DP Shapes
+
+### 1-D Linear
+
+```python
+# Climbing Stairs / Fibonacci
+dp[i] = dp[i-1] + dp[i-2]
+
+# House Robber
+dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+
+# Jump Game
+dp[i] = any(dp[j] and j + nums[j] >= i for j in range(i))
+```
+
+### 2-D Grid
+
+```python
+# Unique Paths
+dp[i][j] = dp[i-1][j] + dp[i][j-1]
+
+# Minimum Path Sum
+dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])
+```
+
+### Substring / Subsequence
+
+```python
+# Longest Common Subsequence
+if s[i] == t[j]:
+    dp[i][j] = dp[i-1][j-1] + 1
+else:
+    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+# Longest Palindromic Subsequence
+if s[i] == s[j]:
+    dp[i][j] = dp[i+1][j-1] + 2
+else:
+    dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+
+# Edit Distance
+if s[i] == t[j]:
+    dp[i][j] = dp[i-1][j-1]
+else:
+    dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+```
+
+### 0/1 Knapsack
+
+```python
+# Item either taken or skipped
+for i in range(n):
+    for w in range(W, weight[i]-1, -1):  # reverse to avoid reuse
+        dp[w] = max(dp[w], dp[w - weight[i]] + value[i])
+```
+
+### Unbounded Knapsack (item can be reused)
+
+```python
+# Coin Change / Combination Sum IV
+for coin in coins:
+    for amount in range(coin, target + 1):  # forward = allow reuse
+        dp[amount] = min(dp[amount], dp[amount - coin] + 1)
+```
+
+### Interval DP
+
+```python
+# Burst Balloons
+for length in range(2, n + 1):
+    for left in range(n - length + 1):
+        right = left + length
+        for k in range(left + 1, right):
+            dp[left][right] = max(dp[left][right],
+                nums[left]*nums[k]*nums[right] +
+                dp[left][k] + dp[k][right])
+```
+
+---
+
+## Space Optimisation
+
+Most 2-D DP can be reduced to O(n) using two rolling arrays:
+
+```python
+prev = [0] * (n + 1)
+curr = [0] * (n + 1)
+
+for i in range(1, m + 1):
+    for j in range(1, n + 1):
+        curr[j] = transition(prev[j], curr[j-1], prev[j-1])
+    prev = curr[:]   # or swap references
+```
+
+For 1-D recurrences using only last 2 values:
+
+```python
+a, b = base0, base1
+for i in range(2, n + 1):
+    a, b = b, a + b
+return b
+```
+
+---
+
+## Pattern Recognition Cheat Sheet
+
+| Problem phrase | DP type |
+|---|---|
+| "minimum cost / steps to reach" | Linear DP |
+| "number of ways to" | Counting DP |
+| "can you achieve exactly X" | Boolean knapsack |
+| "maximum profit with at most k transactions" | State machine DP |
+| "longest common / increasing subsequence" | Sequence DP |
+| "optimal on a subarray / substring" | Interval DP |
+| "partition into k groups" | Partition DP |
+| "on a tree" | Tree DP (post-order) |

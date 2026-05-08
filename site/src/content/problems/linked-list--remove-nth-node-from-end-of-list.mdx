@@ -1,0 +1,94 @@
+---
+title: "Remove Nth Node From End of List"
+problemSlug: "remove-nth-node-from-end-of-list"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/remove-nth-node-from-end-of-list"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/remove_nth_node_from_end_of_list.py"
+tags: ["Linked List", "Two Pointers"]
+patterns: ["Two Pointers", "n-gap Window"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["middle-of-the-linked-list"]
+---
+
+## Problem Statement
+
+Given the `head` of a linked list, remove the `n^th` node from the end of the list and return its head.
+
+ 
+
+**Example 1:**
+
+```
+Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
+```
+
+**Example 2:**
+
+```
+Input: head = [1], n = 1
+Output: []
+```
+
+**Example 3:**
+
+```
+Input: head = [1,2], n = 1
+Output: [1]
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is `sz`.
+- `1 <= sz <= 30`
+- `0 <= Node.val <= 100`
+- `1 <= n <= sz`
+
+ 
+
+**Follow up:** Could you do this in one pass?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy = ListNode(next=head)
+        slow = fast = dummy
+        for _ in range(n + 1):
+            fast = fast.next
+        while fast:
+            slow = slow.next
+            fast = fast.next
+        slow.next = slow.next.next
+        return dummy.next
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Middle Of The Linked List](/TechInterviewHandbookDSA169/problems/middle-of-the-linked-list)

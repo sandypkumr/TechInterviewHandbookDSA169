@@ -1,0 +1,97 @@
+---
+title: "Word Ladder"
+problemSlug: "word-ladder"
+topic: "Graph"
+topicSlug: "graph"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/word-ladder"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/graph/word_ladder.py"
+tags: ["Hash Table", "String", "Breadth-First Search"]
+patterns: ["BFS", "Word Graph", "Bidirectional BFS"]
+timeComplexity: "O(M²×N)"
+spaceComplexity: "O(M²×N)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["word-search", "bus-routes"]
+---
+
+## Problem Statement
+
+A **transformation sequence** from word `beginWord` to word `endWord` using a dictionary `wordList` is a sequence of words `beginWord -> s_1 -> s_2 -> ... -> s_k` such that:
+
+- Every adjacent pair of words differs by a single letter.
+- Every `s_i` for `1 <= i <= k` is in `wordList`. Note that `beginWord` does not need to be in `wordList`.
+- `s_k == endWord`
+
+Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return _the **number of words** in the **shortest transformation sequence** from_ `beginWord` _to_ `endWord`_, or _`0`_ if no such sequence exists._
+
+ 
+
+**Example 1:**
+
+```
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: One shortest transformation sequence is "hit" -> "hot" -> "dot" -> "dog" -> cog", which is 5 words long.
+```
+
+**Example 2:**
+
+```
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+Output: 0
+Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= beginWord.length <= 10`
+- `endWord.length == beginWord.length`
+- `1 <= wordList.length <= 5000`
+- `wordList[i].length == beginWord.length`
+- `beginWord`, `endWord`, and `wordList[i]` consist of lowercase English letters.
+- `beginWord != endWord`
+- All the words in `wordList` are **unique**.
+
+## Solution
+
+```python
+import string
+from collections import deque
+from typing import List
+
+
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        word_set = set(wordList)
+        if endWord not in word_set:
+            return 0
+        queue = deque([(beginWord, 1)])
+        while queue:
+            word, steps = queue.popleft()
+            if word == endWord:
+                return steps
+            for i in range(len(word)):
+                for c in string.ascii_lowercase:
+                    next_word = word[:i] + c + word[i + 1:]
+                    if next_word in word_set:
+                        word_set.remove(next_word)
+                        queue.append((next_word, steps + 1))
+        return 0
+```
+
+
+## Complexity
+
+- **Time**: `O(M²×N)`
+- **Space**: `O(M²×N)`
+
+
+## Similar Problems
+
+- [Word Search](/TechInterviewHandbookDSA169/problems/word-search)
+- [Bus Routes](/TechInterviewHandbookDSA169/problems/bus-routes)

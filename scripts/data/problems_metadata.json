@@ -1,0 +1,1354 @@
+{
+  "two-sum": {
+    "tags": ["Array", "Hash Table"],
+    "patterns": ["Hash Map", "Complement Lookup"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["three-sum", "3sum-closest", "4sum"]
+  },
+  "best-time-to-buy-and-sell-stock": {
+    "tags": ["Array", "Dynamic Programming", "Greedy"],
+    "patterns": ["Greedy", "Single Pass", "Kadane Variant"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["maximum-subarray"]
+  },
+  "majority-element": {
+    "tags": ["Array", "Hash Table", "Divide and Conquer", "Sorting"],
+    "patterns": ["Boyer-Moore Voting Algorithm"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "contains-duplicate": {
+    "tags": ["Array", "Hash Table", "Sorting"],
+    "patterns": ["Hash Set"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["longest-consecutive-sequence"]
+  },
+  "meeting-rooms": {
+    "tags": ["Array", "Sorting"],
+    "patterns": ["Sorting", "Interval Scheduling"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": true,
+    "similarProblems": ["meeting-rooms-ii", "merge-intervals", "non-overlapping-intervals"]
+  },
+  "move-zeroes": {
+    "tags": ["Array", "Two Pointers"],
+    "patterns": ["Two Pointers", "In-place Partition"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["sort-colors"]
+  },
+  "squares-of-a-sorted-array": {
+    "tags": ["Array", "Two Pointers", "Sorting"],
+    "patterns": ["Two Pointers", "Merge"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "insert-interval": {
+    "tags": ["Array"],
+    "patterns": ["Interval Merging", "Greedy"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["merge-intervals", "meeting-rooms", "non-overlapping-intervals"]
+  },
+  "3sum": {
+    "tags": ["Array", "Two Pointers", "Sorting"],
+    "patterns": ["Two Pointers", "Sorting", "Deduplication"],
+    "timeComplexity": "O(n²)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["two-sum", "3sum-closest"]
+  },
+  "product-of-array-except-self": {
+    "tags": ["Array", "Prefix Sum"],
+    "patterns": ["Prefix Sum", "Prefix-Suffix Product"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["subarray-sum-equals-k"]
+  },
+  "combination-sum": {
+    "tags": ["Array", "Backtracking"],
+    "patterns": ["Backtracking", "DFS", "Pruning"],
+    "timeComplexity": "O(2^n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["combination-sum-iv", "subsets", "permutations"]
+  },
+  "merge-intervals": {
+    "tags": ["Array", "Sorting"],
+    "patterns": ["Sorting", "Interval Merging", "Sweep Line"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["insert-interval", "meeting-rooms-ii", "non-overlapping-intervals"]
+  },
+  "sort-colors": {
+    "tags": ["Array", "Two Pointers", "Sorting"],
+    "patterns": ["Dutch National Flag", "Three Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["move-zeroes"]
+  },
+  "container-with-most-water": {
+    "tags": ["Array", "Two Pointers", "Greedy"],
+    "patterns": ["Two Pointers", "Greedy"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["trapping-rain-water"]
+  },
+  "gas-station": {
+    "tags": ["Array", "Greedy"],
+    "patterns": ["Greedy", "Prefix Sum", "Circular Array"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "longest-consecutive-sequence": {
+    "tags": ["Array", "Hash Table", "Union Find"],
+    "patterns": ["Hash Set", "Sequence Building"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["contains-duplicate"]
+  },
+  "rotate-array": {
+    "tags": ["Array", "Two Pointers", "Math"],
+    "patterns": ["Reversal Algorithm", "Cyclic Replacement"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "contiguous-array": {
+    "tags": ["Array", "Hash Table", "Prefix Sum"],
+    "patterns": ["Prefix Sum", "Hash Map", "Running Balance"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["subarray-sum-equals-k"]
+  },
+  "subarray-sum-equals-k": {
+    "tags": ["Array", "Hash Table", "Prefix Sum"],
+    "patterns": ["Prefix Sum", "Hash Map"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["contiguous-array", "product-of-array-except-self"]
+  },
+  "meeting-rooms-ii": {
+    "tags": ["Array", "Two Pointers", "Greedy", "Sorting", "Heap"],
+    "patterns": ["Min Heap", "Two Arrays Sort", "Sweep Line"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": true,
+    "similarProblems": ["meeting-rooms", "merge-intervals"]
+  },
+  "non-overlapping-intervals": {
+    "tags": ["Array", "Dynamic Programming", "Greedy", "Sorting"],
+    "patterns": ["Greedy", "Sorting", "Interval Scheduling"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["merge-intervals", "meeting-rooms"]
+  },
+  "3sum-closest": {
+    "tags": ["Array", "Two Pointers", "Sorting"],
+    "patterns": ["Two Pointers", "Sorting"],
+    "timeComplexity": "O(n²)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["3sum"]
+  },
+  "sliding-window-maximum": {
+    "tags": ["Array", "Queue", "Sliding Window", "Monotonic Queue"],
+    "patterns": ["Sliding Window", "Monotonic Deque"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(k)",
+    "isPremium": false,
+    "similarProblems": ["minimum-window-substring", "find-k-closest-elements"]
+  },
+  "employee-free-time": {
+    "tags": ["Array", "Sorting", "Heap"],
+    "patterns": ["Merge Intervals", "Sorting", "Heap Merge"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": true,
+    "similarProblems": ["merge-intervals", "meeting-rooms-ii"]
+  },
+  "add-binary": {
+    "tags": ["Math", "String", "Bit Manipulation", "Simulation"],
+    "patterns": ["Bit Simulation", "String Addition"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["single-number"]
+  },
+  "counting-bits": {
+    "tags": ["Dynamic Programming", "Bit Manipulation"],
+    "patterns": ["Dynamic Programming", "Bit Manipulation", "Pop Count DP"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["number-of-1-bits", "missing-number"]
+  },
+  "find-the-duplicate-number": {
+    "tags": ["Array", "Two Pointers", "Binary Search", "Bit Manipulation"],
+    "patterns": ["Floyd's Cycle Detection", "Fast and Slow Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["missing-number", "single-number"]
+  },
+  "missing-number": {
+    "tags": ["Array", "Hash Table", "Math", "Binary Search", "Bit Manipulation", "Sorting"],
+    "patterns": ["XOR Trick", "Gauss Sum"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["find-the-duplicate-number", "single-number"]
+  },
+  "number-of-1-bits": {
+    "tags": ["Divide and Conquer", "Bit Manipulation"],
+    "patterns": ["Bit Manipulation", "Brian Kernighan's Algorithm"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["counting-bits", "reverse-bits"]
+  },
+  "reverse-bits": {
+    "tags": ["Divide and Conquer", "Bit Manipulation"],
+    "patterns": ["Bit Manipulation", "Bit Reversal"],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["number-of-1-bits"]
+  },
+  "single-number": {
+    "tags": ["Array", "Bit Manipulation"],
+    "patterns": ["XOR Trick"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["missing-number", "find-the-duplicate-number"]
+  },
+  "binary-search": {
+    "tags": ["Array", "Binary Search"],
+    "patterns": ["Binary Search", "Left Boundary"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["search-in-rotated-sorted-array", "find-minimum-in-rotated-sorted-array"]
+  },
+  "find-minimum-in-rotated-sorted-array": {
+    "tags": ["Array", "Binary Search"],
+    "patterns": ["Binary Search", "Pivot Finding"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["search-in-rotated-sorted-array", "binary-search"]
+  },
+  "first-bad-version": {
+    "tags": ["Binary Search", "Interactive"],
+    "patterns": ["Binary Search", "Left Boundary"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["binary-search"]
+  },
+  "maximum-profit-in-job-scheduling": {
+    "tags": ["Array", "Binary Search", "Dynamic Programming", "Sorting"],
+    "patterns": ["Binary Search", "Dynamic Programming", "Weighted Interval Scheduling"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "median-of-two-sorted-arrays": {
+    "tags": ["Array", "Binary Search", "Divide and Conquer"],
+    "patterns": ["Binary Search", "Partition"],
+    "timeComplexity": "O(log(m+n))",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["find-k-closest-elements"]
+  },
+  "search-a-2d-matrix": {
+    "tags": ["Array", "Binary Search", "Matrix"],
+    "patterns": ["Binary Search", "Treat Matrix as Sorted Array"],
+    "timeComplexity": "O(log(m×n))",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["binary-search"]
+  },
+  "search-in-rotated-sorted-array": {
+    "tags": ["Array", "Binary Search"],
+    "patterns": ["Binary Search", "Pivot Identification"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["find-minimum-in-rotated-sorted-array", "binary-search"]
+  },
+  "time-based-key-value-store": {
+    "tags": ["Hash Table", "String", "Binary Search", "Design"],
+    "patterns": ["Binary Search", "Hash Map", "Right Boundary"],
+    "timeComplexity": "O(log n) per get",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "convert-sorted-array-to-binary-search-tree": {
+    "tags": ["Array", "Divide and Conquer", "Tree", "Binary Search Tree", "Binary Tree"],
+    "patterns": ["Divide and Conquer", "Inorder Construction"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(log n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "inorder-successor-in-bst": {
+    "tags": ["Tree", "Binary Search Tree", "Binary Tree"],
+    "patterns": ["BST Property", "Iterative In-order"],
+    "timeComplexity": "O(h)",
+    "spaceComplexity": "O(1)",
+    "isPremium": true,
+    "similarProblems": ["kth-smallest-element-in-a-bst"]
+  },
+  "kth-smallest-element-in-a-bst": {
+    "tags": ["Tree", "Depth-First Search", "Binary Search Tree", "Binary Tree"],
+    "patterns": ["In-order Traversal", "BST Property"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["inorder-successor-in-bst"]
+  },
+  "lowest-common-ancestor-of-a-binary-search-tree": {
+    "tags": ["Tree", "Depth-First Search", "Binary Search Tree", "Binary Tree"],
+    "patterns": ["BST Property", "DFS"],
+    "timeComplexity": "O(h)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["lowest-common-ancestor-of-a-binary-tree"]
+  },
+  "validate-binary-search-tree": {
+    "tags": ["Tree", "Depth-First Search", "Binary Search Tree", "Binary Tree"],
+    "patterns": ["DFS", "BST Property", "In-order Traversal"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["kth-smallest-element-in-a-bst"]
+  },
+  "all-nodes-distance-k-in-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["BFS", "DFS", "Parent Pointer Map"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "balanced-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "Post-order Traversal", "Height Check"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["maximum-depth-of-binary-tree", "diameter-of-binary-tree"]
+  },
+  "binary-tree-level-order-traversal": {
+    "tags": ["Tree", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["BFS", "Level Order"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["binary-tree-right-side-view", "binary-tree-zigzag-level-order-traversal"]
+  },
+  "binary-tree-maximum-path-sum": {
+    "tags": ["Tree", "Depth-First Search", "Dynamic Programming", "Binary Tree"],
+    "patterns": ["DFS", "Post-order", "Global Max Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["diameter-of-binary-tree", "maximum-subarray"]
+  },
+  "binary-tree-right-side-view": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["BFS Level Order", "DFS Pre-order"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["binary-tree-level-order-traversal"]
+  },
+  "binary-tree-zigzag-level-order-traversal": {
+    "tags": ["Tree", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["BFS Level Order", "Alternating Direction"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["binary-tree-level-order-traversal", "binary-tree-right-side-view"]
+  },
+  "construct-binary-tree-from-preorder-and-inorder-traversal": {
+    "tags": ["Array", "Hash Table", "Divide and Conquer", "Tree", "Binary Tree"],
+    "patterns": ["Divide and Conquer", "Hash Map for Index Lookup"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "diameter-of-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "Post-order", "Global Max Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["balanced-binary-tree", "binary-tree-maximum-path-sum"]
+  },
+  "invert-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "BFS", "Post-order"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["symmetric-tree"]
+  },
+  "lowest-common-ancestor-of-a-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "Post-order", "LCA"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["lowest-common-ancestor-of-a-binary-search-tree"]
+  },
+  "maximum-depth-of-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "BFS", "Recursion"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["balanced-binary-tree", "minimum-depth-of-binary-tree"]
+  },
+  "maximum-width-of-binary-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["BFS Level Order", "Node Indexing"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["binary-tree-level-order-traversal"]
+  },
+  "path-sum-ii": {
+    "tags": ["Tree", "Depth-First Search", "Backtracking", "Binary Tree"],
+    "patterns": ["DFS", "Backtracking", "Pre-order"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["path-sum-iii"]
+  },
+  "path-sum-iii": {
+    "tags": ["Tree", "Depth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "Prefix Sum", "Hash Map"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["path-sum-ii", "subarray-sum-equals-k"]
+  },
+  "same-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "BFS"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["symmetric-tree", "subtree-of-another-tree"]
+  },
+  "serialize-and-deserialize-binary-tree": {
+    "tags": ["String", "Tree", "Depth-First Search", "Breadth-First Search", "Design", "Binary Tree"],
+    "patterns": ["BFS Level Order", "DFS Pre-order", "Serialization"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "subtree-of-another-tree": {
+    "tags": ["Tree", "Depth-First Search", "String Matching", "Binary Tree", "Hash Function"],
+    "patterns": ["DFS", "Subtree Comparison"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["same-tree"]
+  },
+  "symmetric-tree": {
+    "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"],
+    "patterns": ["DFS", "Mirror Check"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "isPremium": false,
+    "similarProblems": ["same-tree", "invert-binary-tree"]
+  },
+  "climbing-stairs": {
+    "tags": ["Math", "Dynamic Programming", "Memoization"],
+    "patterns": ["Dynamic Programming", "Fibonacci Variant"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["unique-paths", "house-robber"]
+  },
+  "coin-change": {
+    "tags": ["Array", "Dynamic Programming", "Breadth-First Search"],
+    "patterns": ["Dynamic Programming", "Unbounded Knapsack", "Bottom-Up DP"],
+    "timeComplexity": "O(amount × n)",
+    "spaceComplexity": "O(amount)",
+    "isPremium": false,
+    "similarProblems": ["combination-sum-iv", "partition-equal-subset-sum"]
+  },
+  "combination-sum-iv": {
+    "tags": ["Array", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "Unbounded Knapsack", "Bottom-Up DP"],
+    "timeComplexity": "O(target × n)",
+    "spaceComplexity": "O(target)",
+    "isPremium": false,
+    "similarProblems": ["coin-change", "combination-sum"]
+  },
+  "decode-ways": {
+    "tags": ["String", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "1D DP", "String Parsing"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["climbing-stairs"]
+  },
+  "house-robber": {
+    "tags": ["Array", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "1D DP", "Space Optimized DP"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["climbing-stairs", "maximum-subarray"]
+  },
+  "jump-game": {
+    "tags": ["Array", "Dynamic Programming", "Greedy"],
+    "patterns": ["Greedy", "Reach Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "longest-increasing-subsequence": {
+    "tags": ["Array", "Binary Search", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "Binary Search + Patience Sorting"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["maximum-subarray"]
+  },
+  "maximal-square": {
+    "tags": ["Array", "Dynamic Programming", "Matrix"],
+    "patterns": ["Dynamic Programming", "2D DP", "Square DP"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "maximum-product-subarray": {
+    "tags": ["Array", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "Kadane Variant", "Min-Max Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["maximum-subarray"]
+  },
+  "maximum-subarray": {
+    "tags": ["Array", "Divide and Conquer", "Dynamic Programming"],
+    "patterns": ["Kadane's Algorithm", "Dynamic Programming"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["maximum-product-subarray", "house-robber"]
+  },
+  "partition-equal-subset-sum": {
+    "tags": ["Array", "Dynamic Programming"],
+    "patterns": ["Dynamic Programming", "0/1 Knapsack", "Subset Sum"],
+    "timeComplexity": "O(n × sum)",
+    "spaceComplexity": "O(sum)",
+    "isPremium": false,
+    "similarProblems": ["coin-change"]
+  },
+  "unique-paths": {
+    "tags": ["Math", "Dynamic Programming", "Combinatorics"],
+    "patterns": ["Dynamic Programming", "2D DP", "Combinatorics"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["climbing-stairs"]
+  },
+  "01-matrix": {
+    "tags": ["Array", "Dynamic Programming", "Breadth-First Search", "Matrix"],
+    "patterns": ["BFS Multi-source", "Dynamic Programming"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["flood-fill", "rotting-oranges"]
+  },
+  "accounts-merge": {
+    "tags": ["Array", "Hash Table", "String", "Depth-First Search", "Breadth-First Search", "Union Find", "Sorting"],
+    "patterns": ["Union Find", "DFS", "Graph Component"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["number-of-connected-components-in-an-undirected-graph", "graph-valid-tree"]
+  },
+  "alien-dictionary": {
+    "tags": ["Array", "String", "Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"],
+    "patterns": ["Topological Sort", "Kahn's Algorithm", "BFS", "In-degree"],
+    "timeComplexity": "O(C)",
+    "spaceComplexity": "O(1)",
+    "isPremium": true,
+    "similarProblems": ["course-schedule", "course-schedule-ii"]
+  },
+  "bus-routes": {
+    "tags": ["Array", "Hash Table", "Breadth-First Search"],
+    "patterns": ["BFS", "Graph on Buses", "Multi-source BFS"],
+    "timeComplexity": "O(∑routes²)",
+    "spaceComplexity": "O(∑routes)",
+    "isPremium": false,
+    "similarProblems": ["word-ladder"]
+  },
+  "cheapest-flights-within-k-stops": {
+    "tags": ["Dynamic Programming", "Depth-First Search", "Breadth-First Search", "Graph", "Heap", "Shortest Path"],
+    "patterns": ["Bellman-Ford DP", "BFS", "Modified Dijkstra"],
+    "timeComplexity": "O(K × E)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["word-ladder", "minimum-knight-moves"]
+  },
+  "clone-graph": {
+    "tags": ["Hash Table", "Depth-First Search", "Breadth-First Search", "Graph"],
+    "patterns": ["DFS", "BFS", "Hash Map for Cloning"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "course-schedule": {
+    "tags": ["Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"],
+    "patterns": ["Topological Sort", "Cycle Detection", "DFS"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V+E)",
+    "isPremium": false,
+    "similarProblems": ["course-schedule-ii", "alien-dictionary"]
+  },
+  "course-schedule-ii": {
+    "tags": ["Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"],
+    "patterns": ["Topological Sort", "Kahn's Algorithm", "BFS"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V+E)",
+    "isPremium": false,
+    "similarProblems": ["course-schedule", "alien-dictionary"]
+  },
+  "flood-fill": {
+    "tags": ["Array", "Depth-First Search", "Breadth-First Search", "Matrix"],
+    "patterns": ["DFS", "BFS", "Graph on Grid"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["number-of-islands", "rotting-oranges"]
+  },
+  "graph-valid-tree": {
+    "tags": ["Depth-First Search", "Breadth-First Search", "Union Find", "Graph"],
+    "patterns": ["Union Find", "DFS", "Cycle Detection"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V)",
+    "isPremium": true,
+    "similarProblems": ["accounts-merge", "number-of-connected-components-in-an-undirected-graph"]
+  },
+  "longest-increasing-path-in-a-matrix": {
+    "tags": ["Array", "Dynamic Programming", "Depth-First Search", "Breadth-First Search", "Graph", "Memoization", "Matrix"],
+    "patterns": ["DFS", "Memoization", "Topological Sort"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "minimum-height-trees": {
+    "tags": ["Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"],
+    "patterns": ["Topological Sort", "Leaf Pruning", "BFS"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V+E)",
+    "isPremium": false,
+    "similarProblems": ["course-schedule"]
+  },
+  "minimum-knight-moves": {
+    "tags": ["Breadth-First Search"],
+    "patterns": ["BFS", "Symmetry Reduction"],
+    "timeComplexity": "O(max(|x|, |y|)²)",
+    "spaceComplexity": "O(max(|x|, |y|)²)",
+    "isPremium": true,
+    "similarProblems": ["shortest-path-to-get-food", "01-matrix"]
+  },
+  "number-of-connected-components-in-an-undirected-graph": {
+    "tags": ["Depth-First Search", "Breadth-First Search", "Union Find", "Graph"],
+    "patterns": ["Union Find", "DFS", "BFS"],
+    "timeComplexity": "O(V+E)",
+    "spaceComplexity": "O(V)",
+    "isPremium": true,
+    "similarProblems": ["graph-valid-tree", "accounts-merge"]
+  },
+  "number-of-islands": {
+    "tags": ["Array", "Depth-First Search", "Breadth-First Search", "Union Find", "Matrix"],
+    "patterns": ["DFS", "BFS", "Union Find", "Graph on Grid"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["flood-fill", "pacific-atlantic-water-flow"]
+  },
+  "pacific-atlantic-water-flow": {
+    "tags": ["Array", "Depth-First Search", "Breadth-First Search", "Matrix"],
+    "patterns": ["Multi-source BFS", "DFS from Borders"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["number-of-islands"]
+  },
+  "rotting-oranges": {
+    "tags": ["Array", "Breadth-First Search", "Matrix"],
+    "patterns": ["Multi-source BFS", "Level Order BFS"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": false,
+    "similarProblems": ["01-matrix", "flood-fill"]
+  },
+  "shortest-path-to-get-food": {
+    "tags": ["Array", "Breadth-First Search", "Matrix"],
+    "patterns": ["BFS", "Shortest Path on Grid"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(m×n)",
+    "isPremium": true,
+    "similarProblems": ["minimum-knight-moves", "rotting-oranges"]
+  },
+  "word-ladder": {
+    "tags": ["Hash Table", "String", "Breadth-First Search"],
+    "patterns": ["BFS", "Word Graph", "Bidirectional BFS"],
+    "timeComplexity": "O(M²×N)",
+    "spaceComplexity": "O(M²×N)",
+    "isPremium": false,
+    "similarProblems": ["word-search", "bus-routes"]
+  },
+  "word-search": {
+    "tags": ["Array", "String", "Backtracking", "Matrix"],
+    "patterns": ["DFS", "Backtracking"],
+    "timeComplexity": "O(m×n×4^L)",
+    "spaceComplexity": "O(L)",
+    "isPremium": false,
+    "similarProblems": ["word-search-ii", "word-ladder"]
+  },
+  "word-search-ii": {
+    "tags": ["Array", "String", "Backtracking", "Trie", "Matrix"],
+    "patterns": ["DFS", "Backtracking", "Trie Pruning"],
+    "timeComplexity": "O(m×n×4×3^(L-1))",
+    "spaceComplexity": "O(W×L)",
+    "isPremium": false,
+    "similarProblems": ["word-search", "implement-trie-prefix-tree"]
+  },
+  "first-missing-positive": {
+    "tags": ["Array", "Hash Table"],
+    "patterns": ["Index as Hash", "Cyclic Sort"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["missing-number"]
+  },
+  "insert-delete-getrandom-o1": {
+    "tags": ["Array", "Hash Table", "Math", "Design", "Randomized"],
+    "patterns": ["Hash Map + Array", "O(1) Design"],
+    "timeComplexity": "O(1) average",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "ransom-note": {
+    "tags": ["Hash Table", "String", "Counting"],
+    "patterns": ["Hash Map", "Frequency Count"],
+    "timeComplexity": "O(m+n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["valid-anagram", "group-anagrams"]
+  },
+  "find-k-closest-elements": {
+    "tags": ["Array", "Two Pointers", "Binary Search", "Sorting", "Heap"],
+    "patterns": ["Binary Search", "Two Pointers"],
+    "timeComplexity": "O(log(n-k) + k)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["kth-largest-element-in-an-array"]
+  },
+  "find-median-from-data-stream": {
+    "tags": ["Two Pointers", "Design", "Sorting", "Heap", "Data Stream"],
+    "patterns": ["Two Heaps", "Max Heap + Min Heap"],
+    "timeComplexity": "O(log n) add, O(1) find",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["sliding-window-maximum"]
+  },
+  "k-closest-points-to-origin": {
+    "tags": ["Array", "Math", "Divide and Conquer", "Geometry", "Sorting", "Heap", "Quickselect"],
+    "patterns": ["Max Heap", "Quickselect"],
+    "timeComplexity": "O(n log k)",
+    "spaceComplexity": "O(k)",
+    "isPremium": false,
+    "similarProblems": ["kth-largest-element-in-an-array", "top-k-frequent-words"]
+  },
+  "kth-largest-element-in-an-array": {
+    "tags": ["Array", "Divide and Conquer", "Sorting", "Heap", "Quickselect"],
+    "patterns": ["Min Heap", "Quickselect"],
+    "timeComplexity": "O(n log k)",
+    "spaceComplexity": "O(k)",
+    "isPremium": false,
+    "similarProblems": ["k-closest-points-to-origin", "top-k-frequent-words"]
+  },
+  "merge-k-sorted-lists": {
+    "tags": ["Linked List", "Divide and Conquer", "Heap", "Merge Sort"],
+    "patterns": ["Min Heap", "Divide and Conquer Merge"],
+    "timeComplexity": "O(N log k)",
+    "spaceComplexity": "O(k)",
+    "isPremium": false,
+    "similarProblems": ["merge-two-sorted-lists", "sort-list"]
+  },
+  "smallest-range-covering-elements-from-k-lists": {
+    "tags": ["Array", "Hash Table", "Greedy", "Sliding Window", "Sorting", "Heap"],
+    "patterns": ["Min Heap", "Sliding Window on Merged Stream"],
+    "timeComplexity": "O(N log k)",
+    "spaceComplexity": "O(k)",
+    "isPremium": false,
+    "similarProblems": ["merge-k-sorted-lists"]
+  },
+  "task-scheduler": {
+    "tags": ["Array", "Hash Table", "Greedy", "Sorting", "Heap", "Counting"],
+    "patterns": ["Greedy", "Max Heap", "Frequency Count"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "top-k-frequent-words": {
+    "tags": ["Hash Table", "String", "Trie", "Sorting", "Heap", "Bucket Sort", "Counting"],
+    "patterns": ["Min Heap", "Frequency Count"],
+    "timeComplexity": "O(n log k)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["kth-largest-element-in-an-array", "k-closest-points-to-origin"]
+  },
+  "add-two-numbers": {
+    "tags": ["Linked List", "Math", "Recursion"],
+    "patterns": ["Linked List Simulation", "Carry Propagation"],
+    "timeComplexity": "O(max(m,n))",
+    "spaceComplexity": "O(max(m,n))",
+    "isPremium": false,
+    "similarProblems": ["reverse-linked-list", "merge-two-sorted-lists"]
+  },
+  "linked-list-cycle": {
+    "tags": ["Hash Table", "Linked List", "Two Pointers"],
+    "patterns": ["Floyd's Cycle Detection", "Fast and Slow Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["find-the-duplicate-number"]
+  },
+  "lru-cache": {
+    "tags": ["Hash Table", "Linked List", "Design", "Doubly-Linked List"],
+    "patterns": ["Hash Map + Doubly Linked List", "OrderedDict"],
+    "timeComplexity": "O(1) per op",
+    "spaceComplexity": "O(capacity)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "merge-two-sorted-lists": {
+    "tags": ["Linked List", "Recursion"],
+    "patterns": ["Two Pointers", "Recursion", "Iterative Merge"],
+    "timeComplexity": "O(m+n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["merge-k-sorted-lists", "sort-list"]
+  },
+  "middle-of-the-linked-list": {
+    "tags": ["Linked List", "Two Pointers"],
+    "patterns": ["Fast and Slow Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["palindrome-linked-list"]
+  },
+  "odd-even-linked-list": {
+    "tags": ["Linked List"],
+    "patterns": ["Two Pointers", "In-place Rearrangement"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reorder-list"]
+  },
+  "palindrome-linked-list": {
+    "tags": ["Linked List", "Two Pointers", "Stack", "Recursion"],
+    "patterns": ["Fast and Slow Pointers", "Reverse Second Half"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-linked-list", "middle-of-the-linked-list"]
+  },
+  "remove-nth-node-from-end-of-list": {
+    "tags": ["Linked List", "Two Pointers"],
+    "patterns": ["Two Pointers", "n-gap Window"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["middle-of-the-linked-list"]
+  },
+  "reorder-list": {
+    "tags": ["Linked List", "Two Pointers", "Stack", "Recursion"],
+    "patterns": ["Fast and Slow Pointers", "Reverse + Merge"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["odd-even-linked-list", "palindrome-linked-list"]
+  },
+  "reverse-linked-list": {
+    "tags": ["Linked List", "Recursion"],
+    "patterns": ["Iterative Reversal", "Recursive Reversal"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-nodes-in-k-group", "palindrome-linked-list"]
+  },
+  "reverse-nodes-in-k-group": {
+    "tags": ["Linked List", "Recursion"],
+    "patterns": ["Iterative Reversal", "Group Processing"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-linked-list", "swap-nodes-in-pairs"]
+  },
+  "rotate-list": {
+    "tags": ["Linked List", "Two Pointers"],
+    "patterns": ["Circular List", "Find Tail"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["rotate-array"]
+  },
+  "sort-list": {
+    "tags": ["Linked List", "Two Pointers", "Divide and Conquer", "Sorting", "Merge Sort"],
+    "patterns": ["Merge Sort", "Fast and Slow Pointers"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(log n)",
+    "isPremium": false,
+    "similarProblems": ["merge-two-sorted-lists", "merge-k-sorted-lists"]
+  },
+  "swap-nodes-in-pairs": {
+    "tags": ["Linked List", "Recursion"],
+    "patterns": ["Iterative", "Recursion"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-nodes-in-k-group"]
+  },
+  "palindrome-number": {
+    "tags": ["Math"],
+    "patterns": ["Digit Reversal", "No String Conversion"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-integer"]
+  },
+  "powx-n": {
+    "tags": ["Math", "Recursion"],
+    "patterns": ["Fast Exponentiation", "Divide and Conquer"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(log n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "random-pick-with-weight": {
+    "tags": ["Math", "Binary Search", "Prefix Sum", "Randomized"],
+    "patterns": ["Prefix Sum", "Binary Search", "Weighted Random"],
+    "timeComplexity": "O(log n) per pick",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "reverse-integer": {
+    "tags": ["Math"],
+    "patterns": ["Digit Reversal", "Overflow Check"],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["palindrome-number"]
+  },
+  "roman-to-integer": {
+    "tags": ["Hash Table", "Math", "String"],
+    "patterns": ["Hash Map", "Symbol Comparison"],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "spiral-matrix": {
+    "tags": ["Array", "Matrix", "Simulation"],
+    "patterns": ["Layer Simulation", "Direction Array"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["rotate-image"]
+  },
+  "valid-sudoku": {
+    "tags": ["Array", "Hash Table", "Matrix"],
+    "patterns": ["Hash Set Validation", "Box Index Formula"],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["sudoku-solver"]
+  },
+  "rotate-image": {
+    "tags": ["Array", "Math", "Matrix"],
+    "patterns": ["Transpose + Reverse Rows", "In-place"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["spiral-matrix"]
+  },
+  "set-matrix-zeroes": {
+    "tags": ["Array", "Hash Table", "Matrix"],
+    "patterns": ["Flag First Row/Col", "In-place O(1) Space"],
+    "timeComplexity": "O(m×n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "sudoku-solver": {
+    "tags": ["Array", "Hash Table", "Backtracking", "Matrix"],
+    "patterns": ["Backtracking", "Constraint Propagation"],
+    "timeComplexity": "O(9^m)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["valid-sudoku", "n-queens"]
+  },
+  "design-hit-counter": {
+    "tags": ["Array", "Binary Search", "Design", "Queue", "Data Stream"],
+    "patterns": ["Circular Buffer", "Binary Search", "Sliding Window"],
+    "timeComplexity": "O(1) hit, O(n) getHits",
+    "spaceComplexity": "O(1)",
+    "isPremium": true,
+    "similarProblems": []
+  },
+  "generate-parentheses": {
+    "tags": ["String", "Dynamic Programming", "Backtracking"],
+    "patterns": ["Backtracking", "DFS"],
+    "timeComplexity": "O(4^n / sqrt(n))",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["valid-parentheses", "letter-combinations-of-a-phone-number"]
+  },
+  "letter-combinations-of-a-phone-number": {
+    "tags": ["Hash Table", "String", "Backtracking"],
+    "patterns": ["Backtracking", "DFS"],
+    "timeComplexity": "O(4^n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["generate-parentheses"]
+  },
+  "n-queens": {
+    "tags": ["Array", "Backtracking"],
+    "patterns": ["Backtracking", "Set-based Constraint Checking"],
+    "timeComplexity": "O(n!)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["sudoku-solver"]
+  },
+  "next-permutation": {
+    "tags": ["Array", "Two Pointers"],
+    "patterns": ["Next Permutation Algorithm", "Reversal"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["permutations"]
+  },
+  "permutations": {
+    "tags": ["Array", "Backtracking"],
+    "patterns": ["Backtracking", "Swap-based DFS"],
+    "timeComplexity": "O(n × n!)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["subsets", "combination-sum", "next-permutation"]
+  },
+  "subsets": {
+    "tags": ["Array", "Backtracking", "Bit Manipulation"],
+    "patterns": ["Backtracking", "Bit Masking"],
+    "timeComplexity": "O(n × 2^n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["permutations", "combination-sum"]
+  },
+  "asteroid-collision": {
+    "tags": ["Array", "Stack", "Simulation"],
+    "patterns": ["Monotonic Stack", "Simulation"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["daily-temperatures"]
+  },
+  "backspace-string-compare": {
+    "tags": ["Two Pointers", "String", "Stack", "Simulation"],
+    "patterns": ["Stack Simulation", "Two Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["valid-parentheses"]
+  },
+  "basic-calculator": {
+    "tags": ["Math", "String", "Stack", "Recursion"],
+    "patterns": ["Stack-based Evaluation", "Sign Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["basic-calculator-ii", "evaluate-reverse-polish-notation"]
+  },
+  "basic-calculator-ii": {
+    "tags": ["Math", "String", "Stack"],
+    "patterns": ["Stack-based Evaluation", "Operator Precedence"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["basic-calculator", "evaluate-reverse-polish-notation"]
+  },
+  "daily-temperatures": {
+    "tags": ["Array", "Stack", "Monotonic Stack"],
+    "patterns": ["Monotonic Stack", "Next Greater Element"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["asteroid-collision", "largest-rectangle-in-histogram"]
+  },
+  "decode-string": {
+    "tags": ["String", "Stack", "Recursion"],
+    "patterns": ["Stack", "Nested Structure Parsing"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "evaluate-reverse-polish-notation": {
+    "tags": ["Array", "Math", "Stack"],
+    "patterns": ["Stack Evaluation", "Postfix"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["basic-calculator", "basic-calculator-ii"]
+  },
+  "implement-queue-using-stacks": {
+    "tags": ["Stack", "Design", "Queue"],
+    "patterns": ["Two Stacks", "Amortized O(1)"],
+    "timeComplexity": "O(1) amortized",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["min-stack"]
+  },
+  "largest-rectangle-in-histogram": {
+    "tags": ["Array", "Stack", "Monotonic Stack"],
+    "patterns": ["Monotonic Stack", "Span Calculation"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["trapping-rain-water", "daily-temperatures"]
+  },
+  "longest-valid-parentheses": {
+    "tags": ["String", "Dynamic Programming", "Stack"],
+    "patterns": ["Stack", "Dynamic Programming"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["valid-parentheses"]
+  },
+  "maximum-frequency-stack": {
+    "tags": ["Hash Table", "Stack", "Design", "Ordered Set"],
+    "patterns": ["Hash Map + Stack", "Frequency Tracking"],
+    "timeComplexity": "O(1) per op",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["lru-cache"]
+  },
+  "min-stack": {
+    "tags": ["Stack", "Design"],
+    "patterns": ["Auxiliary Min Stack", "Tuple Stack"],
+    "timeComplexity": "O(1) per op",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["implement-queue-using-stacks"]
+  },
+  "trapping-rain-water": {
+    "tags": ["Array", "Two Pointers", "Dynamic Programming", "Stack", "Monotonic Stack"],
+    "patterns": ["Two Pointers", "Prefix Max Arrays", "Monotonic Stack"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["container-with-most-water", "largest-rectangle-in-histogram"]
+  },
+  "valid-parentheses": {
+    "tags": ["String", "Stack"],
+    "patterns": ["Stack Matching"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["longest-valid-parentheses", "generate-parentheses"]
+  },
+  "encode-and-decode-strings": {
+    "tags": ["Array", "String", "Design"],
+    "patterns": ["Length-Prefixed Encoding"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": true,
+    "similarProblems": []
+  },
+  "find-all-anagrams-in-a-string": {
+    "tags": ["Hash Table", "String", "Sliding Window"],
+    "patterns": ["Sliding Window", "Frequency Count"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["minimum-window-substring", "longest-repeating-character-replacement"]
+  },
+  "group-anagrams": {
+    "tags": ["Array", "Hash Table", "String", "Sorting"],
+    "patterns": ["Hash Map", "Sorted Key"],
+    "timeComplexity": "O(n k log k)",
+    "spaceComplexity": "O(n k)",
+    "isPremium": false,
+    "similarProblems": ["valid-anagram", "find-all-anagrams-in-a-string"]
+  },
+  "largest-number": {
+    "tags": ["Array", "String", "Greedy", "Sorting"],
+    "patterns": ["Custom Comparator", "Greedy"],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "longest-substring-without-repeating-characters": {
+    "tags": ["Hash Table", "String", "Sliding Window"],
+    "patterns": ["Sliding Window", "Hash Map"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(min(m,n))",
+    "isPremium": false,
+    "similarProblems": ["minimum-window-substring", "longest-repeating-character-replacement"]
+  },
+  "longest-common-prefix": {
+    "tags": ["String", "Trie"],
+    "patterns": ["Horizontal Scan", "Vertical Scan"],
+    "timeComplexity": "O(n k)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": []
+  },
+  "longest-palindrome": {
+    "tags": ["Hash Table", "String", "Greedy"],
+    "patterns": ["Greedy", "Character Frequency"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["longest-palindromic-substring"]
+  },
+  "longest-palindromic-substring": {
+    "tags": ["Two Pointers", "String", "Dynamic Programming"],
+    "patterns": ["Expand Around Center", "Dynamic Programming"],
+    "timeComplexity": "O(n²)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["longest-palindrome", "palindrome-linked-list"]
+  },
+  "longest-repeating-character-replacement": {
+    "tags": ["Hash Table", "String", "Sliding Window"],
+    "patterns": ["Sliding Window", "Frequency Count", "Max Freq Tracking"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["longest-substring-without-repeating-characters", "find-all-anagrams-in-a-string"]
+  },
+  "minimum-window-substring": {
+    "tags": ["Hash Table", "String", "Sliding Window"],
+    "patterns": ["Sliding Window", "Two Pointers", "Frequency Count"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["find-all-anagrams-in-a-string", "longest-repeating-character-replacement"]
+  },
+  "palindrome-pairs": {
+    "tags": ["Array", "Hash Table", "String", "Trie"],
+    "patterns": ["Hash Map", "Palindrome Check", "Trie"],
+    "timeComplexity": "O(n k²)",
+    "spaceComplexity": "O(n k)",
+    "isPremium": false,
+    "similarProblems": ["longest-palindromic-substring"]
+  },
+  "string-to-integer-atoi": {
+    "tags": ["String"],
+    "patterns": ["String Parsing", "State Machine"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["reverse-integer"]
+  },
+  "valid-anagram": {
+    "tags": ["Hash Table", "String", "Sorting"],
+    "patterns": ["Frequency Count", "Hash Map"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["group-anagrams", "ransom-note"]
+  },
+  "valid-palindrome": {
+    "tags": ["Two Pointers", "String"],
+    "patterns": ["Two Pointers"],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "isPremium": false,
+    "similarProblems": ["palindrome-linked-list", "longest-palindromic-substring"]
+  },
+  "design-add-and-search-words-data-structure": {
+    "tags": ["String", "Depth-First Search", "Design", "Trie"],
+    "patterns": ["Trie", "DFS with Wildcard"],
+    "timeComplexity": "O(M) add, O(M×26^N) search",
+    "spaceComplexity": "O(total chars)",
+    "isPremium": false,
+    "similarProblems": ["implement-trie-prefix-tree", "word-search-ii"]
+  },
+  "design-in-memory-file-system": {
+    "tags": ["Hash Table", "String", "Design", "Trie", "Sorting"],
+    "patterns": ["Trie", "Nested Dict Design"],
+    "timeComplexity": "O(L) per op",
+    "spaceComplexity": "O(total chars)",
+    "isPremium": true,
+    "similarProblems": ["implement-trie-prefix-tree"]
+  },
+  "implement-trie-prefix-tree": {
+    "tags": ["Hash Table", "String", "Design", "Trie"],
+    "patterns": ["Trie", "HashMap Children"],
+    "timeComplexity": "O(M) per op",
+    "spaceComplexity": "O(M×N)",
+    "isPremium": false,
+    "similarProblems": ["design-add-and-search-words-data-structure", "word-search-ii"]
+  },
+  "word-break": {
+    "tags": ["Array", "Hash Table", "String", "Dynamic Programming", "Trie", "Memoization"],
+    "patterns": ["Dynamic Programming", "BFS", "Trie"],
+    "timeComplexity": "O(n²)",
+    "spaceComplexity": "O(n)",
+    "isPremium": false,
+    "similarProblems": ["word-break-ii"]
+  }
+}

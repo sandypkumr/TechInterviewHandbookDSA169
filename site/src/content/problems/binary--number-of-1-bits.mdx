@@ -1,0 +1,88 @@
+---
+title: "Number of 1 Bits"
+problemSlug: "number-of-1-bits"
+topic: "Binary"
+topicSlug: "binary"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/number-of-1-bits"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary/number_of_1_bits.py"
+tags: ["Divide and Conquer", "Bit Manipulation"]
+patterns: ["Bit Manipulation", "Brian Kernighan's Algorithm"]
+timeComplexity: "O(log n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["counting-bits", "reverse-bits"]
+---
+
+## Problem Statement
+
+Given a positive integer `n`, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).
+
+ 
+
+**Example 1:**
+
+**Input:** n = 11
+
+**Output:** 3
+
+**Explanation:**
+
+The input binary string **1011** has a total of three set bits.
+
+**Example 2:**
+
+**Input:** n = 128
+
+**Output:** 1
+
+**Explanation:**
+
+The input binary string **10000000** has a total of one set bit.
+
+**Example 3:**
+
+**Input:** n = 2147483645
+
+**Output:** 30
+
+**Explanation:**
+
+The input binary string **1111111111111111111111111111101** has a total of thirty set bits.
+
+ 
+
+**Constraints:**
+
+- `1 <= n <= 2^31 - 1`
+
+ 
+
+**Follow up:** If this function is called many times, how would you optimize it?
+
+## Solution
+
+```python
+class Solution:
+    def hammingWeight(self, n: int) -> int:
+        count = 0
+        while n:
+            count += n & 1
+            n >>= 1
+        return count
+```
+
+
+## Complexity
+
+- **Time**: `O(log n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Counting Bits](/TechInterviewHandbookDSA169/problems/counting-bits)
+- [Reverse Bits](/TechInterviewHandbookDSA169/problems/reverse-bits)

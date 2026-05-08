@@ -1,0 +1,92 @@
+---
+title: "Swap Nodes in Pairs"
+problemSlug: "swap-nodes-in-pairs"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/swap-nodes-in-pairs"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/swap_nodes_in_pairs.py"
+tags: ["Linked List", "Recursion"]
+patterns: ["Iterative", "Recursion"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["reverse-nodes-in-k-group"]
+---
+
+## Problem Statement
+
+Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+
+ 
+
+**Example 1:**
+
+**Input:** head = [1,2,3,4]
+
+**Output:** [2,1,4,3]
+
+**Explanation:**
+
+**Example 2:**
+
+**Input:** head = []
+
+**Output:** []
+
+**Example 3:**
+
+**Input:** head = [1]
+
+**Output:** [1]
+
+**Example 4:**
+
+**Input:** head = [1,2,3]
+
+**Output:** [2,1,3]
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[0, 100]`.
+- `0 <= Node.val <= 100`
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(next=head)
+        prev = dummy
+        while prev.next and prev.next.next:
+            first = prev.next
+            second = prev.next.next
+            prev.next, first.next, second.next = second, second.next, first
+            prev = first
+        return dummy.next
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Reverse Nodes In K Group](/TechInterviewHandbookDSA169/problems/reverse-nodes-in-k-group)

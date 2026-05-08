@@ -1,0 +1,117 @@
+---
+title: "Reorder List"
+problemSlug: "reorder-list"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/reorder-list"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/reorder_list.py"
+tags: ["Linked List", "Two Pointers", "Stack", "Recursion"]
+patterns: ["Fast and Slow Pointers", "Reverse + Merge"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["odd-even-linked-list", "palindrome-linked-list"]
+---
+
+## Problem Statement
+
+You are given the head of a singly linked-list. The list can be represented as:
+
+```
+L_0 &rarr; L_1 &rarr; &hellip; &rarr; L_n - 1 &rarr; L_n
+```
+
+_Reorder the list to be on the following form:_
+
+```
+L_0 &rarr; L_n &rarr; L_1 &rarr; L_n - 1 &rarr; L_2 &rarr; L_n - 2 &rarr; &hellip;
+```
+
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+
+ 
+
+**Example 1:**
+
+```
+Input: head = [1,2,3,4]
+Output: [1,4,2,3]
+```
+
+**Example 2:**
+
+```
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[1, 5 * 10^4]`.
+- `1 <= Node.val <= 1000`
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if not head or not head.next:
+            return
+        slow = head
+        fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        mid = slow.next
+        slow.next = None
+        mid = self.reverse(mid)
+        self.merge(head, mid)
+
+    def reverse(self, node: Optional[ListNode]) -> Optional[ListNode]:
+        prev = None
+        while node:
+            next_node = node.next
+            node.next = prev
+            prev = node
+            node = next_node
+        return prev
+
+    def merge(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> None:
+        while list1 and list2:
+            next1 = list1.next
+            next2 = list2.next
+            list1.next = list2
+            list1 = next1
+            list2.next = list1
+            list2 = next2
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Odd Even Linked List](/TechInterviewHandbookDSA169/problems/odd-even-linked-list)
+- [Palindrome Linked List](/TechInterviewHandbookDSA169/problems/palindrome-linked-list)

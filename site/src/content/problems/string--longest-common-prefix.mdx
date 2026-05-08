@@ -1,0 +1,71 @@
+---
+title: "Longest Common Prefix"
+problemSlug: "longest-common-prefix"
+topic: "String"
+topicSlug: "string"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/longest-common-prefix"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/string/longest_common_prefix.py"
+tags: ["String", "Trie"]
+patterns: ["Horizontal Scan", "Vertical Scan"]
+timeComplexity: "O(n k)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: []
+---
+
+## Problem Statement
+
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string `""`.
+
+ 
+
+**Example 1:**
+
+```
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+```
+
+**Example 2:**
+
+```
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= strs.length <= 200`
+- `0 <= strs[i].length <= 200`
+- `strs[i]` consists of only lowercase English letters if it is non-empty.
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if not strs:
+            return ''
+        for i, chars in enumerate(zip(*strs)):
+            if len(set(chars)) > 1:
+                return strs[0][:i]
+        return min(strs)
+```
+
+
+## Complexity
+
+- **Time**: `O(n k)`
+- **Space**: `O(1)`

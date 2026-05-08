@@ -1,0 +1,84 @@
+---
+title: "Invert Binary Tree"
+problemSlug: "invert-binary-tree"
+topic: "Binary Tree"
+topicSlug: "binary-tree"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/invert-binary-tree"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_tree/invert_binary_tree.py"
+tags: ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"]
+patterns: ["DFS", "BFS", "Post-order"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(h)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["symmetric-tree"]
+---
+
+## Problem Statement
+
+Given the `root` of a binary tree, invert the tree, and return _its root_.
+
+ 
+
+**Example 1:**
+
+```
+Input: root = [4,2,7,1,3,6,9]
+Output: [4,7,2,9,6,3,1]
+```
+
+**Example 2:**
+
+```
+Input: root = [2,1,3]
+Output: [2,3,1]
+```
+
+**Example 3:**
+
+```
+Input: root = []
+Output: []
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the tree is in the range `[0, 100]`.
+- `-100 <= Node.val <= 100`
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root is None:
+            return None
+        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        return root
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(h)`
+
+
+## Similar Problems
+
+- [Symmetric Tree](/TechInterviewHandbookDSA169/problems/symmetric-tree)

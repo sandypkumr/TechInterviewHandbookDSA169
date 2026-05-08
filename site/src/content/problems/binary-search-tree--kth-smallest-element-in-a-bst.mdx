@@ -1,0 +1,88 @@
+---
+title: "Kth Smallest Element in a BST"
+problemSlug: "kth-smallest-element-in-a-bst"
+topic: "Binary Search Tree"
+topicSlug: "binary-search-tree"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/kth-smallest-element-in-a-bst"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_search_tree/kth_smallest_element_in_a_bst.py"
+tags: ["Tree", "Depth-First Search", "Binary Search Tree", "Binary Tree"]
+patterns: ["In-order Traversal", "BST Property"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(h)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["inorder-successor-in-bst"]
+---
+
+## Problem Statement
+
+Given the `root` of a binary search tree, and an integer `k`, return _the_ `k^th` _smallest value (**1-indexed**) of all the values of the nodes in the tree_.
+
+ 
+
+**Example 1:**
+
+```
+Input: root = [3,1,4,null,2], k = 1
+Output: 1
+```
+
+**Example 2:**
+
+```
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+Output: 3
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the tree is `n`.
+- `1 <= k <= n <= 10^4`
+- `0 <= Node.val <= 10^4`
+
+ 
+
+**Follow up:** If the BST is modified often (i.e., we can do insert and delete operations) and you need to find the kth smallest frequently, how would you optimize?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stack = []
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            k -= 1
+            if k == 0:
+                return root.val
+            root = root.right
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(h)`
+
+
+## Similar Problems
+
+- [Inorder Successor In Bst](/TechInterviewHandbookDSA169/problems/inorder-successor-in-bst)

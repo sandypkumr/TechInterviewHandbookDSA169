@@ -1,0 +1,87 @@
+---
+title: "Symmetric Tree"
+problemSlug: "symmetric-tree"
+topic: "Binary Tree"
+topicSlug: "binary-tree"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/symmetric-tree"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_tree/symmetric_tree.py"
+tags: ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"]
+patterns: ["DFS", "Mirror Check"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(h)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["same-tree", "invert-binary-tree"]
+---
+
+## Problem Statement
+
+Given the `root` of a binary tree, _check whether it is a mirror of itself_ (i.e., symmetric around its center).
+
+ 
+
+**Example 1:**
+
+```
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the tree is in the range `[1, 1000]`.
+- `-100 <= Node.val <= 100`
+
+ 
+
+**Follow up:** Could you solve it both recursively and iteratively?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def check(p, q):
+            if p is None and q is None:
+                return True
+            if p is None or q is None:
+                return False
+            if p.val != q.val:
+                return False
+            return check(p.left, q.right) and check(p.right, q.left)
+        return check(root, root)
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(h)`
+
+
+## Similar Problems
+
+- [Same Tree](/TechInterviewHandbookDSA169/problems/same-tree)
+- [Invert Binary Tree](/TechInterviewHandbookDSA169/problems/invert-binary-tree)

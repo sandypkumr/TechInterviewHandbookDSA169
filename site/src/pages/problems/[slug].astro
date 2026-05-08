@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import ProblemLayout from '../../layouts/ProblemLayout.astro';
+
+type NavItem = { title: string; slug: string } | null;
+
+export async function getStaticPaths() {
+  const problems = await getCollection('problems');
+  const diffOrder: Record<string, number> = { Easy: 0, Medium: 1, Hard: 2 };
+
+  // Group + sort each topic's problems by difficulty → title
+  const byTopic = new Map<string, typeof problems>();
+  problems.forEach(p => {
+    const key = p.data.topicSlug;
+    if (!byTopic.has(key)) byTopic.set(key, []);
+    byTopic.get(key)!.push(p);
+  });
+  byTopic.forEach(group =>
+    group.sort((a, b) => {
+      const da = diffOrder[a.data.difficulty] ?? 1;
+      const db = diffOrder[b.data.difficulty] ?? 1;
+      return da !== db ? da - db : a.data.title.localeCompare(b.data.title);
+    })
+  );
+
+  return problems.map(entry => {
+    const group = byTopic.get(entry.data.topicSlug) ?? [];
+    const idx   = group.findIndex(p => p.data.problemSlug === entry.data.problemSlug);
+    const prev: NavItem = idx > 0
+      ? { title: group[idx - 1].data.title, slug: group[idx - 1].data.problemSlug }
+      : null;
+    const next: NavItem = idx < group.length - 1
+      ? { title: group[idx + 1].data.title, slug: group[idx + 1].data.problemSlug }
+      : null;
+    return { params: { slug: entry.data.problemSlug }, props: { entry, prev, next } };
+  });
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+---
+
+<ProblemLayout
+  title={d.title}
+  description={`${d.title} — Python solution with step-by-step explanation. Topic: ${d.topic}. Difficulty: ${d.difficulty}.`}
+  topic={d.topic}
+  topicSlug={d.topicSlug}
+  difficulty={d.difficulty}
+  tags={d.tags}
+  patterns={d.patterns}
+  timeComplexity={d.timeComplexity || undefined}
+  spaceComplexity={d.spaceComplexity || undefined}
+  leetcodeUrl={d.leetcodeUrl}
+  githubUrl={d.githubUrl}
+  prev={prev}
+  next={next}
+>
+  <Content />
+</ProblemLayout>

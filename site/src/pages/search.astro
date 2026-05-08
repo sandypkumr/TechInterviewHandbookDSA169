@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<BaseLayout
+  title="Search · DSA Python"
+  description="Full-text search across all 169 Python DSA solutions — find problems by title, topic, pattern, or keyword."
+>
+  <div class="page-container" style="padding-top:2rem;padding-bottom:4rem;">
+
+    <header class="search-header">
+      <h1>Search</h1>
+      <p class="search-sub">Find problems by title, topic, pattern, or keyword</p>
+    </header>
+
+    <div id="search" class="search-widget" data-pagefind-ignore></div>
+
+    <p class="search-note" id="search-unavailable" hidden>
+      Search index not found. Run <code>npm run build</code> to generate it, then use <code>npm run preview</code>.
+    </p>
+
+  </div>
+</BaseLayout>
+
+<script is:inline define:vars={{ base }}>
+  (function () {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = base + '/pagefind/pagefind-ui.css';
+    document.head.appendChild(link);
+
+    const s = document.createElement('script');
+    s.src = base + '/pagefind/pagefind-ui.js';
+    s.onload = function () {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+        excerptLength: 20,
+      });
+    };
+    s.onerror = function () {
+      var note = document.getElementById('search-unavailable');
+      if (note) note.removeAttribute('hidden');
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+
+<style>
+  .search-header { margin-bottom: 1.75rem; }
+  .search-header h1 { font-size: 1.8rem; margin: 0 0 0.3rem; }
+  .search-sub { color: var(--color-text-2); font-size: 0.9rem; margin: 0; }
+
+  .search-widget { min-height: 60px; }
+
+  .search-note {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--color-text-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+  }
+
+  /* ── Pagefind UI theme override ───────────────────────── */
+  :global(:root) {
+    --pagefind-ui-scale:         0.9;
+    --pagefind-ui-primary:       var(--color-accent);
+    --pagefind-ui-text:          var(--color-text);
+    --pagefind-ui-background:    var(--color-surface);
+    --pagefind-ui-border:        var(--color-border);
+    --pagefind-ui-tag:           var(--color-surface-2);
+    --pagefind-ui-border-width:  1px;
+    --pagefind-ui-border-radius: 6px;
+    --pagefind-ui-font:          var(--font-sans, system-ui, sans-serif);
+  }
+
+  :global(.pagefind-ui__search-input) {
+    background: var(--color-surface) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-border-2) !important;
+  }
+  :global(.pagefind-ui__search-input:focus) {
+    border-color: var(--color-accent) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(91,91,214,0.15) !important;
+  }
+  :global(.pagefind-ui__result) {
+    border-color: var(--color-border) !important;
+    background: var(--color-surface) !important;
+    border-radius: var(--radius-lg) !important;
+  }
+  :global(.pagefind-ui__result:hover) {
+    border-color: var(--color-accent) !important;
+  }
+  :global(.pagefind-ui__result-title a) {
+    color: var(--color-accent) !important;
+    font-weight: 600 !important;
+  }
+  :global(.pagefind-ui__result-excerpt) {
+    color: var(--color-text-2) !important;
+  }
+  :global(.pagefind-ui__message) {
+    color: var(--color-text-3) !important;
+  }
+  :global([data-theme="dark"] .pagefind-ui__search-input) {
+    background: var(--color-surface-2) !important;
+  }
+</style>

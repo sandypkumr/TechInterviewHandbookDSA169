@@ -1,0 +1,77 @@
+---
+title: "Generate Parentheses"
+problemSlug: "generate-parentheses"
+topic: "Recursion"
+topicSlug: "recursion"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/generate-parentheses"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/recursion/generate_parentheses.py"
+tags: ["String", "Dynamic Programming", "Backtracking"]
+patterns: ["Backtracking", "DFS"]
+timeComplexity: "O(4^n / sqrt(n))"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["valid-parentheses", "letter-combinations-of-a-phone-number"]
+---
+
+## Problem Statement
+
+Given `n` pairs of parentheses, write a function to _generate all combinations of well-formed parentheses_.
+
+ 
+
+**Example 1:**
+
+```
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+```
+**Example 2:**
+
+```
+Input: n = 1
+Output: ["()"]
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= n <= 8`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        def backtrack(s, left, right):
+            if len(s) == 2 * n:
+                res.append(s)
+                return
+            if left < n:
+                backtrack(s + '(', left + 1, right)
+            if right < left:
+                backtrack(s + ')', left, right + 1)
+
+        res = []
+        backtrack('', 0, 0)
+        return res
+```
+
+
+## Complexity
+
+- **Time**: `O(4^n / sqrt(n))`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Valid Parentheses](/TechInterviewHandbookDSA169/problems/valid-parentheses)
+- [Letter Combinations Of A Phone Number](/TechInterviewHandbookDSA169/problems/letter-combinations-of-a-phone-number)

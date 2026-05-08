@@ -1,0 +1,93 @@
+---
+title: "Palindrome Linked List"
+problemSlug: "palindrome-linked-list"
+topic: "Linked List"
+topicSlug: "linked-list"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/palindrome-linked-list"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/linked_list/palindrome_linked_list.py"
+tags: ["Linked List", "Two Pointers", "Stack", "Recursion"]
+patterns: ["Fast and Slow Pointers", "Reverse Second Half"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["reverse-linked-list", "middle-of-the-linked-list"]
+---
+
+## Problem Statement
+
+Given the `head` of a singly linked list, return `true`_ if it is a __palindrome__ or _`false`_ otherwise_.
+
+ 
+
+**Example 1:**
+
+```
+Input: head = [1,2,2,1]
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: head = [1,2]
+Output: false
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[1, 10^5]`.
+- `0 <= Node.val <= 9`
+
+ 
+
+**Follow up:** Could you do it in `O(n)` time and `O(1)` space?
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        prev = None
+        while slow:
+            current = slow
+            slow = slow.next
+            current.next = prev
+            prev = current
+        while prev:
+            if head.val != prev.val:
+                return False
+            head = head.next
+            prev = prev.next
+        return True
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Reverse Linked List](/TechInterviewHandbookDSA169/problems/reverse-linked-list)
+- [Middle Of The Linked List](/TechInterviewHandbookDSA169/problems/middle-of-the-linked-list)

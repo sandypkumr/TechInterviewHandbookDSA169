@@ -1,0 +1,104 @@
+---
+title: "Palindrome Pairs"
+problemSlug: "palindrome-pairs"
+topic: "String"
+topicSlug: "string"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/palindrome-pairs"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/string/palindrome_pairs.py"
+tags: ["Array", "Hash Table", "String", "Trie"]
+patterns: ["Hash Map", "Palindrome Check", "Trie"]
+timeComplexity: "O(n k²)"
+spaceComplexity: "O(n k)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["longest-palindromic-substring"]
+---
+
+## Problem Statement
+
+You are given a **0-indexed** array of **unique** strings `words`.
+
+A **palindrome pair** is a pair of integers `(i, j)` such that:
+
+- `0 <= i, j < words.length`,
+- `i != j`, and
+- `words[i] + words[j]` (the concatenation of the two strings) is a palindrome.
+
+Return _an array of all the **palindrome pairs** of _`words`.
+
+You must write an algorithm with `O(sum of words[i].length)` runtime complexity.
+
+ 
+
+**Example 1:**
+
+```
+Input: words = ["abcd","dcba","lls","s","sssll"]
+Output: [[0,1],[1,0],[3,2],[2,4]]
+Explanation: The palindromes are ["abcddcba","dcbaabcd","slls","llssssll"]
+```
+
+**Example 2:**
+
+```
+Input: words = ["bat","tab","cat"]
+Output: [[0,1],[1,0]]
+Explanation: The palindromes are ["battab","tabbat"]
+```
+
+**Example 3:**
+
+```
+Input: words = ["a",""]
+Output: [[0,1],[1,0]]
+Explanation: The palindromes are ["a","a"]
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= words.length <= 5000`
+- `0 <= words[i].length <= 300`
+- `words[i]` consists of lowercase English letters.
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        def is_palindrome(s : str) -> bool:
+            return s == s[::-1]
+
+        word_to_index = {word: i for i, word in enumerate(words)}
+        result = []
+        for i, word in enumerate(words):
+            for j in range(len(word) + 1):
+                prefix, suffix = word[:j], word[j:]
+                if is_palindrome(prefix):
+                    reversed_suffix = suffix[::-1]
+                    if reversed_suffix in word_to_index and word_to_index[reversed_suffix] != i:
+                        result.append([word_to_index[reversed_suffix], i])
+                if j != len(word) and is_palindrome(suffix):
+                    reversed_prefix = prefix[::-1]
+                    if reversed_prefix in word_to_index and word_to_index[reversed_prefix] != i:
+                        result.append([i, word_to_index[reversed_prefix]])
+        return result
+```
+
+
+## Complexity
+
+- **Time**: `O(n k²)`
+- **Space**: `O(n k)`
+
+
+## Similar Problems
+
+- [Longest Palindromic Substring](/TechInterviewHandbookDSA169/problems/longest-palindromic-substring)

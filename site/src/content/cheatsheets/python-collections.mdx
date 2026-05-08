@@ -1,0 +1,108 @@
+---
+title: "Python Collections"
+description: "Quick reference for dict, Counter, defaultdict, deque, and heapq — the five most-used Python DSA building blocks."
+category: "Data Structures"
+order: 1
+tags: ["Python", "dict", "Counter", "defaultdict", "deque", "heapq"]
+---
+
+## dict
+
+```python
+d = {}
+d['key'] = value          # set
+d.get('key', default)     # safe get
+d.setdefault('key', [])   # init if missing
+'key' in d                # membership — O(1)
+d.items() / .keys() / .values()
+del d['key']
+```
+
+## collections.Counter
+
+Counts hashable elements; subclass of `dict`.
+
+```python
+from collections import Counter
+
+c = Counter("aabbcc")      # Counter({'a':2,'b':2,'c':2})
+c = Counter([1,1,2,3])
+
+c.most_common(k)           # top-k (freq, element) pairs
+c['x']                     # returns 0 for missing keys (no KeyError)
+c.update(iterable)         # add counts
+c.subtract(iterable)       # subtract (allows negatives)
++c                         # strip non-positive counts
+
+# arithmetic
+c1 + c2   # union  (max counts)
+c1 - c2   # difference (only positive results)
+c1 & c2   # intersection (min counts)
+c1 | c2   # union (max counts)
+```
+
+**Patterns:** frequency maps, anagram detection, sliding window character counts.
+
+## collections.defaultdict
+
+Automatically initialises missing keys with a factory.
+
+```python
+from collections import defaultdict
+
+adj  = defaultdict(list)   # graph adjacency list
+freq = defaultdict(int)    # frequency counter
+memo = defaultdict(dict)   # nested maps
+
+adj[u].append(v)           # no KeyError if u is new
+freq[word] += 1
+```
+
+**Patterns:** graph building, grouping, counting without `.get()` boilerplate.
+
+## collections.deque
+
+O(1) append and pop from both ends (unlike list which is O(n) for left ops).
+
+```python
+from collections import deque
+
+q = deque()
+q.append(x)       # push right — O(1)
+q.appendleft(x)   # push left  — O(1)
+q.pop()           # pop right  — O(1)
+q.popleft()       # pop left   — O(1)
+q[0] / q[-1]      # peek without popping
+len(q)
+deque(iterable, maxlen=k)  # sliding window of fixed size k
+```
+
+**Patterns:** BFS queue, sliding window maximum, monotonic deque.
+
+## heapq (Min-Heap)
+
+Python's `heapq` is a **min-heap**. Negate values for max-heap behaviour.
+
+```python
+import heapq
+
+heap = []
+heapq.heappush(heap, val)          # O(log n)
+heapq.heappop(heap)                # smallest — O(log n)
+heap[0]                            # peek min — O(1)
+heapq.heapify(lst)                 # in-place — O(n)
+heapq.nsmallest(k, iterable)       # O(n log k)
+heapq.nlargest(k, iterable)        # O(n log k)
+
+# Max-heap trick
+heapq.heappush(heap, -val)
+-heapq.heappop(heap)
+
+# Tuple heap (priority, value)
+heapq.heappush(heap, (priority, value))
+
+# k-way merge
+heapq.merge(*sorted_iterables)
+```
+
+**Patterns:** Kth largest/smallest, merge K sorted lists, Dijkstra, task scheduler, median stream.

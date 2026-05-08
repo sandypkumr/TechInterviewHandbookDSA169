@@ -1,0 +1,78 @@
+---
+title: "Kth Largest Element in an Array"
+problemSlug: "kth-largest-element-in-an-array"
+topic: "Heap"
+topicSlug: "heap"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/kth-largest-element-in-an-array"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/heap/kth_largest_element_in_an_array.py"
+tags: ["Array", "Divide and Conquer", "Sorting", "Heap", "Quickselect"]
+patterns: ["Min Heap", "Quickselect"]
+timeComplexity: "O(n log k)"
+spaceComplexity: "O(k)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["k-closest-points-to-origin", "top-k-frequent-words"]
+---
+
+## Problem Statement
+
+Given an integer array `nums` and an integer `k`, return _the_ `k^th` _largest element in the array_.
+
+Note that it is the `k^th` largest element in the sorted order, not the `k^th` distinct element.
+
+Can you solve it without sorting?
+
+ 
+
+**Example 1:**
+
+```
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+```
+**Example 2:**
+
+```
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= k <= nums.length <= 10^5`
+- `-10^4 <= nums[i] <= 10^4`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        min_val, max_val = min(nums), max(nums)
+        count = [0] * (max_val - min_val + 1)
+        for num in nums:
+            count[num - min_val] += 1
+        for i in range(max_val, min_val - 1, -1):
+            k -= count[i - min_val]
+            if k <= 0:
+                return i
+```
+
+
+## Complexity
+
+- **Time**: `O(n log k)`
+- **Space**: `O(k)`
+
+
+## Similar Problems
+
+- [K Closest Points To Origin](/TechInterviewHandbookDSA169/problems/k-closest-points-to-origin)
+- [Top K Frequent Words](/TechInterviewHandbookDSA169/problems/top-k-frequent-words)

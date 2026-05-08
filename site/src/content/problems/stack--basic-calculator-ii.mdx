@@ -1,0 +1,96 @@
+---
+title: "Basic Calculator II"
+problemSlug: "basic-calculator-ii"
+topic: "Stack"
+topicSlug: "stack"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/basic-calculator-ii"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/stack/basic_calculator_2.py"
+tags: ["Math", "String", "Stack"]
+patterns: ["Stack-based Evaluation", "Operator Precedence"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["basic-calculator", "evaluate-reverse-polish-notation"]
+---
+
+## Problem Statement
+
+Given a string `s` which represents an expression, _evaluate this expression and return its value_. 
+
+The integer division should truncate toward zero.
+
+You may assume that the given expression is always valid. All intermediate results will be in the range of `[-2^31, 2^31 - 1]`.
+
+**Note:** You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as `eval()`.
+
+ 
+
+**Example 1:**
+
+```
+Input: s = "3+2*2"
+Output: 7
+```
+**Example 2:**
+
+```
+Input: s = " 3/2 "
+Output: 1
+```
+**Example 3:**
+
+```
+Input: s = " 3+5 / 2 "
+Output: 5
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 3 * 10^5`
+- `s` consists of integers and operators `('+', '-', '*', '/')` separated by some number of spaces.
+- `s` represents **a valid expression**.
+- All the integers in the expression are non-negative integers in the range `[0, 2^31 - 1]`.
+- The answer is **guaranteed** to fit in a **32-bit integer**.
+
+## Solution
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        num = 0
+        sign = '+'
+        for i, c in enumerate(s):
+            if c.isdigit():
+                num = num * 10 + int(c)
+            if c in '+-*/' or i == len(s) - 1:
+                if sign == '+':
+                    stack.append(num)
+                elif sign == '-':
+                    stack.append(-num)
+                elif sign == '*':
+                    stack.append(stack.pop() * num)
+                elif sign == '/':
+                    stack.append(int(stack.pop() / num))
+                num = 0
+                sign = c
+        return sum(stack)
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Basic Calculator](/TechInterviewHandbookDSA169/problems/basic-calculator)
+- [Evaluate Reverse Polish Notation](/TechInterviewHandbookDSA169/problems/evaluate-reverse-polish-notation)

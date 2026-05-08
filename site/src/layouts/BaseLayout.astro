@@ -1,0 +1,75 @@
+---
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?:       string;
+  description?: string;
+  ogType?:      string;
+  noindex?:     boolean;
+}
+
+const {
+  title       = 'DSA Python — Interview Preparation',
+  description = '169 curated Python DSA solutions with walkthroughs, patterns, and revision tools for interview preparation.',
+  ogType      = 'website',
+  noindex     = false,
+} = Astro.props;
+
+const base        = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://sandypkumr.github.io');
+const fullTitle   = title.includes('DSA Python') ? title : `${title} · DSA Python`;
+---
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+  <title>{fullTitle}</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href={canonicalURL.href} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content={ogType} />
+  <meta property="og:title"       content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url"         content={canonicalURL.href} />
+  <meta property="og:site_name"   content="DSA Python" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+
+  <!-- No-flash theme init — must be inline, before any render -->
+  <script is:inline>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var theme  = stored
+          ? stored
+          : window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <Navbar />
+  <main id="main-content" data-pagefind-body>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

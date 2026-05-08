@@ -1,0 +1,66 @@
+---
+title: "Largest Number"
+problemSlug: "largest-number"
+topic: "String"
+topicSlug: "string"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/largest-number"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/string/largest_number.py"
+tags: ["Array", "String", "Greedy", "Sorting"]
+patterns: ["Custom Comparator", "Greedy"]
+timeComplexity: "O(n log n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: []
+---
+
+## Problem Statement
+
+Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it.
+
+Since the result may be very large, so you need to return a string instead of an integer.
+
+ 
+
+**Example 1:**
+
+```
+Input: nums = [10,2]
+Output: "210"
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,30,34,5,9]
+Output: "9534330"
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= nums.length <= 100`
+- `0 <= nums[i] <= 10^9`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        nums = [str(num) for num in nums]
+        nums.sort(key=lambda x: x * 10, reverse=True)
+        return str(int(''.join(nums)))
+```
+
+
+## Complexity
+
+- **Time**: `O(n log n)`
+- **Space**: `O(n)`

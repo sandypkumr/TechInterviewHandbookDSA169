@@ -1,0 +1,190 @@
+---
+import { getCollection } from 'astro:content';
+import TopicLayout from '../../layouts/TopicLayout.astro';
+import ProblemCard from '../../components/problem/ProblemCard.astro';
+
+export async function getStaticPaths() {
+  const [topics, allProblems] = await Promise.all([
+    getCollection('topics'),
+    getCollection('problems'),
+  ]);
+
+  return topics.map(topic => {
+    const topicProblems = allProblems
+      .filter(p => p.data.topicSlug === topic.slug)
+      .sort((a, b) => {
+        const order: Record<string, number> = { Easy: 0, Medium: 1, Hard: 2 };
+        const diffA = order[a.data.difficulty] ?? 1;
+        const diffB = order[b.data.difficulty] ?? 1;
+        if (diffA !== diffB) return diffA - diffB;
+        return a.data.title.localeCompare(b.data.title);
+      });
+
+    return {
+      params: { slug: topic.slug },
+      props: { topic, problems: topicProblems },
+    };
+  });
+}
+
+const { topic, problems } = Astro.props;
+const d = topic.data;
+
+const easyCount   = problems.filter(p => p.data.difficulty === 'Easy').length;
+const mediumCount = problems.filter(p => p.data.difficulty === 'Medium').length;
+const hardCount   = problems.filter(p => p.data.difficulty === 'Hard').length;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const DIFF_OPTIONS = ['All', 'Easy', 'Medium', 'Hard'] as const;
+---
+
+<TopicLayout
+  title={d.title}
+  description={d.description}
+  problemCount={problems.length}
+  easyCount={easyCount}
+  mediumCount={mediumCount}
+  hardCount={hardCount}
+  patterns={d.patterns}
+>
+  <!-- Filter bar -->
+  <div class="filter-bar" role="group" aria-label="Filter by difficulty">
+    {DIFF_OPTIONS.map(opt => (
+      <button
+        class:list={['filter-btn', { 'filter-btn--active': opt === 'All' }]}
+        data-filter={opt}
+        aria-pressed={opt === 'All' ? 'true' : 'false'}
+      >
+        {opt}
+        {opt === 'Easy'   && <span class="filter-count easy-count">{easyCount}</span>}
+        {opt === 'Medium' && <span class="filter-count medium-count">{mediumCount}</span>}
+        {opt === 'Hard'   && <span class="filter-count hard-count">{hardCount}</span>}
+      </button>
+    ))}
+  </div>
+
+  <!-- Problem grid -->
+  <div class="problem-grid" id="problem-grid">
+    {problems.map(p => (
+      <div class="problem-grid__item" data-difficulty={p.data.difficulty}>
+        <ProblemCard
+          title={p.data.title}
+          slug={p.data.problemSlug}
+          difficulty={p.data.difficulty}
+          topicSlug={p.data.topicSlug}
+          patterns={p.data.patterns}
+          hasProblemStatement={p.data.hasProblemStatement}
+          isPremium={p.data.isPremium}
+        />
+      </div>
+    ))}
+  </div>
+
+  <!-- Empty state -->
+  <p class="no-results" id="no-results" hidden>
+    No problems match this filter.
+  </p>
+</TopicLayout>
+
+<style>
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-2);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    border-color: var(--color-border-2);
+  }
+
+  .filter-btn--active {
+    background: var(--color-accent-bg);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .filter-count {
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 0.1em 0.45em;
+    line-height: 1.2;
+  }
+
+  .easy-count   { background: var(--color-easy-bg);   color: var(--color-easy);   }
+  .medium-count { background: var(--color-medium-bg); color: var(--color-medium); }
+  .hard-count   { background: var(--color-hard-bg);   color: var(--color-hard);   }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.875rem;
+  }
+
+  .no-results {
+    color: var(--color-text-3);
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 480px) {
+    .problem-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  function initFilters() {
+    const btns   = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const items  = document.querySelectorAll<HTMLElement>('.problem-grid__item');
+    const empty  = document.getElementById('no-results');
+
+    if (!btns.length) return;
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter ?? 'All';
+
+        // Update active state
+        btns.forEach(b => {
+          b.classList.toggle('filter-btn--active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+
+        // Show/hide items
+        let visible = 0;
+        items.forEach(item => {
+          const match = filter === 'All' || item.dataset.difficulty === filter;
+          item.hidden = !match;
+          if (match) visible++;
+        });
+
+        if (empty) empty.hidden = visible > 0;
+      });
+    });
+  }
+
+  initFilters();
+  document.addEventListener('astro:after-swap', initFilters);
+</script>

@@ -1,0 +1,101 @@
+---
+title: "Valid Parentheses"
+problemSlug: "valid-parentheses"
+topic: "Stack"
+topicSlug: "stack"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/valid-parentheses"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/stack/valid_parentheses.py"
+tags: ["String", "Stack"]
+patterns: ["Stack Matching"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["longest-valid-parentheses", "generate-parentheses"]
+---
+
+## Problem Statement
+
+Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.
+
+An input string is valid if:
+
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+3. Every close bracket has a corresponding open bracket of the same type.
+
+ 
+
+**Example 1:**
+
+**Input:** s = "()"
+
+**Output:** true
+
+**Example 2:**
+
+**Input:** s = "()[]{}"
+
+**Output:** true
+
+**Example 3:**
+
+**Input:** s = "(]"
+
+**Output:** false
+
+**Example 4:**
+
+**Input:** s = "([])"
+
+**Output:** true
+
+**Example 5:**
+
+**Input:** s = "([)]"
+
+**Output:** false
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 10^4`
+- `s` consists of parentheses only `'()[]{}'`.
+
+## Solution
+
+```python
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        for c in s:
+            if c == '(' or c == '[' or c == '{':
+                stack.append(c)
+            else:
+                if not stack:
+                    return False
+                if c == ')' and stack[-1] != '(':
+                    return False
+                if c == ']' and stack[-1] != '[':
+                    return False
+                if c == '}' and stack[-1] != '{':
+                    return False
+                stack.pop()
+        return not stack
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(n)`
+
+
+## Similar Problems
+
+- [Longest Valid Parentheses](/TechInterviewHandbookDSA169/problems/longest-valid-parentheses)
+- [Generate Parentheses](/TechInterviewHandbookDSA169/problems/generate-parentheses)

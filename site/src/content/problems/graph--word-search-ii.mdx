@@ -1,0 +1,104 @@
+---
+title: "Word Search II"
+problemSlug: "word-search-ii"
+topic: "Graph"
+topicSlug: "graph"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/word-search-ii"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/graph/word_search_2.py"
+tags: ["Array", "String", "Backtracking", "Trie", "Matrix"]
+patterns: ["DFS", "Backtracking", "Trie Pruning"]
+timeComplexity: "O(m×n×4×3^(L-1))"
+spaceComplexity: "O(W×L)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["word-search", "implement-trie-prefix-tree"]
+---
+
+## Problem Statement
+
+Given an `m x n` `board` of characters and a list of strings `words`, return _all words on the board_.
+
+Each word must be constructed from letters of sequentially adjacent cells, where **adjacent cells** are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
+
+ 
+
+**Example 1:**
+
+```
+Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
+Output: ["eat","oath"]
+```
+
+**Example 2:**
+
+```
+Input: board = [["a","b"],["c","d"]], words = ["abcb"]
+Output: []
+```
+
+ 
+
+**Constraints:**
+
+- `m == board.length`
+- `n == board[i].length`
+- `1 <= m, n <= 12`
+- `board[i][j]` is a lowercase English letter.
+- `1 <= words.length <= 3 * 10^4`
+- `1 <= words[i].length <= 10`
+- `words[i]` consists of lowercase English letters.
+- All the strings of `words` are unique.
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        rows, cols = len(board), len(board[0])
+        trie = {}
+        for word in words:
+            node = trie
+            for char in word:
+                node = node.setdefault(char, {})
+            node['#'] = word
+
+        def backtrack(row: int, col: int, parent: dict) -> None:
+            char = board[row][col]
+            node = parent[char]
+            word = node.pop('#', False)
+            if word:
+                found_words.append(word)
+            board[row][col] = '#'
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                new_row, new_col = row + dx, col + dy
+                if 0 <= new_row < rows and 0 <= new_col < cols and board[new_row][new_col] in node:
+                    backtrack(new_row, new_col, node)
+            board[row][col] = char
+            if not node:
+                parent.pop(char)
+
+        found_words = []
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] in trie:
+                    backtrack(i, j, trie)
+        return found_words
+```
+
+
+## Complexity
+
+- **Time**: `O(m×n×4×3^(L-1))`
+- **Space**: `O(W×L)`
+
+
+## Similar Problems
+
+- [Word Search](/TechInterviewHandbookDSA169/problems/word-search)
+- [Implement Trie Prefix Tree](/TechInterviewHandbookDSA169/problems/implement-trie-prefix-tree)

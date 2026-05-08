@@ -1,0 +1,91 @@
+---
+title: "Longest Increasing Path in a Matrix"
+problemSlug: "longest-increasing-path-in-a-matrix"
+topic: "Graph"
+topicSlug: "graph"
+difficulty: "Hard"
+leetcodeUrl: "https://leetcode.com/problems/longest-increasing-path-in-a-matrix"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/graph/longest_increasing_path_in_a_matrix.py"
+tags: ["Array", "Dynamic Programming", "Depth-First Search", "Breadth-First Search", "Graph", "Memoization", "Matrix"]
+patterns: ["DFS", "Memoization", "Topological Sort"]
+timeComplexity: "O(m×n)"
+spaceComplexity: "O(m×n)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: []
+---
+
+## Problem Statement
+
+Given an `m x n` integers `matrix`, return _the length of the longest increasing path in _`matrix`.
+
+From each cell, you can either move in four directions: left, right, up, or down. You **may not** move **diagonally** or move **outside the boundary** (i.e., wrap-around is not allowed).
+
+ 
+
+**Example 1:**
+
+```
+Input: matrix = [[9,9,4],[6,6,8],[2,1,1]]
+Output: 4
+Explanation: The longest increasing path is [1, 2, 6, 9].
+```
+
+**Example 2:**
+
+```
+Input: matrix = [[3,4,5],[3,2,6],[2,2,1]]
+Output: 4
+Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
+```
+
+**Example 3:**
+
+```
+Input: matrix = [[1]]
+Output: 1
+```
+
+ 
+
+**Constraints:**
+
+- `m == matrix.length`
+- `n == matrix[i].length`
+- `1 <= m, n <= 200`
+- `0 <= matrix[i][j] <= 2^31 - 1`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix:
+            return 0
+        rows, cols = len(matrix), len(matrix[0])
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        cache = [[0] * cols for _ in range(rows)]
+
+        def dfs(row: int, col: int) -> int:
+            if cache[row][col]:
+                return cache[row][col]
+            for dx, dy in directions:
+                new_row, new_col = row + dx, col + dy
+                if 0 <= new_row < rows and 0 <= new_col < cols and matrix[new_row][new_col] > matrix[row][col]:
+                    cache[row][col] = max(cache[row][col], dfs(new_row, new_col))
+            cache[row][col] += 1
+            return cache[row][col]
+
+        return max(dfs(i, j) for i in range(rows) for j in range(cols))
+```
+
+
+## Complexity
+
+- **Time**: `O(m×n)`
+- **Space**: `O(m×n)`

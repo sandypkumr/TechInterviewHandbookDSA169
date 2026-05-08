@@ -1,0 +1,78 @@
+---
+title: "Partition Equal Subset Sum"
+problemSlug: "partition-equal-subset-sum"
+topic: "Dynamic Programming"
+topicSlug: "dynamic-programming"
+difficulty: "Medium"
+leetcodeUrl: "https://leetcode.com/problems/partition-equal-subset-sum"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/dynamic_programming/partition_equal_subset_sum.py"
+tags: ["Array", "Dynamic Programming"]
+patterns: ["Dynamic Programming", "0/1 Knapsack", "Subset Sum"]
+timeComplexity: "O(n × sum)"
+spaceComplexity: "O(sum)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["coin-change"]
+---
+
+## Problem Statement
+
+Given an integer array `nums`, return `true` _if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or _`false`_ otherwise_.
+
+ 
+
+**Example 1:**
+
+```
+Input: nums = [1,5,11,5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= nums.length <= 200`
+- `1 <= nums[i] <= 100`
+
+## Solution
+
+```python
+from typing import List
+
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        total = sum(nums)
+        if total % 2 != 0:
+            return False
+        target = total // 2
+        dp = [False] * (target + 1)
+        dp[0] = True
+        for num in nums:
+            for i in range(target, num - 1, -1):
+                dp[i] = dp[i] or dp[i - num]
+        return dp[target]
+```
+
+
+## Complexity
+
+- **Time**: `O(n × sum)`
+- **Space**: `O(sum)`
+
+
+## Similar Problems
+
+- [Coin Change](/TechInterviewHandbookDSA169/problems/coin-change)

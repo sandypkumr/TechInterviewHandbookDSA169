@@ -1,0 +1,129 @@
+---
+interface Props {
+  title:              string;
+  slug:               string;
+  difficulty:         'Easy' | 'Medium' | 'Hard';
+  topicSlug:          string;
+  patterns?:          string[];
+  hasProblemStatement?: boolean;
+  isPremium?:         boolean;
+  showTopic?:         boolean;
+  topic?:             string;
+}
+
+const {
+  title,
+  slug,
+  difficulty,
+  topicSlug,
+  patterns          = [],
+  hasProblemStatement = false,
+  isPremium         = false,
+  showTopic         = false,
+  topic             = '',
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const visiblePatterns = patterns.slice(0, 2);
+const extraCount      = patterns.length - visiblePatterns.length;
+---
+
+<a href={`${base}/problems/${slug}`} class="problem-card" aria-label={`${title} — ${difficulty}`}>
+  <div class="problem-card__meta">
+    <span class:list={['badge', `badge-${difficulty.toLowerCase()}`]}>{difficulty}</span>
+    {isPremium && (
+      <span class="prem-badge" title="LeetCode Premium" aria-label="LeetCode Premium">🔒</span>
+    )}
+    {hasProblemStatement && (
+      <span class="stmt-badge" title="Problem statement available" aria-label="Problem statement available">📄</span>
+    )}
+    {showTopic && topic && (
+      <span class="topic-chip">{topic}</span>
+    )}
+  </div>
+
+  <h3 class="problem-card__title">{title}</h3>
+
+  {visiblePatterns.length > 0 && (
+    <div class="problem-card__patterns">
+      {visiblePatterns.map(p => <span class="tag">{p}</span>)}
+      {extraCount > 0 && <span class="tag tag-extra">+{extraCount}</span>}
+    </div>
+  )}
+</a>
+
+<style>
+  .problem-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.125rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    position: relative;
+  }
+
+  .problem-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(91, 91, 214, 0.08);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .problem-card:hover {
+    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.1);
+  }
+
+  .problem-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .problem-card__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .problem-card:hover .problem-card__title {
+    color: var(--color-accent);
+  }
+
+  .problem-card__patterns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.1rem;
+  }
+
+  .tag-extra {
+    background: var(--color-surface-2);
+    color: var(--color-text-3);
+    font-size: 0.65rem;
+  }
+
+  .prem-badge,
+  .stmt-badge {
+    font-size: 0.75rem;
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .topic-chip {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-3);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0.1em 0.5em;
+  }
+</style>

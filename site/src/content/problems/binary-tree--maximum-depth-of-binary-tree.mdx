@@ -1,0 +1,83 @@
+---
+title: "Maximum Depth of Binary Tree"
+problemSlug: "maximum-depth-of-binary-tree"
+topic: "Binary Tree"
+topicSlug: "binary-tree"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/maximum-depth-of-binary-tree"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_tree/maximum_depth_of_binary_tree.py"
+tags: ["Tree", "Depth-First Search", "Breadth-First Search", "Binary Tree"]
+patterns: ["DFS", "BFS", "Recursion"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(h)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["balanced-binary-tree", "minimum-depth-of-binary-tree"]
+---
+
+## Problem Statement
+
+Given the `root` of a binary tree, return _its maximum depth_.
+
+A binary tree's **maximum depth** is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+ 
+
+**Example 1:**
+
+```
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: root = [1,null,2]
+Output: 2
+```
+
+ 
+
+**Constraints:**
+
+- The number of nodes in the tree is in the range `[0, 10^4]`.
+- `-100 <= Node.val <= 100`
+
+## Solution
+
+```python
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def check(root):
+            if root is None:
+                return 0
+            left = check(root.left)
+            right = check(root.right)
+            return 1 + max(left, right)
+        return check(root)
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(h)`
+
+
+## Similar Problems
+
+- [Balanced Binary Tree](/TechInterviewHandbookDSA169/problems/balanced-binary-tree)
+- [Minimum Depth Of Binary Tree](/TechInterviewHandbookDSA169/problems/minimum-depth-of-binary-tree)

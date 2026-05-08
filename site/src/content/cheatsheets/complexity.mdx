@@ -1,0 +1,86 @@
+---
+title: "Complexity Reference"
+description: "Big-O time and space complexity cheat sheet for common data structures, sorting algorithms, and graph traversals."
+category: "Reference"
+order: 4
+tags: ["Complexity", "Big-O", "Reference", "Time Complexity", "Space Complexity"]
+---
+
+## Data Structure Operations
+
+| Structure | Access | Search | Insert | Delete | Space |
+|---|---|---|---|---|---|
+| Array | O(1) | O(n) | O(n) | O(n) | O(n) |
+| Linked List | O(n) | O(n) | O(1) | O(1) | O(n) |
+| Stack / Queue | O(n) | O(n) | O(1) | O(1) | O(n) |
+| Hash Table | — | O(1) avg | O(1) avg | O(1) avg | O(n) |
+| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) | O(n) |
+| Heap | O(1) peek | O(n) | O(log n) | O(log n) | O(n) |
+| Trie | — | O(L) | O(L) | O(L) | O(N·L) |
+| deque | O(n) | O(n) | O(1) both ends | O(1) both ends | O(n) |
+
+*L = key length, N = number of keys*
+
+---
+
+## Sorting Algorithms
+
+| Algorithm | Best | Average | Worst | Space | Stable |
+|---|---|---|---|---|---|
+| Timsort (Python default) | O(n) | O(n log n) | O(n log n) | O(n) | ✅ |
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ |
+| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | ❌ |
+| Heap Sort | O(n log n) | O(n log n) | O(n log n) | O(1) | ❌ |
+| Counting Sort | O(n+k) | O(n+k) | O(n+k) | O(k) | ✅ |
+| Radix Sort | O(nk) | O(nk) | O(nk) | O(n+k) | ✅ |
+
+---
+
+## Graph Algorithms
+
+| Algorithm | Time | Space | Notes |
+|---|---|---|---|
+| BFS | O(V+E) | O(V) | Shortest path (unweighted) |
+| DFS | O(V+E) | O(V) | Cycle detection, topo sort |
+| Dijkstra | O((V+E) log V) | O(V) | Shortest path (non-negative weights) |
+| Bellman-Ford | O(VE) | O(V) | Handles negative weights |
+| Topological Sort | O(V+E) | O(V) | DAG only |
+| Union-Find ops | O(α(n)) ≈ O(1) | O(n) | Amortised with path compression |
+| Prim's MST | O(E log V) | O(V) | Dense graphs |
+| Kruskal's MST | O(E log E) | O(V) | Sparse graphs |
+
+---
+
+## Common DSA Patterns
+
+| Pattern | Time | Space |
+|---|---|---|
+| Binary Search | O(log n) | O(1) |
+| Two Pointers | O(n) | O(1) |
+| Sliding Window (fixed) | O(n) | O(k) |
+| Sliding Window (variable) | O(n) | O(n) |
+| Prefix Sum build | O(n) | O(n) |
+| Prefix Sum query | O(1) | — |
+| Monotonic Stack | O(n) | O(n) |
+| Backtracking | O(b^d) | O(d) |
+| Memoized DFS | O(states) | O(states) |
+| Bottom-Up DP | O(states) | O(states) or O(1) |
+
+*b = branching factor, d = depth*
+
+---
+
+## Python Built-ins
+
+| Operation | Complexity |
+|---|---|
+| `list.append` / `list.pop()` | O(1) amortised |
+| `list.insert(i, v)` / `list.pop(i)` | O(n) |
+| `list.sort()` | O(n log n) |
+| `x in list` | O(n) |
+| `x in set` / `x in dict` | O(1) average |
+| `dict[k]`, `set.add`, `set.discard` | O(1) average |
+| `heapq.heappush` / `heappop` | O(log n) |
+| `heapq.heapify` | O(n) |
+| `collections.Counter(iterable)` | O(n) |
+| String concatenation in loop | O(n²) — use `''.join(parts)` |

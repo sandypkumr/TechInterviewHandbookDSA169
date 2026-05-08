@@ -1,0 +1,70 @@
+---
+title: "Valid Anagram"
+problemSlug: "valid-anagram"
+topic: "String"
+topicSlug: "string"
+difficulty: "Easy"
+leetcodeUrl: "https://leetcode.com/problems/valid-anagram"
+githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/string/valid_anagram.py"
+tags: ["Hash Table", "String", "Sorting"]
+patterns: ["Frequency Count", "Hash Map"]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+hasProblemStatement: true
+hasConstraints: true
+hasExamples: true
+isPremium: false
+similarProblems: ["group-anagrams", "ransom-note"]
+---
+
+## Problem Statement
+
+Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `false` otherwise.
+
+ 
+
+**Example 1:**
+
+**Input:** s = "anagram", t = "nagaram"
+
+**Output:** true
+
+**Example 2:**
+
+**Input:** s = "rat", t = "car"
+
+**Output:** false
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length, t.length <= 5 * 10^4`
+- `s` and `t` consist of lowercase English letters.
+
+ 
+
+**Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+## Solution
+
+```python
+from collections import Counter
+
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        return Counter(s) == Counter(t)
+```
+
+
+## Complexity
+
+- **Time**: `O(n)`
+- **Space**: `O(1)`
+
+
+## Similar Problems
+
+- [Group Anagrams](/TechInterviewHandbookDSA169/problems/group-anagrams)
+- [Ransom Note](/TechInterviewHandbookDSA169/problems/ransom-note)
