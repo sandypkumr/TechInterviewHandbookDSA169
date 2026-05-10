@@ -13,3 +13,12 @@ site/public/pagefind/
 *.swp
 .idea/
 .vscode/settings.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Spreadsheets / intermediate data
+*.xlsx
+scripts/data/
