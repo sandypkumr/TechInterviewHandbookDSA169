@@ -85,6 +85,103 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach: Breadth-First Search (BFS) with Queue
+
+Level order traversal means visiting all nodes at depth 0, then all nodes at depth 1, then depth 2, and so on. BFS is the natural choice because it explores nodes level by level.
+
+**Analogy:** Imagine a family tree where you want to list all people generation by generation. You'd first list the grandparent, then all their children, then all grandchildren, etc. That's exactly what level order traversal does!
+
+### Step-by-Step Walkthrough
+
+Let's trace through Example 1: `root = [3,9,20,null,null,15,7]`
+
+```
+      3
+     / \
+    9   20
+       /  \
+      15   7
+```
+
+1. **Initialize:**
+   - `result = []`
+   - `queue = deque([3])`
+
+2. **Level 0 (queue has 1 node):**
+   - `level = []`
+   - Process node 3: `level = [3]`, add children 9, 20 to queue
+   - `result = [[3]]`
+   - `queue = deque([9, 20])`
+
+3. **Level 1 (queue has 2 nodes):**
+   - `level = []`
+   - Process node 9: `level = [9]`, no children
+   - Process node 20: `level = [9, 20]`, add children 15, 7 to queue
+   - `result = [[3], [9, 20]]`
+   - `queue = deque([15, 7])`
+
+4. **Level 2 (queue has 2 nodes):**
+   - `level = []`
+   - Process node 15: `level = [15]`, no children
+   - Process node 7: `level = [15, 7]`, no children
+   - `result = [[3], [9, 20], [15, 7]]`
+   - `queue = deque([])` (empty)
+
+5. **Done!** Return `[[3], [9, 20], [15, 7]]`
+
+### Code Breakdown
+
+```python
+if not root:
+    return []
+```
+**Edge case:** Handle empty tree immediately.
+
+```python
+queue = deque([root])
+```
+**Queue initialization:** Use `deque` for O(1) append and popleft operations. Start with root node.
+
+```python
+while queue:
+```
+**Main loop:** Continue until queue is empty (all nodes processed).
+
+```python
+level = []
+for _ in range(len(queue)):
+```
+**Key technique:** Capture the current queue size before the loop. This tells us exactly how many nodes are at the current level. We process exactly that many nodes before moving to the next level.
+
+```python
+node = queue.popleft()
+level.append(node.val)
+```
+**Process node:** Remove from front of queue (FIFO) and add its value to current level.
+
+```python
+if node.left:
+    queue.append(node.left)
+if node.right:
+    queue.append(node.right)
+```
+**Add children:** Enqueue children for processing in the next level. Left before right maintains left-to-right order.
+
+```python
+result.append(level)
+```
+**Complete level:** After processing all nodes at current level, add the level list to result.
+
+### Why This Works
+
+- **Queue property:** FIFO (First In, First Out) naturally processes nodes level by level
+- **Level separation:** By capturing `len(queue)` before inner loop, we know exactly which nodes belong to current level
+- **Time complexity:** O(n) - visit each node exactly once
+- **Space complexity:** O(n) - queue can hold up to n/2 nodes at the last level (complete binary tree)
+
+
 ## Complexity
 
 - **Time**: `O(n)`

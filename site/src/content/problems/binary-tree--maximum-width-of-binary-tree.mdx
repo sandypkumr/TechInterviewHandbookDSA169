@@ -93,6 +93,33 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. It employs a **Sliding Window** to track a contiguous subset of elements.
+
+### Intuition
+
+BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+
+### Algorithm
+
+1. **Handle edge cases**: Check for empty or invalid input
+2. **Initialize queue**: Start with the root/initial elements
+3. **Main loop**: Continue until condition is met
+4. **Move pointers**: Adjust left/right pointers based on current sum
+5. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
+- **Level-order processing**: Guarantees shortest path and systematic exploration
+- **Logarithmic search**: Halves search space with each iteration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n)`

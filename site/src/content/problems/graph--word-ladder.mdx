@@ -85,6 +85,30 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It uses a **Set** for fast membership testing and duplicate detection.
+
+### Intuition
+
+BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+
+### Algorithm
+
+1. **Handle edge cases**: Check for empty or invalid input
+2. **Initialize queue**: Start with the root/initial elements
+3. **Main loop**: Continue until condition is met
+4. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Level-order processing**: Guarantees shortest path and systematic exploration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(M²×N)`

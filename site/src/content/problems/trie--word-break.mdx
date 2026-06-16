@@ -80,6 +80,28 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+It employs **Dynamic Programming** to build up the solution by solving smaller subproblems. It uses a **Set** for fast membership testing and duplicate detection.
+
+### Intuition
+
+The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+
+### Algorithm
+
+1. **Iterate through elements**: Process each element systematically
+2. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Memoization**: Stores subproblem solutions to avoid redundant calculations
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n²)`

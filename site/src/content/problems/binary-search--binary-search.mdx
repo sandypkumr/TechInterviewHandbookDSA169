@@ -71,6 +71,30 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+
+### Intuition
+
+By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+
+### Algorithm
+
+1. **Main loop**: Continue until condition is met
+2. **Move pointers**: Adjust left/right pointers based on current sum
+3. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
+- **Logarithmic search**: Halves search space with each iteration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(log n)`

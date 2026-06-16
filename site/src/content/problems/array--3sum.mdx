@@ -93,6 +93,83 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach: Sorting + Two Pointers
+
+The strategy is to convert the 3Sum problem into multiple 2Sum problems. We sort the array first, then for each element, we use two pointers to find pairs that sum to the negative of that element.
+
+**Analogy:** Imagine arranging numbers in a line from smallest to largest. You pick one number and use two people (pointers) starting from opposite ends to find two numbers that, together with your picked number, sum to zero.
+
+### Step-by-Step Walkthrough
+
+Let's trace through Example 1: `nums = [-1,0,1,2,-1,-4]`
+
+1. **Sort:** `nums = [-4,-1,-1,0,1,2]`
+
+2. **i=0, nums[i]=-4:**
+   - left=1, right=5
+   - Need: -4 + nums[left] + nums[right] = 0
+   - Try: -4 + (-1) + 2 = -3 (too small, left++)
+   - Try: -4 + (-1) + 2 = -3 (too small, left++)
+   - Try: -4 + 0 + 2 = -2 (too small, left++)
+   - Try: -4 + 1 + 2 = -1 (too small, left++)
+   - left >= right, no solution with -4
+
+3. **i=1, nums[i]=-1:**
+   - left=2, right=5
+   - Try: -1 + (-1) + 2 = 0 ✓ Found: `[-1,-1,2]`
+   - Skip duplicates, move both pointers
+   - left=3, right=4
+   - Try: -1 + 0 + 1 = 0 ✓ Found: `[-1,0,1]`
+
+4. **i=2, nums[i]=-1:** Skip (duplicate of previous)
+
+5. Continue for remaining elements...
+
+### Code Breakdown
+
+```python
+nums.sort()
+```
+**Critical first step:** Sorting enables two-pointer technique and makes duplicate handling easier.
+
+```python
+if i > 0 and nums[i] == nums[i - 1]:
+    continue
+```
+**Duplicate prevention:** Skip if current number equals previous to avoid duplicate triplets.
+
+```python
+left, right = i + 1, len(nums) - 1
+```
+**Two-pointer setup:** Search space is everything after current element.
+
+```python
+total = nums[i] + nums[left] + nums[right]
+if total < 0:
+    left += 1  # Need larger sum
+elif total > 0:
+    right -= 1  # Need smaller sum
+```
+**Core logic:** Since array is sorted, we can intelligently move pointers based on whether sum is too small or too large.
+
+```python
+while left < right and nums[left] == nums[left + 1]:
+    left += 1
+while left < right and nums[right] == nums[right - 1]:
+    right -= 1
+```
+**Skip duplicates:** After finding a valid triplet, skip all duplicate values to avoid duplicate results.
+
+### Why This Works
+
+- **Sorting benefit:** Enables two-pointer technique and O(1) duplicate detection
+- **Time complexity:** O(n²) - outer loop O(n) × inner two-pointer O(n)
+- **Space efficiency:** O(1) extra space (excluding output array)
+- **Completeness:** The two-pointer approach guarantees we check all valid combinations
+
+
 ## Complexity
 
 - **Time**: `O(n²)`

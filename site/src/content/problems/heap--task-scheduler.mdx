@@ -85,6 +85,30 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+It employs **Dynamic Programming** to build up the solution by solving smaller subproblems. The algorithm starts by **sorting** the input to enable more efficient processing.
+
+### Intuition
+
+The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+
+### Algorithm
+
+1. **Sort the input**: Arrange elements in ascending order
+2. **Iterate through elements**: Process each element systematically
+3. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
+- **Memoization**: Stores subproblem solutions to avoid redundant calculations
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n log n)`

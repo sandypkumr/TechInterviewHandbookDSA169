@@ -93,6 +93,30 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+
+### Intuition
+
+The key insight is to trade space for time. By storing elements in a hash map as we iterate, we can check for required values in constant time rather than repeatedly scanning the array.
+
+### Algorithm
+
+1. **Initialize result container**: Create list to store the answer
+2. **Iterate through elements**: Process each element systematically
+3. **Update hash map**: Store elements for future lookups
+4. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n k²)`

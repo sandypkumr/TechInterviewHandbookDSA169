@@ -101,6 +101,31 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It utilizes a **Heap** to efficiently maintain ordered elements.
+
+### Intuition
+
+BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+
+### Algorithm
+
+1. **Initialize queue**: Start with the root/initial elements
+2. **Main loop**: Continue until condition is met
+3. **Update hash map**: Store elements for future lookups
+4. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
+- **Level-order processing**: Guarantees shortest path and systematic exploration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(K × E)`

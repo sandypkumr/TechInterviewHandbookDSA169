@@ -72,6 +72,31 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. The algorithm starts by **sorting** the input to enable more efficient processing.
+
+### Intuition
+
+After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+
+### Algorithm
+
+1. **Handle edge cases**: Check for empty or invalid input
+2. **Move pointers**: Adjust left/right pointers based on current sum
+3. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
+- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
+- **Logarithmic search**: Halves search space with each iteration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n)`

@@ -95,6 +95,31 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+It uses the **Two Pointers** technique to efficiently search through the data. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It employs a **Sliding Window** to track a contiguous subset of elements.
+
+### Intuition
+
+The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+
+### Algorithm
+
+1. **Main loop**: Continue until condition is met
+2. **Move pointers**: Adjust left/right pointers based on current sum
+3. **Update hash map**: Store elements for future lookups
+4. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
+- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n)`

@@ -53,6 +53,27 @@ class Solution:
 ```
 
 
+## Explanation
+
+### Approach
+
+It applies **Binary Search** to find the target in logarithmic time.
+
+### Intuition
+
+By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+
+### Algorithm
+
+1. **Return result**: Output the computed answer
+
+### Why This Works
+
+- **Logarithmic search**: Halves search space with each iteration
+- **Correctness**: The algorithm handles all edge cases and produces the expected output
+- **Efficiency**: Optimized for both time and space constraints
+
+
 ## Complexity
 
 - **Time**: `O(n)`
