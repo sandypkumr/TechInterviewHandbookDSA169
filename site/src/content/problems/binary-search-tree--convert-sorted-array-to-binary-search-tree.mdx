@@ -8,8 +8,8 @@ leetcodeUrl: "https://leetcode.com/problems/convert-sorted-array-to-binary-searc
 githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/binary_search_tree/convert_sorted_array_to_binary_search_tree.py"
 tags: ["Array", "Divide and Conquer", "Tree", "Binary Search Tree", "Binary Tree"]
 patterns: ["Divide and Conquer", "Inorder Construction"]
-timeComplexity: "O(n)"
-spaceComplexity: "O(log n)"
+timeComplexity: "O(n log n)"
+spaceComplexity: "O(n)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -74,30 +74,42 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Divide and Conquer by Middle Element
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. The algorithm starts by **sorting** the input to enable more efficient processing.
+For a sorted array, choosing the middle element as root keeps left and right subtree sizes balanced.
 
-### Intuition
+Recursive construction:
+- root = middle of current subarray
+- left subtree from left half
+- right subtree from right half
 
-After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+This directly builds a height-balanced BST.
 
-### Algorithm
+### Code Breakdown
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+```python
+mid = len(nums) // 2
+root = TreeNode(nums[mid])
+root.left = self.sortedArrayToBST(nums[:mid])
+root.right = self.sortedArrayToBST(nums[mid + 1:])
+return root
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Inorder traversal of constructed tree yields original sorted order
+- Midpoint split keeps tree balanced at each level
+
+### Complexity Note for This Exact Implementation
+
+Because slicing (`nums[:mid]`, `nums[mid+1:]`) creates new arrays each recursion level:
+- time becomes `O(n log n)`
+- extra space becomes `O(n)` (plus recursion stack)
+
+An index-range implementation can achieve `O(n)` time and `O(log n)` recursion space.
 
 
 ## Complexity
 
-- **Time**: `O(n)`
-- **Space**: `O(log n)`
+- **Time**: `O(n log n)`
+- **Space**: `O(n)`

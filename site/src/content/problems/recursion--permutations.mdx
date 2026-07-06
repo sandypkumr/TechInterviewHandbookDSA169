@@ -74,24 +74,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: In-place Swap Backtracking
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+At recursion depth `start`, we decide which number should occupy position `start`.
+Try every index `i` from `start` to end:
 
-### Intuition
+1. swap `nums[start]` with `nums[i]`
+2. recurse for `start + 1`
+3. swap back (backtrack)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+When `start == len(nums)`, one full permutation is ready.
 
-### Algorithm
+### Code Core
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+```python
+if start == len(nums):
+    res.append(nums[:])
+for i in range(start, len(nums)):
+    nums[start], nums[i] = nums[i], nums[start]
+    backtrack(start + 1)
+    nums[start], nums[i] = nums[i], nums[start]
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each position is assigned every remaining candidate exactly once
+- Backtracking restores array state for the next branch
+- Generates all `n!` permutations without duplicates (input values are distinct)
 
 
 ## Complexity

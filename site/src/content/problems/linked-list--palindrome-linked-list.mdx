@@ -83,24 +83,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Find Middle, Reverse Second Half, Compare
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This solution checks palindrome in O(1) extra space by using three phases:
+1. Find the middle with fast/slow pointers
+2. Reverse the second half in-place
+3. Compare first half and reversed second half node-by-node
 
-### Intuition
+### Step-by-Step Idea
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+For `1 -> 2 -> 2 -> 1`:
 
-### Algorithm
+- Middle search ends `slow` at 3rd node (`2`)
+- Reverse from `slow`: `2 -> 1` becomes `1 -> 2`
+- Compare from start and reversed head:
+  - `1 == 1`
+  - `2 == 2`
+- All matched -> palindrome
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+For odd length, middle naturally gets included in second-half reversal, and comparison still works because we only compare while `prev` exists.
+
+### Code Breakdown
+
+```python
+slow = fast = head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+prev = None
+while slow:
+    current = slow
+    slow = slow.next
+    current.next = prev
+    prev = current
+
+while prev:
+    if head.val != prev.val:
+        return False
+    head = head.next
+    prev = prev.next
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Fast/slow splits list at midpoint in one pass
+- Reversing second half lets us compare symmetric positions linearly
+- Each node is visited O(1) times overall -> O(n) time, O(1) extra space
 
 
 ## Complexity

@@ -62,23 +62,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Greedy Algorithm
 
-The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution uses a **Greedy** strategy to make locally optimal decisions that lead to the global optimum.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The best order is not determined by the numeric value of each element alone. For two numbers `x` and `y`, the right comparison is whether `xy` or `yx` produces the larger concatenated string. Sorting by that idea makes the full joined result as large as possible.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Convert every number to a string.
+2. Sort the strings so the concatenation order favors larger combined prefixes.
+3. Join the sorted strings into one result.
+4. Convert through `int(...)` and back to `str(...)` to collapse cases like `"00"` into `"0"`.
+
+### Code Breakdown
+
+The key line is the custom sort key `x * 10`, which works here because the input bounds keep the repeated string long enough to compare concatenation order reliably. After sorting in descending order, joining the pieces produces the largest possible number string.
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Pairwise optimal ordering:** If `xy >= yx`, placing `x` before `y` cannot hurt the final result.
+- **Global consistency:** Sorting all strings by that comparison yields the lexicographically largest concatenation.
+- **Leading-zero fix:** Converting through `int` ensures that all-zero inputs return exactly `"0"`.
 
 
 ## Complexity

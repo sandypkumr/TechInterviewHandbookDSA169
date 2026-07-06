@@ -86,24 +86,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Linked-List Digit Simulation with Carry
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Because digits are stored in reverse order, we can add node-by-node from head to tail exactly like manual addition from least significant digit.
 
-### Intuition
+At each step:
+1. read current digit from `l1` (or 0 if exhausted)
+2. read current digit from `l2` (or 0 if exhausted)
+3. compute `sum = val1 + val2 + carry`
+4. create output node with `sum % 10`
+5. update `carry = sum // 10`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input:
+- `l1 = [2,4,3]` (342)
+- `l2 = [5,6,4]` (465)
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Process:
+- `2 + 5 + 0 = 7` -> node `7`, carry `0`
+- `4 + 6 + 0 = 10` -> node `0`, carry `1`
+- `3 + 4 + 1 = 8` -> node `8`, carry `0`
+
+Result list: `[7,0,8]` (807)
+
+### Code Breakdown
+
+```python
+while l1 or l2 or carry:
+    val1 = l1.val if l1 else 0
+    val2 = l2.val if l2 else 0
+    carry, val = divmod(val1 + val2 + carry, 10)
+    current.next = ListNode(val)
+    current = current.next
+```
+
+`divmod(total, 10)` cleanly gives `(carry, digit)` in one call.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Reverse-order storage aligns with natural addition order
+- Loop condition includes `carry`, so final carry is not lost
+- Each input node is visited once
 
 
 ## Complexity

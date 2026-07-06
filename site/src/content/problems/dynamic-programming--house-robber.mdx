@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Array", "Dynamic Programming"]
 patterns: ["Dynamic Programming", "1D DP", "Space Optimized DP"]
 timeComplexity: "O(n)"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(n)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -73,31 +73,52 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: 1D Dynamic Programming (Take vs Skip)
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+Let `dp[i]` be the maximum money you can rob from houses `0..i`.
 
-### Intuition
+For house `i`, you have two choices:
+1. **Skip house i** -> money stays `dp[i-1]`
+2. **Rob house i** -> then you must skip `i-1`, so money is `dp[i-2] + nums[i]`
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+Recurrence:
 
-### Algorithm
+`dp[i] = max(dp[i-1], dp[i-2] + nums[i])`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+### Step-by-Step Example
+
+Input: `nums = [2,7,9,3,1]`
+
+- `dp[0] = 2`
+- `dp[1] = max(2,7) = 7`
+- `dp[2] = max(7,2+9) = 11`
+- `dp[3] = max(11,7+3) = 11`
+- `dp[4] = max(11,11+1) = 12`
+
+Answer = `12`
+
+### Code Breakdown
+
+```python
+dp[0] = nums[0]
+dp[1] = max(nums[0], nums[1])
+for i in range(2, len(nums)):
+    dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+```
+
+Base cases handle very short arrays; loop handles the general case.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Captures the adjacency constraint exactly
+- Every optimal solution for prefix `0..i` is either take `i` or skip `i`
+- Bottom-up DP ensures all required previous states are already computed
 
 
 ## Complexity
 
 - **Time**: `O(n)`
-- **Space**: `O(1)`
+- **Space**: `O(n)`
 
 
 ## Similar Problems

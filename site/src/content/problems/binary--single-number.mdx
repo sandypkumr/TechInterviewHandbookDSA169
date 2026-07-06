@@ -66,23 +66,56 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: XOR Cancellation
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Use XOR over all elements. The duplicate numbers cancel each other, leaving only the single number.
 
-### Intuition
+### XOR Properties Used
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+- `a ^ a = 0` (same numbers cancel)
+- `a ^ 0 = a` (identity)
+- XOR is commutative and associative, so order does not matter
 
-### Algorithm
+### Step-by-Step Walkthrough
 
-1. **Return result**: Output the computed answer
+**Input:** `[4,1,2,1,2]`
 
-### Why This Works
+```
+acc = 4
+acc = 4 ^ 1 = 5
+acc = 5 ^ 2 = 7
+acc = 7 ^ 1 = 6   (the previous 1 got canceled)
+acc = 6 ^ 2 = 4   (the previous 2 got canceled)
+```
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Answer = `4`
+
+Conceptually this is:
+
+`4 ^ 1 ^ 2 ^ 1 ^ 2 = 4 ^ (1^1) ^ (2^2) = 4 ^ 0 ^ 0 = 4`
+
+### Code Breakdown
+
+```python
+return reduce(lambda x, y: x ^ y, nums)
+```
+
+`reduce` applies XOR cumulatively across the array.
+
+Equivalent expanded version:
+
+```python
+ans = 0
+for num in nums:
+    ans ^= num
+return ans
+```
+
+### Why This is Optimal
+
+- O(n) time: one pass over the array
+- O(1) extra space: only one accumulator
+- Exactly matches the constraint requirements
 
 
 ## Complexity

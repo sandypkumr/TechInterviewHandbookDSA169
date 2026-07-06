@@ -89,23 +89,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Gauss Sum Formula
 
-This solution implements an efficient algorithm to solve the problem systematically.
+The numbers should contain every value from `0` to `n`, except one missing value.
+So:
 
-### Intuition
+`missing = (expected sum from 0..n) - (actual sum of array)`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Formula Used
 
-### Algorithm
+Sum of first `n` integers:
 
-1. **Return result**: Output the computed answer
+`0 + 1 + 2 + ... + n = n * (n + 1) // 2`
+
+### Step-by-Step Example
+
+**Input:** `nums = [3,0,1]`
+
+- `n = 3`
+- expected sum = `3 * 4 // 2 = 6`
+- actual sum = `3 + 0 + 1 = 4`
+- missing = `6 - 4 = 2`
+
+Answer: `2`
+
+### Code Breakdown
+
+```python
+n = len(nums)
+return n * (n + 1) // 2 - sum(nums)
+```
+
+- `n*(n+1)//2`: ideal total if nothing is missing
+- `sum(nums)`: observed total
+- difference is exactly the missing number
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Array has distinct values in `[0, n]`
+- Exactly one value is absent
+- So expected total differs from actual total by exactly that number
+
+This gives O(n) time (for `sum(nums)`) and O(1) extra space.
 
 
 ## Complexity

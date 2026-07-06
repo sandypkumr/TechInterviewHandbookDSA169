@@ -94,24 +94,30 @@ class RandomizedSet:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map + Array Combination for O(1) Design
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This solution combines a **hash map (for O(1) lookups)** and a **dynamic array (for O(1) random access)** to achieve O(1) time complexity for all three operations: insert, delete, and getRandom.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**The Challenge:** We need O(1) for insert, delete, AND getRandom. No single structure provides all three:
+- Hash Map: O(1) insert/delete, but random access needs O(n)
+- Array: O(1) random access, but deletion is O(n)
+
+**The Solution:** Use both! Hash map maps values to their indices in the array. To delete, swap with the last element and pop.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+1. **Insert:** Add to array, store index in hash map
+2. **Delete:** Swap with last element, update map, pop
+3. **GetRandom:** Pick random index from array
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Hash Map:** O(1) lookup for existence and index
+- **Array:** O(1) random access and O(1) pop from end
+- **Swap Trick:** Deletion avoids shifting elements
+- **O(1) All Operations:** No operation requires iteration
 
 
 ## Complexity

@@ -86,28 +86,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Prefix Sum Technique
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+This solution uses **prefix sums** to efficiently solve array problems by precomputing cumulative sums.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+As we walk from the root to the current node, we keep the running sum of that path. If an earlier prefix sum was `current_sum - targetSum`, then the nodes after that earlier point form a downward path whose total is exactly `targetSum`. A hash map lets us count how many such prefixes exist in constant time.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Handle edge cases**: Check for empty or invalid input
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Update hash map**: Store elements for future lookups
-5. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the tree with DFS while maintaining the running path sum.
+2. At each node, add its value to the running sum and look up how many times `current_sum - targetSum` has appeared before.
+3. Store the current prefix sum in the map, recurse into the left and right children, then remove the current sum when backtracking.
+4. Accumulate the count of valid paths and return the final total.
+
+### Code Breakdown
+
+`sum_map` records how many times each prefix sum appears along the current root-to-node path. The backtracking step `sum_map[cur_sum] -= 1` is crucial because prefix sums from one branch must not leak into sibling branches.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Prefix-sum identity:** A path sum equals `targetSum` exactly when two prefix sums differ by `targetSum`.
+- **Path-local bookkeeping:** The map only contains sums on the current DFS path, so every counted path is downward and valid.
+- **Backtracking correctness:** Removing the current prefix sum after exploring children restores the correct state for the parent call.
+- **Optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

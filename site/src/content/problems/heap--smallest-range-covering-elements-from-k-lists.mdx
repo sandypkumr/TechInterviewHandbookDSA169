@@ -82,24 +82,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Min-Heap
 
-It utilizes a **Heap** to efficiently maintain ordered elements.
+This solution keeps one active element from each list in a **min-heap** and tracks the current maximum among them.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+At any moment, a valid range must include one chosen element from every list. If we always know the current minimum and maximum among those chosen elements, then we can evaluate the range they form. The only way to potentially improve the range is to advance the list that currently contributes the minimum value.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Put the first element from each list into a min-heap and record the maximum of those elements.
+2. Repeatedly pop the smallest element from the heap and compare the current range `[min_val, max_val]` against the best answer so far.
+3. Advance within the list that provided the minimum element, pushing its next value into the heap and updating `max_val`.
+4. Stop when any list runs out, because a complete range using all lists is no longer possible.
+
+### Code Breakdown
+
+Each heap entry stores `(value, list_index, element_index)`, so after popping the minimum, the code knows exactly which list to advance. The variable `max_val` tracks the right edge of the current candidate range.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **One-from-each-list invariant:** The heap always contains one current candidate from every list while the loop runs.
+- **Greedy advancement:** Moving the list with the current minimum is the only way to possibly shrink the range.
+- **Exhaustion condition:** Once a list has no next element, no future range can cover all lists, so the best range seen is final.
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

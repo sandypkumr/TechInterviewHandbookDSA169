@@ -106,26 +106,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Prefix Sum Technique
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution converts the weights into **prefix-sum intervals** and uses binary search to map a random target into the correct index.
 
 ### Intuition
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+Think of each index as owning an interval whose length equals its weight. If we pick a random number uniformly from the total weight range, the chance of landing inside an index's interval is exactly proportional to that weight.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Build a prefix-sum array where each entry marks the end of a cumulative weight interval.
+2. Generate a random target in `[0, total_weight)`.
+3. Binary search the prefix-sum array for the first cumulative sum that is at least the target.
+4. Return the corresponding index.
+
+### Code Breakdown
+
+`self.prefix_sum` stores cumulative boundaries, so each index corresponds to one contiguous range of target values. `pickIndex` performs a binary search over those boundaries, making each random pick logarithmic after linear preprocessing.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Interval proportionality:** An index with weight `w[i]` occupies exactly `w[i]` units of the total range.
+- **Uniform target selection:** Sampling uniformly from the full range makes the probability of landing in each interval proportional to its length.
+- **Binary-search lookup:** Prefix sums let the algorithm identify the owning interval efficiently.
 
 
 ## Complexity

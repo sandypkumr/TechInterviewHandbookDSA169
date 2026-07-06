@@ -103,27 +103,35 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It utilizes a **Heap** to efficiently maintain ordered elements.
+This solution uses **Breadth-First Search (BFS)** with a queue to explore states level by level.
 
 ### Intuition
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+The stop limit matters more than raw edge count, so the search expands the graph level by level, where each level represents taking one more flight. At the same time, `dist` stores the cheapest cost seen so far for each city, preventing obviously worse paths from being expanded.
 
 ### Algorithm
 
-1. **Initialize queue**: Start with the root/initial elements
-2. **Main loop**: Continue until condition is met
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Build an adjacency list of outgoing flights.
+2. Initialize `dist[src] = 0` and begin BFS-style traversal from `(src, 0)`.
+3. For each level, relax every outgoing edge from the current cities. If a cheaper cost to a neighbor is found, update `dist[neighbor]` and enqueue it for the next level.
+4. Stop after exploring at most `k + 1` flight layers and return the best cost for `dst`, or `-1` if unreachable.
+
+### Code Breakdown
+
+The queue stores `(city, cost)` states for the current number of flights used. The `for _ in range(len(queue))` loop freezes one level at a time, so all relaxations in that pass correspond to the same stop count before `stops` is incremented.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Stop-bounded exploration:** Each BFS layer represents one additional flight, so the algorithm respects the maximum stop constraint.
+- **Cost relaxation:** `dist` keeps only improving costs, which prunes inferior paths.
+- **Complete coverage within limit:** Any valid route with at most `k` stops uses at most `k + 1` edges, and all such edge counts are explored.
+- **O(1) lookups:** Hash maps provide constant-time insertion and retrieval, critical for efficient searching
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

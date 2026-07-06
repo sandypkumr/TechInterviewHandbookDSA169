@@ -95,26 +95,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map Lookup
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+This solution stores each word's index in a **hash map** and checks every possible split of every word.
 
 ### Intuition
 
-The key insight is to trade space for time. By storing elements in a hash map as we iterate, we can check for required values in constant time rather than repeatedly scanning the array.
+Suppose we split a word into `prefix + suffix`. If `prefix` is already a palindrome, then we only need some other word equal to `reverse(suffix)` to place in front. Symmetrically, if `suffix` is a palindrome, then `reverse(prefix)` can be appended after the current word.
 
 ### Algorithm
 
-1. **Initialize result container**: Create list to store the answer
-2. **Iterate through elements**: Process each element systematically
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Build a map from each word to its index.
+2. For every word, try every split position `j` from `0` to `len(word)`.
+3. If the prefix is a palindrome, look for `reverse(suffix)` in the map; if the suffix is a palindrome, look for `reverse(prefix)`.
+4. Add the matching index pairs whenever the partner word exists and is not the same word.
+
+### Code Breakdown
+
+The helper `is_palindrome` checks whether a prefix or suffix can serve as the mirrored half around another word. `word_to_index` makes reverse-word lookups constant time, which keeps the full search practical.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Complete split coverage:** Every palindrome pair must align with some split where one side of a word is itself a palindrome.
+- **Correct reverse lookup:** The non-palindromic side must be mirrored by the reverse of another word.
+- **No self-pair mistakes:** The index check prevents pairing a word with itself unless a distinct matching word exists.
 
 
 ## Complexity

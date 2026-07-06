@@ -114,24 +114,40 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Deep Copy with Node->Clone Map
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+To clone a graph, we must avoid recreating the same node multiple times and handle cycles.
+Use a dictionary `visited` mapping original node -> cloned node.
 
-### Intuition
+DFS logic:
+1. if node already cloned, return it
+2. create clone node
+3. store mapping immediately
+4. recursively clone all neighbors and attach them
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why Store Mapping Before Recursing
 
-### Algorithm
+In cyclic graphs, recursion may revisit current node through a neighbor path.
+Early storage in `visited` prevents infinite recursion and preserves shared structure.
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+### Code Breakdown
+
+```python
+if node in visited:
+    return visited[node]
+
+clone_node = Node(node.val)
+visited[node] = clone_node
+for neighbor in node.neighbors:
+    clone_node.neighbors.append(self.clone(neighbor, visited))
+return clone_node
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each original node is cloned exactly once
+- Every edge is traversed once during neighbor cloning
+- Map guarantees correctness under cycles and repeated references
 
 
 ## Complexity

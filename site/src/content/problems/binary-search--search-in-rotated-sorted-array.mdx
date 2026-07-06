@@ -87,26 +87,58 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search with Sorted-Half Detection
 
-It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+Even after rotation, at least one side of `mid` is always sorted.
+At each step:
+1. Find `mid`
+2. Determine which half is sorted
+3. Check whether `target` lies in that sorted half
+4. Discard the other half
 
-### Intuition
+So we still eliminate half of the array each iteration.
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+### Key Observation
 
-### Algorithm
+If `nums[mid] >= nums[left]`, then left half `[left..mid]` is sorted.
+Otherwise, right half `[mid..right]` is sorted.
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+### Step-by-Step Example
+
+Input: `nums = [4,5,6,7,0,1,2]`, `target = 0`
+
+- `left=0, right=6, mid=3 (value 7)`
+  - left half `[4,5,6,7]` sorted
+  - target 0 not in [4..7], move right side: `left = mid + 1 = 4`
+
+- `left=4, right=6, mid=5 (value 1)`
+  - left half `[0,1]` sorted
+  - target 0 in [0..1], move left side: `right = mid - 1 = 4`
+
+- `left=4, right=4, mid=4 (value 0)` -> found
+
+### Code Breakdown
+
+```python
+if nums[mid] >= nums[left]:
+    # left half sorted
+    if nums[left] <= target < nums[mid]:
+        right = mid - 1
+    else:
+        left = mid + 1
+else:
+    # right half sorted
+    if nums[mid] < target <= nums[right]:
+        left = mid + 1
+    else:
+        right = mid - 1
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Distinct values guarantee sorted-half checks are unambiguous
+- Each loop removes half of remaining search space
+- Therefore runtime is O(log n), as required
 
 
 ## Complexity

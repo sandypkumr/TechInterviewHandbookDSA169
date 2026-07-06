@@ -91,25 +91,93 @@ class Trie:
 
 ## Explanation
 
-### Approach
+### Approach: Trie (Prefix Tree) with Hash Map
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This solution implements a **Trie** data structure, where each node contains a hash map of children. This efficiently stores and searches strings with common prefixes.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Problem:** We need to store many strings and quickly:
+- Check if a word exists
+- Check if a prefix exists
+- Share common path for common prefixes
 
-### Algorithm
+**The Trie Solution:** Build a tree where:
+- Each node represents a character
+- Each path from root to a marked node represents a complete word
+- Nodes with common prefixes share the same path
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Handle edge cases**: Check for empty or invalid input
-3. **Return result**: Output the computed answer
+**Benefit:** All operations share common prefixes, saving space and time.
+
+### Step-by-Step Walkthrough
+
+Building a Trie with words ["apple", "app"]:
+
+```
+       root
+       /
+      a
+      |
+      p
+      |
+      p
+      |  (mark as end-of-word)
+      l
+      |
+      e  (mark as end-of-word)
+
+- search("apple"): Follow a→p→p→l→e, check if marked. YES
+- search("app"): Follow a→p→p, check if marked. YES
+- search("ap"): Follow a→p, check if marked. NO
+- startsWith("app"): Follow a→p→p, exists. YES
+```
+
+### Code Breakdown
+
+```python
+def __init__(self):
+    self.root = {}                    # Root node as empty dict
+    self.end_of_word = "#"            # Marker for word end
+```
+**Structure:** Each node is a dict mapping characters to child nodes.
+
+```python
+def insert(self, word: str) -> None:
+    node = self.root
+    for char in word:
+        node = node.setdefault(char, {})    # Navigate/create path
+    node[self.end_of_word] = True           # Mark end of word
+```
+**Insert:** Navigate through characters, creating nodes as needed. Mark the final node as a word end.
+
+```python
+def search(self, word: str) -> bool:
+    node = self.root
+    for char in word:
+        if char not in node:
+            return False                    # Character not in path
+        node = node[char]
+    return self.end_of_word in node         # Must be marked as word end
+```
+**Search:** Follow the exact path for the word. Return true only if the path ends with a marked node.
+
+```python
+def startsWith(self, prefix: str) -> bool:
+    node = self.root
+    for char in prefix:
+        if char not in node:
+            return False                    # Character not in path
+        node = node[char]
+    return True                             # Path exists (no end mark needed)
+```
+**StartsWith:** Similar to search, but we don't require an end-of-word marker.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Prefix Sharing:** Common prefixes share nodes, saving space
+- **O(M) Operations:** M = length of word; not dependent on number of words
+- **Efficient Prefix Matching:** Easy to find all words with a given prefix
+- **Hash Map Children:** Using dict for children provides O(1) character lookup
 
 
 ## Complexity

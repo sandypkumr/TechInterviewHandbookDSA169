@@ -89,27 +89,39 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+This solution uses **Breadth-First Search (BFS)** with a queue to explore states level by level.
 
 ### Intuition
 
-The key insight is to trade space for time. By storing elements in a hash map as we iterate, we can check for required values in constant time rather than repeatedly scanning the array.
+Each bus ride increases the answer by exactly one, so BFS is a natural fit. From a stop, we can board any bus serving that stop and then reach every other stop on that route in one more bus ride.
 
 ### Algorithm
 
-1. **Initialize queue**: Start with the root/initial elements
-2. **Main loop**: Continue until condition is met
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Build a map from each stop to the set of bus routes that include it.
+2. Start BFS from the `source` stop with bus count `0`.
+3. For each stop, explore every bus route available there, then enqueue all stops on those routes with count `+1` if they have not been visited.
+4. Clear a route once it has been used so the same bus is not processed repeatedly, and return the count when `target` is reached.
+
+### Code Breakdown
+
+`graph` connects stops to route indices, which avoids scanning every route from scratch. The `visited` set prevents revisiting stops, and `routes[bus] = []` acts like marking a bus route as consumed so it is expanded only once
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **BFS by bus count:** Each layer of the search corresponds to taking one more bus.
+- **Complete transfers:** From any stop, exploring all buses serving that stop covers every valid next transfer.
+- **No redundant route expansion:** Clearing a route after using it keeps the traversal efficient without losing any reachable stops.
+
+### Why This Works
+
+- **Level-by-level exploration:** Guarantees we find the shortest path (if it's a path problem) and systematically covers all nodes
+- **O(1) lookups:** Hash maps provide constant-time insertion and retrieval, critical for efficient searching
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

@@ -73,26 +73,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search - Halve the Search Space
 
-It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+Binary search repeatedly divides the search space in half by comparing the middle element with the target. If the middle is too small, search the right half; if too large, search the left half.
 
-### Intuition
+### Why Binary Search Achieves O(log n)
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+Each comparison eliminates half the remaining candidates. After k comparisons, only n/2^k elements remain. When this reaches 1, we've found our target: n/2^k = 1 → k = log₂(n).
 
-### Algorithm
+### Step-by-Step Walkthrough
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+**Input:** `nums = [-1,0,3,5,9,12], target = 9`
 
-### Why This Works
+```
+Initial: left=0, right=5, search space = [6 elements]
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Iteration 1:
+  mid = (0 + 5) // 2 = 2 → nums[2] = 3
+  3 < 9, so search right half
+  left = 3
+
+Iteration 2:
+  mid = (3 + 5) // 2 = 4 → nums[4] = 9
+  9 == 9 ✓ FOUND!
+  Return index 4
+
+Total comparisons: 2 (vs 6 with linear search)
+```
+
+For array of size 1 million, binary search needs ~20 comparisons vs 1 million with linear!
+
+### Code Breakdown
+
+```python
+mid = left + (right - left) // 2  # Avoid overflow
+if nums[mid] == target:
+    return mid  # Found!
+elif nums[mid] < target:
+    left = mid + 1  # Search right half
+else:
+    right = mid - 1  # Search left half
+```
+
+**Key detail:** `left + (right - left) // 2` prevents integer overflow (vs `(left + right) // 2`)
+
+### Why Sorted Input is Essential
+
+Binary search ONLY works on sorted data. If unsorted, comparisons don't reliably narrow the search space. This is why sort-then-binary-search approaches are common.
 
 
 ## Complexity

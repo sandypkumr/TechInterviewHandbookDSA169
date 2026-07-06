@@ -86,26 +86,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search on Partitions
 
-It uses the **Two Pointers** technique to efficiently search through the data. The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution performs **binary search** on the smaller array to find a partition where the combined left half and right half are correctly ordered.
 
 ### Intuition
 
-After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+The median splits the combined sorted order into a left half and a right half. Instead of merging the arrays, we search for a cut in `nums1` and infer the matching cut in `nums2` so that every value on the left is less than or equal to every value on the right.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Ensure `nums1` is the smaller array so the binary search range stays minimal.
+2. Binary search a partition index `partition_x` in `nums1`, then compute the matching `partition_y` in `nums2` so the left half contains half the elements.
+3. Check whether `max_left_x <= min_right_y` and `max_left_y <= min_right_x`. If not, move the partition left or right.
+4. Once the partition is valid, return either the middle element or the average of the two middle elements depending on total parity.
+
+### Code Breakdown
+
+The code uses sentinel values (`-inf` and `inf`) so partitions at the ends of an array can be handled without special-case branching. Each loop iteration checks whether the partition is valid and shrinks the search range accordingly.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct partition condition:** When both left-side maximums are no larger than the opposite right-side minimums, the two halves are properly ordered.
+- **Binary search direction:** If `max_left_x > min_right_y`, the cut in `nums1` is too far right; otherwise it is too far left.
+- **Median from boundaries:** Once the partition is valid, the median depends only on the boundary values around the cut, not on the full merged array.
 
 
 ## Complexity

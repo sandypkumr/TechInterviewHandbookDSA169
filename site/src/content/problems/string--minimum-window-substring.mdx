@@ -97,27 +97,52 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sliding Window + Frequency Matching
 
-It uses the **Two Pointers** technique to efficiently search through the data. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It employs a **Sliding Window** to track a contiguous subset of elements.
+We expand a right pointer to include characters until the window satisfies all requirements from `t`, then shrink from the left to make it minimal.
 
-### Intuition
+Key structures in this code:
+- `t_count`: required counts per char in `t`
+- `window`: current window counts
+- `required`: number of distinct chars required
+- `formed`: how many distinct chars currently satisfy required count
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Window is valid when `formed == required`.
 
-### Algorithm
+### Step-by-Step Sketch (`s="ADOBECODEBANC", t="ABC"`)
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+- Expand right until window contains enough `A,B,C`
+- Now shrink left while still valid to minimize length
+- Record best window each time before breaking validity
+- Continue scanning
 
-### Why This Works
+Best recorded window becomes `"BANC"`.
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+### Code Breakdown
+
+```python
+if char in t_count and window[char] == t_count[char]:
+    formed += 1
+```
+
+`formed` increases only when a character's count reaches exact requirement.
+
+```python
+while formed == required:
+    if right - left + 1 < ans[0]:
+        ans = (right - left + 1, left, right + 1)
+    char = s[left]
+    window[char] -= 1
+    if char in t_count and window[char] < t_count[char]:
+        formed -= 1
+    left += 1
+```
+
+This loop aggressively minimizes the current valid window.
+
+### Why This is O(m+n)
+
+Each pointer moves forward at most `len(s)` times. Hash-map updates are O(1) average, so total is linear in input size.
 
 
 ## Complexity

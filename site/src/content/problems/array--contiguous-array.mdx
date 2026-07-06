@@ -77,24 +77,59 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Running Balance + First Occurrence Hash Map
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Treat `1` as `+1` and `0` as `-1`. Then the problem becomes:
+find the longest subarray with sum `0`.
 
-### Intuition
+If the same running balance appears at two indices, the subarray between them has net sum 0, which means equal numbers of 0s and 1s.
 
-The key insight is to trade space for time. By storing elements in a hash map as we iterate, we can check for required values in constant time rather than repeatedly scanning the array.
+### Key Insight
 
-### Algorithm
+`balance[i] == balance[j]` (with `i < j`) means:
+- sum from `i+1` to `j` is 0
+- so that range contains equal count of 0 and 1
 
-1. **Update hash map**: Store elements for future lookups
-2. **Return result**: Output the computed answer
+So we store the **first index** where each balance is seen.
+
+### Step-by-Step Walkthrough
+
+**Input:** `nums = [0,1,0]`
+
+- Start: `count = 0`, `count_map = {0: -1}`, `max_length = 0`
+
+1. `i=0`, num=0 -> `count = -1`
+   - first time seeing `-1`, store `count_map[-1] = 0`
+
+2. `i=1`, num=1 -> `count = 0`
+   - `0` seen before at index `-1`
+   - length = `1 - (-1) = 2` -> `max_length = 2`
+
+3. `i=2`, num=0 -> `count = -1`
+   - `-1` seen before at index `0`
+   - length = `2 - 0 = 2` (max stays 2)
+
+Answer = 2
+
+### Code Breakdown
+
+```python
+count += 1 if num == 1 else -1
+if count in count_map:
+    max_length = max(max_length, i - count_map[count])
+else:
+    count_map[count] = i
+```
+
+- Update running balance
+- If balance seen before, compute zero-sum window length
+- If not seen, store first occurrence only (critical for max length)
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Converts equal-0/1 condition into zero-sum condition
+- Hash map gives O(1) access to earliest index per balance
+- Single pass over array gives O(n) time
 
 
 ## Complexity

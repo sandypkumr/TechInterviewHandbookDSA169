@@ -82,25 +82,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Iterative BST Property Navigation
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+In a BST:
+- values in left subtree are smaller
+- values in right subtree are larger
 
-### Intuition
+So at current `root`:
+- if both `p` and `q` are smaller -> go left
+- if both are larger -> go right
+- otherwise they split (or one equals root) -> current node is LCA
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Code Logic
 
-### Algorithm
-
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+```python
+while root:
+    if root.val < p.val and root.val < q.val:
+        root = root.right
+    elif root.val > p.val and root.val > q.val:
+        root = root.left
+    else:
+        return root
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- We move down only toward side where both targets must lie
+- First node where paths diverge is the lowest common ancestor
+- Iterative traversal uses O(1) extra space and O(h) time
 
 
 ## Complexity

@@ -88,24 +88,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Floyd's Cycle Detection
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution treats the array like a linked list where each value points to the next index, then uses **Floyd's tortoise and hare** algorithm to find the cycle entry.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Because the numbers are in the range `1..n`, following `nums[i]` behaves like following a next pointer. A duplicate value means two different indices point into the same next position, which creates a cycle. The duplicate number is exactly the entrance to that cycle.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Start both `slow` and `fast` at `nums[0]`.
+2. Move `slow` one step at a time and `fast` two steps at a time until they meet inside the cycle.
+3. Reset `slow` to `nums[0]`, then move both pointers one step at a time until they meet again.
+4. Return the meeting value, which is the duplicate number.
+
+### Code Breakdown
+
+The first loop finds an intersection point inside the cycle. The second loop uses the standard Floyd proof: starting one pointer from the beginning and one from the meeting point makes them meet at the cycle entrance
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Array-as-graph model:** Each index points to another index, creating a functional graph.
+- **Duplicate creates a cycle:** Since there are `n + 1` positions but only `n` possible next values, some value must repeat, which forces a cycle.
+- **Cycle entrance equals duplicate:** The node where the cycle begins is the repeated value reached by multiple indices.
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

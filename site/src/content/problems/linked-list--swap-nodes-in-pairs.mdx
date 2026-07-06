@@ -83,24 +83,50 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Iterative Pairwise Pointer Rewiring
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Use a dummy head and swap every adjacent pair by updating `next` pointers only.
 
-### Intuition
+For each pair:
+- `first = prev.next`
+- `second = first.next`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+After swap, links become:
 
-### Algorithm
+`prev -> second -> first -> (rest)`
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Then move `prev` to `first` (new tail of swapped pair) and continue.
+
+### Step-by-Step Example
+
+Input: `1 -> 2 -> 3 -> 4`
+
+- Swap `(1,2)` -> `2 -> 1 -> 3 -> 4`
+- Move `prev` to `1`
+- Swap `(3,4)` -> `2 -> 1 -> 4 -> 3`
+
+Result: `2 -> 1 -> 4 -> 3`
+
+### Code Breakdown
+
+```python
+dummy = ListNode(next=head)
+prev = dummy
+while prev.next and prev.next.next:
+    first = prev.next
+    second = prev.next.next
+    prev.next, first.next, second.next = second, second.next, first
+    prev = first
+return dummy.next
+```
+
+Tuple assignment performs the three pointer updates cleanly.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Swaps are local and do not disturb already-processed prefix
+- Dummy node handles head swaps uniformly
+- Each node is visited constant times -> O(n) time, O(1) space
 
 
 ## Complexity

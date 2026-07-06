@@ -87,25 +87,36 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Monotonic Deque of Indices
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It employs a **Sliding Window** to track a contiguous subset of elements.
+Use a deque storing indices in decreasing order of values.
 
-### Intuition
-
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
-
-### Algorithm
-
-1. **Initialize result container**: Create list to store the answer
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+For each index `i`:
+1. Remove front indices outside current window `[i-k+1, i]`
+2. Remove back indices with smaller/equal values than `nums[i]`
+3. Append `i`
+4. Once window size reaches `k`, max is at deque front
 
 ### Why This Works
 
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Deque front always points to largest value still inside the window.
+Removing smaller back elements is safe because they can never be max while current larger element remains.
+
+### Code Core
+
+```python
+if max_deque and max_deque[0] < i - k + 1:
+    max_deque.popleft()
+while max_deque and nums[max_deque[-1]] <= nums[i]:
+    max_deque.pop()
+max_deque.append(i)
+if i >= k - 1:
+    res.append(nums[max_deque[0]])
+```
+
+### Complexity Insight
+
+Each index is pushed and popped at most once, so total operations are linear.
 
 
 ## Complexity

@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Array", "String", "Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"]
 patterns: ["Topological Sort", "Kahn's Algorithm", "BFS", "In-degree"]
 timeComplexity: "O(C)"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(U + E)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -86,31 +86,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Build Graph + Kahn's Topological Sort
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Treat each character as a node in a directed graph. When two adjacent words first differ at characters `c1` and `c2`, we know `c1` must come before `c2`, so we add an edge `c1 -> c2`. Once all ordering rules are collected, run topological sort to produce a valid alphabet order.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The given word list is already sorted in the alien language. That means every adjacent pair of words gives us local ordering information. The **first differing character** is the only one that matters, because later characters do not affect lexicographic order once an earlier difference is found.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+1. Initialize `in_degree` for every character that appears in the input
+2. Compare each neighboring pair of words
+3. If a longer word appears before its own prefix, return `""` because the order is invalid
+4. Find the first differing characters and add a directed edge if it is new
+5. Push all zero-indegree characters into a queue
+6. Repeatedly pop from the queue, append to the answer, and reduce indegrees of neighbors
+7. If not all characters are emitted, a cycle exists, so return `""`
+
+### Code Breakdown
+
+- `graph = defaultdict(set)`: adjacency list for precedence rules
+- `in_degree = {char: 0 ...}`: counts how many prerequisites each character has
+- `if len(word1) > len(word2) and word1.startswith(word2)`: catches invalid prefix ordering
+- `if c2 not in graph[c1]`: avoids double-counting the same edge
+- `queue = [char for char in in_degree if in_degree[char] == 0]`: starting characters with no prerequisites
+- `return ''.join(result) if len(result) == len(in_degree) else ''`: detects cycles
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Adjacent words capture all necessary ordering constraints
+- Topological sort returns an order that respects every directed edge
+- Invalid prefix cases are rejected immediately
+- Cycles prevent a full topological ordering, so returning `""` is correct
 
 
 ## Complexity
 
 - **Time**: `O(C)`
-- **Space**: `O(1)`
+- **Space**: `O(U + E)`
 
 
 ## Similar Problems

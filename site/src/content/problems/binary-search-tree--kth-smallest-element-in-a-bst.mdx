@@ -79,25 +79,40 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Iterative Inorder Traversal
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+In a BST, inorder traversal visits nodes in ascending order.
+So the k-th visited node in inorder is exactly the k-th smallest.
 
-### Intuition
+This implementation uses an explicit stack to simulate recursion.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Traversal Process
 
-### Algorithm
+1. Push all left descendants
+2. Pop one node (next smallest)
+3. Decrement `k`
+4. If `k == 0`, return this node's value
+5. Move to right subtree and repeat
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+### Code Breakdown
+
+```python
+while True:
+    while root:
+        stack.append(root)
+        root = root.left
+    root = stack.pop()
+    k -= 1
+    if k == 0:
+        return root.val
+    root = root.right
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- BST inorder order is sorted by definition
+- Stack maintains path to next smallest unvisited node
+- Stops as soon as k-th element is found
 
 
 ## Complexity

@@ -69,24 +69,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Transpose and Reverse
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution rotates the matrix in place by first transposing it across the main diagonal and then reversing each row.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+A 90-degree clockwise rotation can be decomposed into two simpler transformations: transpose the matrix so rows become columns, then reverse each row. Together, those two operations move every element to its rotated position without needing extra matrix storage.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the upper triangle of the matrix, including the diagonal.
+2. Swap `matrix[i][j]` with `matrix[j][i]` to transpose the matrix in place.
+3. Reverse every row.
+4. Finish with the rotated matrix stored in the original input.
+
+### Code Breakdown
+
+The nested swap loop only visits positions where `j >= i`, so each symmetric pair is transposed exactly once. After that, `reverse()` on every row completes the clockwise rotation
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Transpose effect:** Swapping across the main diagonal converts rows into columns.
+- **Row reversal effect:** Reversing each transposed row shifts entries into their clockwise-rotated positions.
+- **In-place transformation:** Both steps mutate the existing matrix, satisfying the space constraint.
 
 
 ## Complexity

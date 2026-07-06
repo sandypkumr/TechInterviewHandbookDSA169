@@ -74,25 +74,57 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Prefix-Suffix Product (Without Division)
 
-It uses the **Two Pointers** technique to efficiently search through the data. It employs a **Sliding Window** to track a contiguous subset of elements.
+For each index `i`, the answer is:
 
-### Intuition
+`product of elements to the left of i` × `product of elements to the right of i`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+So we do two passes:
+1. Left to right: store left product in `res[i]`
+2. Right to left: multiply `res[i]` by right product
 
-### Algorithm
+This avoids division and works correctly even with zeros.
 
-1. **Iterate through elements**: Process each element systematically
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+### Step-by-Step Walkthrough
+
+**Input:** `nums = [1,2,3,4]`
+
+Initialize `res = [1,1,1,1]`, `left = 1`, `right = 1`
+
+First pass (left products):
+- `i=0`: `res[0] *= 1` -> 1, `left *= 1` -> 1
+- `i=1`: `res[1] *= 1` -> 1, `left *= 2` -> 2
+- `i=2`: `res[2] *= 2` -> 2, `left *= 3` -> 6
+- `i=3`: `res[3] *= 6` -> 6
+
+Now `res = [1,1,2,6]` (products to the left)
+
+Second pass (right products, merged in same loop in this code):
+- Multiply each `res[i]` by product of elements to its right
+- Final `res = [24,12,8,6]`
+
+### Code Breakdown
+
+```python
+res = [1] * n
+left, right = 1, 1
+for i in range(n):
+    res[i] *= left
+    res[n - 1 - i] *= right
+    left *= nums[i]
+    right *= nums[n - 1 - i]
+```
+
+- `res[i] *= left`: inject prefix product
+- `res[n-1-i] *= right`: inject suffix product
+- `left` and `right` are rolling products
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every index gets exactly `left_product * right_product`
+- No division, so zero-cases are naturally handled
+- Single loop with two rolling products gives O(n) time and O(1) extra space
 
 
 ## Complexity

@@ -95,23 +95,59 @@ class LRUCache:
 
 ## Explanation
 
-### Approach
+### Approach: OrderedDict (Hash Map + Doubly Linked List)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This solution uses **OrderedDict** to implement an LRU (Least Recently Used) cache. OrderedDict maintains insertion order while providing O(1) hash map lookups and the ability to move items to the end.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**The Challenge:** We need O(1) operations for both `get` and `put`, and we need to track which item was used least recently.
 
-### Algorithm
+**The Solution:** Use a hash map for O(1) access + an ordering mechanism to track recency. OrderedDict provides both:
+- Fast key lookups (hash map)
+- Maintains access order (doubly linked list underneath)
 
-1. **Return result**: Output the computed answer
+**Key Idea:** When an item is accessed (get or put with existing key), move it to the end (most recently used). When we exceed capacity, remove from the beginning (least recently used).
+
+### Step-by-Step Walkthrough
+
+Example: LRUCache(2) with operations [put(1,1), put(2,2), get(1), put(3,3), get(2)]
+
+```
+put(1,1):  cache = {1: 1}                (1 is most recent)
+put(2,2):  cache = {1: 1, 2: 2}          (2 is most recent)
+get(1):    cache = {2: 2, 1: 1}          (1 moved to end = most recent)
+put(3,3):  cache = {1: 1, 3: 3}          (2 evicted - was least recent)
+get(2):    returns -1                     (2 was evicted)
+```
+
+### Code Breakdown
+
+```python
+def get(self, key: int) -> int:
+    if key in self.cache:
+        self.cache.move_to_end(key)      # Move to end = mark as recently used
+        return self.cache[key]
+    return -1
+```
+**Get operation:** If key exists, mark it as recently used by moving to end, then return value.
+
+```python
+def put(self, key: int, value: int) -> None:
+    if key in self.cache:
+        self.cache.move_to_end(key)       # Update existing = mark as recent
+    elif len(self.cache) == self.capacity:
+        self.cache.popitem(last=False)    # Remove from beginning = LRU
+    self.cache[key] = value
+```
+**Put operation:** If at capacity, evict LRU (first item). Update or insert the key-value pair.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **OrderedDict Properties:** Maintains both O(1) hash lookups and insertion order tracking
+- **O(1) Operations:** Both get and put are O(1) with OrderedDict
+- **Correct LRU:** Most recently used items stay at the end; least recently used at the beginning
+- **Elegant Solution:** Avoids manually managing a doubly linked list + hash map combination
 
 
 ## Complexity

@@ -89,24 +89,42 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Floyd's Tortoise and Hare
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Use two pointers:
+- `slow` moves 1 step
+- `fast` moves 2 steps
 
-### Intuition
-
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
-
-### Algorithm
-
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+If there is a cycle, `fast` eventually laps `slow` and they meet.
+If there is no cycle, `fast` reaches `None` first.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Inside a cycle, relative speed is 1 node per iteration (`2 - 1`), so distance between pointers shrinks modulo cycle length until collision.
+
+### Step-by-Step Intuition
+
+- No cycle: list ends, so `fast` or `fast.next` becomes `None` -> return `False`
+- Has cycle: both pointers enter cycle; faster pointer catches slower -> return `True`
+
+### Code Breakdown
+
+```python
+slow = fast = head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow is fast:
+        return True
+return False
+```
+
+Using `is` is appropriate because we compare node identity, not value.
+
+### Why This is Optimal
+
+- Time O(n): each pointer traverses at most linear nodes before decision
+- Space O(1): no hash set needed (compared to visited-node approach)
 
 
 ## Complexity

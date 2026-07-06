@@ -87,25 +87,36 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS + Memoization (DP per Cell)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Let `dfs(r,c)` be the longest increasing path length starting from cell `(r,c)`.
 
-### Intuition
+Transition:
+- from `(r,c)`, move to neighbors with strictly larger value
+- best path = `1 + max(dfs(neighbor))`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Because many DFS paths revisit the same cell, memoization table `cache` stores computed results and avoids recomputation.
 
-### Algorithm
+### Code Core
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+```python
+if cache[row][col]:
+    return cache[row][col]
+for dx, dy in directions:
+    new_row, new_col = row + dx, col + dy
+    if 0 <= new_row < rows and 0 <= new_col < cols and matrix[new_row][new_col] > matrix[row][col]:
+        cache[row][col] = max(cache[row][col], dfs(new_row, new_col))
+cache[row][col] += 1
+return cache[row][col]
+```
+
+Final answer is max `dfs(i,j)` across all cells.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Increasing-edge relation forms an acyclic dependency graph
+- Each cell is solved once and reused via cache
+- Gives O(m*n) time instead of exponential DFS branching
 
 
 ## Complexity

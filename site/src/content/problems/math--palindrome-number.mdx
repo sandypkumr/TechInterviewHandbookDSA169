@@ -70,23 +70,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Digit Reversal
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution reverses digits one by one and rebuilds the result while preserving sign constraints.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Negative numbers cannot be palindromes because of the leading minus sign. For non-negative numbers, the simplest way to test symmetry is to convert the value to a string and compare it with its reversed version.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. If `x` is negative, return `False` immediately.
+2. Convert `x` to a string.
+3. Reverse that string.
+4. Return whether the original and reversed strings are equal.
+
+### Code Breakdown
+
+The implementation uses Python slicing `[::-1]` to build the reversed digit string in one expression, then converts it back to an integer for comparison with the original number.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Palindrome definition:** A number is a palindrome exactly when its digit sequence reads the same forward and backward.
+- **Negative-number exclusion:** The minus sign makes any negative value asymmetric.
+- **Direct symmetry check:** Reversing the digit string gives a straightforward test of that forward/backward equality.
 
 
 ## Complexity

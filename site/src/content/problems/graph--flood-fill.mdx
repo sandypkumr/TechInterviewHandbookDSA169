@@ -91,23 +91,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Region Fill on Grid
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Start from `(sr, sc)` and recolor all connected cells having the original start color.
+Connectivity is 4-directional (up/down/left/right).
 
-### Intuition
+Optimization:
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+```python
+if image[sr][sc] == color:
+    return image
+```
 
-### Algorithm
+If target color equals original color, no work is needed and recursion can be skipped.
 
-1. **Return result**: Output the computed answer
+### Recursive Fill Rule
+
+For cell `(r,c)`:
+- stop if out of bounds
+- stop if cell color is not initial color
+- recolor cell
+- recurse to 4 neighbors
+
+### Code Core
+
+```python
+if sr < 0 or sc < 0 or sr >= len(image) or sc >= len(image[0]) or image[sr][sc] != initial_color:
+    return
+image[sr][sc] = color
+self.fill(image, sr + 1, sc, initial_color, color)
+self.fill(image, sr - 1, sc, initial_color, color)
+self.fill(image, sr, sc + 1, initial_color, color)
+self.fill(image, sr, sc - 1, initial_color, color)
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- DFS visits exactly the connected component of the starting color
+- Each cell is recolored at most once
+- Ensures complete fill and correct stopping at boundaries/different colors
 
 
 ## Complexity

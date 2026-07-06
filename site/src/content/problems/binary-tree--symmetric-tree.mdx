@@ -77,24 +77,42 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Mirror DFS (Pairwise Comparison)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+A tree is symmetric if its left and right subtrees are mirror images.
 
-### Intuition
+Mirror condition for two nodes `p` and `q`:
+1. both null -> symmetric at this branch
+2. one null -> not symmetric
+3. values equal
+4. `p.left` mirrors `q.right` and `p.right` mirrors `q.left`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Code Logic
 
-### Algorithm
+```python
+if p is None and q is None:
+    return True
+if p is None or q is None:
+    return False
+if p.val != q.val:
+    return False
+return check(p.left, q.right) and check(p.right, q.left)
+```
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+Initial call is `check(root, root)` so each side is compared with its mirror counterpart.
+
+### Step-by-Step Intuition
+
+For `[1,2,2,3,4,4,3]`:
+- compare `(2,2)` -> equal
+- compare `(3,3)` and `(4,4)` in mirrored positions -> equal
+- all mirrored pairs match -> symmetric
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Recursion enforces mirror relation at every depth
+- Any structural/value mismatch is caught immediately
+- Each node participates in constant-time checks -> O(n) time
 
 
 ## Complexity

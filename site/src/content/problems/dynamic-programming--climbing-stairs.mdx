@@ -71,24 +71,59 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Fibonacci-Style Dynamic Programming
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Let `ways[i]` be the number of ways to reach step `i`.
 
-### Intuition
+To reach step `i`, your last move must be either:
+- from `i-1` (take 1 step), or
+- from `i-2` (take 2 steps)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+So recurrence is:
 
-### Algorithm
+`ways[i] = ways[i-1] + ways[i-2]`
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+This is exactly Fibonacci-style DP.
+
+### Step-by-Step Example
+
+For `n = 5`:
+
+- `ways[1] = 1`
+- `ways[2] = 2`
+- `ways[3] = 3`
+- `ways[4] = 5`
+- `ways[5] = 8`
+
+Answer is `8`.
+
+### Why This Code Uses O(1) Space
+
+We only need the previous two states at any point, so no full DP array is required.
+
+### Code Breakdown
+
+```python
+if n == 1:
+    return 1
+first = 1    # ways to reach step 1
+second = 2   # ways to reach step 2
+for i in range(3, n + 1):
+    third = first + second
+    first = second
+    second = third
+return second
+```
+
+- `first` = `ways[i-2]`
+- `second` = `ways[i-1]`
+- `third` = `ways[i]`
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Correct recurrence from problem structure (last jump 1 or 2)
+- Bottom-up iteration guarantees all dependencies are ready
+- O(n) time and O(1) extra space
 
 
 ## Complexity

@@ -87,26 +87,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Greedy Algorithm
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems. The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution uses a **Greedy** strategy to make locally optimal decisions that lead to the global optimum.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+The task with the highest frequency determines the skeleton of the schedule. If the most frequent task appears `max_count` times, then those occurrences create `max_count - 1` gaps that each need at most `n` cooldown slots. Other tasks can be used to fill those gaps, and any leftover gaps become idle time.
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Count the frequency of every task.
+2. Sort the counts so the most frequent task is last.
+3. Compute the initial number of idle slots created by the most frequent task: `(max_count - 1) * n`.
+4. Use the remaining task frequencies to fill those idle slots, then return `len(tasks) + max(0, idle_slots)`.
+
+### Code Breakdown
+
+`max_task` represents the number of full gaps between repeated occurrences of the most frequent task. For every other task count, the code subtracts how many of those gaps it can fill, up to `max_task`, because each task can contribute at most one occurrence per gap.
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Dominant-task constraint:** No schedule can avoid the spacing forced by the most frequent task.
+- **Gap-filling logic:** Any other task placed into those gaps reduces necessary idle time without violating cooldowns.
+- **Exact final length:** If all gaps are filled, the answer is just the task count; otherwise the remaining gaps are unavoidable idle intervals.
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

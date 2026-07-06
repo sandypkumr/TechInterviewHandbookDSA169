@@ -85,24 +85,51 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: One-Pass Two Pointers with n+1 Gap
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Use a dummy head and two pointers (`slow`, `fast`) starting from dummy.
 
-### Intuition
+1. Move `fast` ahead by `n+1` steps
+2. Move both pointers together until `fast` hits `None`
+3. `slow` now points to node before the one to remove
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Then bypass target node with `slow.next = slow.next.next`.
 
-### Algorithm
+### Why Dummy Node Matters
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+If we must remove the original head, dummy makes it a normal pointer-relink case with no special condition.
+
+### Step-by-Step Example
+
+Input: `[1,2,3,4,5]`, `n=2`
+
+- Start at dummy -> `0 -> 1 -> 2 -> 3 -> 4 -> 5`
+- Advance `fast` by 3 steps (`n+1`)
+- Move both until `fast` is `None`
+- `slow` stops at node `3` (just before node `4`, which is 2nd from end)
+- Relink: `3.next = 5`
+
+Result: `[1,2,3,5]`
+
+### Code Breakdown
+
+```python
+dummy = ListNode(next=head)
+slow = fast = dummy
+for _ in range(n + 1):
+    fast = fast.next
+while fast:
+    slow = slow.next
+    fast = fast.next
+slow.next = slow.next.next
+return dummy.next
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Fixed `n+1` gap guarantees when `fast` ends, `slow` is exactly before target
+- Single traversal after setup
+- O(n) time, O(1) extra space
 
 
 ## Complexity

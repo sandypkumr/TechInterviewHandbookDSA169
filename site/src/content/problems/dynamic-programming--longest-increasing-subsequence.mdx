@@ -77,25 +77,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+This solution uses **Dynamic Programming** to build answers from smaller subproblems and avoid recomputation.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+Let `dp[i]` be the length of the longest increasing subsequence that **ends** at index `i`. Every element can at least form a subsequence of length `1` by itself. To extend a subsequence, look at every earlier index `j < i`; if `nums[j] < nums[i]`, then `nums[i]` can be appended to the subsequence ending at `j`.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return `0` immediately if the array is empty.
+2. Initialize `dp` with all `1`s, since each number is an increasing subsequence of length `1` on its own.
+3. For each index `i`, scan all earlier indices `j`. If `nums[i] > nums[j]`, update `dp[i] = max(dp[i], dp[j] + 1)`.
+4. Return the maximum value in `dp`, which is the best subsequence length ending anywhere in the array.
+
+### Code Breakdown
+
+The nested loops compare each element with all earlier elements. The inner loop computes the best increasing subsequence that can be extended by `nums[i]`, and the outer loop ensures those earlier answers are already known before they are used.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Accurate state:** `dp[i]` captures exactly the best increasing subsequence ending at `i`.
+- **Complete transition:** Checking every earlier `j` guarantees we consider every valid predecessor for `nums[i]`.
+- **Global answer:** The longest subsequence may end at any index, so taking `max(dp)` gives the final result.
 
 
 ## Complexity

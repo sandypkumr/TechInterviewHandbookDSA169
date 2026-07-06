@@ -64,24 +64,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map Lookup
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+This solution uses a **hash map** to store mappings and achieve O(1) lookup time for values or conversions.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The ransom note is constructible only if the magazine contains each required character at least as many times. Counting both strings gives us those frequencies directly, and subtracting the magazine counts from the ransom note counts reveals whether anything is still missing.
 
 ### Algorithm
 
-1. **Update hash map**: Store elements for future lookups
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Build a `Counter` for `ransomNote`.
+2. Build a `Counter` for `magazine`.
+3. Subtract the magazine counts from the ransom-note counts.
+4. Return whether the subtraction leaves no positive counts behind.
+
+### Code Breakdown
+
+`Counter(ransomNote) - Counter(magazine)` keeps only characters whose required count is still positive after using the magazine letters. If that result is empty, the magazine covers every needed character
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Frequency matching:** A character can be used only as many times as it appears in `magazine`.
+- **Counter subtraction semantics:** Any leftover entry means the ransom note needs more of that character than the magazine provides.
+- **Direct decision:** An empty remainder is exactly the condition for successful construction.
+
 
 
 ## Complexity

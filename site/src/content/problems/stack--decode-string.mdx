@@ -83,24 +83,56 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Character Stack + Expand on `]`
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Push characters onto a stack until we see `]`.
+When `]` appears:
+1. Pop characters until `[` to get current substring
+2. Pop digits before `[` to get repeat count
+3. Push `count * substring` back as one chunk
 
-### Intuition
+Nested structures work naturally because inner `]` resolves first.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `"3[a2[c]]"`
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+- Read `3`, `[`, `a`, `2`, `[`, `c`
+- On first `]`:
+  - pop until `[` -> `"c"`
+  - pop number -> `2`
+  - push `"cc"`
+- Stack now represents `3[a cc]`
+- On second `]`:
+  - pop until `[` -> `"acc"`
+  - pop number -> `3`
+  - push `"accaccacc"`
+
+Final join -> `"accaccacc"`.
+
+### Code Breakdown
+
+```python
+if char == ']':
+    substr = ''
+    while stack[-1] != '[':
+        substr = stack.pop() + substr
+    stack.pop()  # remove '['
+
+    num = ''
+    while stack and stack[-1].isdigit():
+        num = stack.pop() + num
+
+    stack.append(int(num) * substr)
+else:
+    stack.append(char)
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each closed bracket resolves exactly one encoded block
+- LIFO order ensures inner blocks decode before outer blocks
+- Valid input guarantee makes parsing deterministic
 
 
 ## Complexity

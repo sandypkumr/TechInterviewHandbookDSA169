@@ -48,50 +48,61 @@ Output: ["a","b","c"]
 
 ## Solution
 
-```python
-from typing import List
-
-
-class Solution:
-    def letterCombinations(self, digits: str) -> List[str]:
-        def backtrack(start, path):
-            if start == len(digits):
-                res.append(path)
-                return
-            for c in phone[digits[start]]:
-                backtrack(start + 1, path + c)
-
-        if not digits:
-            return []
-        phone = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
-        res = []
-        backtrack(0, '')
-        return res
-```
-
-
 ## Explanation
 
-### Approach
+### Approach: Backtracking by Digit Index
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Each digit maps to several letters (phone keypad). We choose one letter per digit in order.
 
-### Intuition
+Recursive state:
+- `start`: current digit index
+- `path`: built string so far
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+When `start == len(digits)`, one full combination is complete.
 
-### Algorithm
+### Example (`"23"`)
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize result container**: Create list to store the answer
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+- digit `2` -> `a,b,c`
+- for each, append one of digit `3` -> `d,e,f`
+
+Outputs: `ad, ae, af, bd, be, bf, cd, ce, cf`.
+
+### Code Core
+
+```python
+for c in phone[digits[start]]:
+    backtrack(start + 1, path + c)
+```
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Recursion explores Cartesian product of letter sets across digit positions
+- Every valid combination appears once
+- Empty input handled directly by returning `[]`
+When `start == len(digits)`, one full combination is complete.
+
+### Example (`digits = "23"`)
+
+- digit `2` -> `a,b,c`
+- for each, combine with digit `3` -> `d,e,f`
+
+Produces:
+`ad, ae, af, bd, be, bf, cd, ce, cf`
+
+### Code Core
+
+```python
+for c in phone[digits[start]]:
+    backtrack(start + 1, path + c)
+```
+
+`phone` dictionary provides letter options for each digit.
+
+### Why This Works
+
+- Recursion explores Cartesian product of letter sets by position
+- Every valid combination is generated exactly once
+- Empty input handled explicitly with `return []`
 
 
 ## Complexity

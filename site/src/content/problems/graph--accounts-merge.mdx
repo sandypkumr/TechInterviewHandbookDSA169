@@ -90,27 +90,39 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Build Email-to-Account Graph, Then DFS Components
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It uses a **Set** for fast membership testing and duplicate detection. The algorithm starts by **sorting** the input to enable more efficient processing.
+Interpret each account index as a graph node.
+Two account nodes are connected if they share at least one email.
 
-### Intuition
+Implementation trick:
+- build `email_to_index[email] -> list of account indices`
+- during DFS from account `k`, for each email in that account, jump to all account indices sharing that email
 
-The key insight is to trade space for time. By storing elements in a hash map as we iterate, we can check for required values in constant time rather than repeatedly scanning the array.
+Each DFS traversal finds one connected component = one merged person.
 
-### Algorithm
+### Steps
 
-1. **Initialize result container**: Create list to store the answer
-2. **Iterate through elements**: Process each element systematically
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+1. Build `email_to_index`
+2. DFS over account indices with `visited`
+3. Collect all emails in current component into a set
+4. Sort emails and prepend name
+
+### Code Core
+
+```python
+for cur_email in accounts[k][1:]:
+    emails.add(cur_email)
+    for j in email_to_index[cur_email]:
+        if not visited[j]:
+            dfs(j)
+```
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Shared-email relation is transitive, and connected components model exactly that merge rule
+- DFS explores all accounts belonging to one person
+- Sorting collected emails gives required output format
 
 
 ## Complexity

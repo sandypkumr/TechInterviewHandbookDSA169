@@ -74,25 +74,31 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming with Min-Max Tracking (Kadane Variant)
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **modified Kadane's algorithm** that tracks both maximum and minimum products ending at each position. Unlike the standard Kadane's algorithm for sum, we need the minimum because a negative number can flip a large negative product into a large positive product.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Key Insight:** The maximum product at position i could be:
+1. The product ending at i-1 multiplied by nums[i]
+2. nums[i] itself (restart)
+3. The MINIMUM product at i-1 multiplied by nums[i] (negative × negative = positive!)
+
+Unlike with sums, we must track both max and min because negatives matter.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+1. Track both `max_prod` and `min_prod` ending at current position
+2. Calculate new candidates: `num`, `num × max_prod`, `num × min_prod`
+3. Update max_prod and min_prod to the best candidates
+4. Track the global maximum
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Handles Negatives:** By tracking minimums, we can leverage negative × negative = positive
+- **O(n) Time:** Single pass through array
+- **Kadane Variant:** Extends Kadane's algorithm for products instead of sums
 
 
 ## Complexity

@@ -87,34 +87,30 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Backtracking from Every Cell
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Try each board cell as a start position and run DFS to match `word[k]`.
 
-### Intuition
+At DFS `(i, j, k)`:
+- fail if out of bounds or character mismatch
+- succeed if `k` is last index and current char matches
+- otherwise temporarily mark current cell as used, explore 4 directions for `k+1`, then restore cell
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why Mark-and-Restore Works
 
-### Algorithm
+The same cell cannot be reused within one path. The code marks visited cell as `'/'`, explores recursively, then restores original character so other paths can use it.
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+### Code Core
+
+```python
+tmp, board[i][j] = board[i][j], '/'
+res = dfs(i + 1, j, k + 1) or dfs(i - 1, j, k + 1) or dfs(i, j + 1, k + 1) or dfs(i, j - 1, k + 1)
+board[i][j] = tmp
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- DFS explores all valid adjacent paths
+- Backtracking enforces no-reuse constraint while preserving board for other starts
+- Outer loops ensure we test every possible starting cell
 
-
-## Complexity
-
-- **Time**: `O(m×n×4^L)`
-- **Space**: `O(L)`
-
-
-## Similar Problems
-
-- [Word Search Ii](/TechInterviewHandbookDSA169/problems/word-search-ii)
-- [Word Ladder](/TechInterviewHandbookDSA169/problems/word-ladder)

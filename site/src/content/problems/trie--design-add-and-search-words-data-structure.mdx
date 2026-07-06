@@ -91,24 +91,42 @@ class WordDictionary:
 
 ## Explanation
 
-### Approach
+### Approach: Trie for Storage + DFS for Wildcard Search
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+`addWord` inserts characters into nested dictionaries (trie nodes), and marks end-of-word with `'$'`.
 
-### Intuition
+`search` uses DFS over trie states:
+- normal character: follow one matching child
+- wildcard `'.'`: branch to all character children (except end marker)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Add Operation
 
-### Algorithm
+```python
+node = self.trie
+for char in word:
+    if char not in node:
+        node[char] = {}
+    node = node[char]
+node['$'] = True
+```
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+### Search Operation
+
+```python
+if i == len(word):
+    return '$' in node
+if word[i] == '.':
+    return any(dfs(i + 1, node[char]) for char in node if char != '$')
+if word[i] not in node:
+    return False
+return dfs(i + 1, node[word[i]])
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Trie shares prefixes, making exact-character traversal efficient
+- DFS branching handles wildcard positions correctly
+- End marker ensures only complete words match, not just prefixes
 
 
 ## Complexity

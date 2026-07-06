@@ -72,24 +72,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Fast and Slow Pointers
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Use two pointers starting at head:
+- `slow` moves 1 step
+- `fast` moves 2 steps
 
-### Intuition
+When `fast` reaches the end, `slow` is at the middle.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why It Returns the Second Middle
 
-### Algorithm
+For even-length list, `fast` becomes `None` after `slow` has advanced `n/2` times, landing on the second middle.
+This matches the problem requirement.
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+### Step-by-Step Example
 
-### Why This Works
+Input: `1 -> 2 -> 3 -> 4 -> 5 -> 6`
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- start: slow=1, fast=1
+- step1: slow=2, fast=3
+- step2: slow=3, fast=5
+- step3: slow=4, fast=None (stop)
+
+Return node `4` (second middle of `3` and `4`).
+
+### Code Breakdown
+
+```python
+slow = fast = head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+return slow
+```
+
+### Why This is Optimal
+
+- One traversal: O(n)
+- Constant extra memory: O(1)
+- No need to count length first
 
 
 ## Complexity

@@ -99,25 +99,45 @@ class Codec:
 
 ## Explanation
 
-### Approach
+### Approach: Preorder Serialization with `None` Markers
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+The codec uses preorder DFS (`root,left,right`) and writes `'None'` for null children.
+These null markers are essential so structure can be reconstructed exactly.
 
-### Intuition
+Serialization format example:
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Tree `1 / \ 2 3` becomes:
+`1,2,None,None,3,None,None`
 
-### Algorithm
+### Serialize Logic
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+```python
+def dfs(node):
+    if not node:
+        return 'None'
+    return str(node.val) + ',' + dfs(node.left) + ',' + dfs(node.right)
+```
+
+### Deserialize Logic
+
+Split string by commas, consume values in order using an iterator.
+
+```python
+val = next(values)
+if val == 'None':
+    return None
+node = TreeNode(int(val))
+node.left = dfs()
+node.right = dfs()
+```
+
+Because deserialize consumes tokens in the same preorder sequence used by serialize, tree is reconstructed exactly.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Preorder provides deterministic node visitation order
+- `None` markers preserve missing-child positions
+- Iterator consumption ensures one-pass rebuild in matching order
 
 
 ## Complexity

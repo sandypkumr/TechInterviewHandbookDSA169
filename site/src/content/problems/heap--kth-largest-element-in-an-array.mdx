@@ -8,8 +8,8 @@ leetcodeUrl: "https://leetcode.com/problems/kth-largest-element-in-an-array"
 githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/master/src/heap/kth_largest_element_in_an_array.py"
 tags: ["Array", "Divide and Conquer", "Sorting", "Heap", "Quickselect"]
 patterns: ["Min Heap", "Quickselect"]
-timeComplexity: "O(n log k)"
-spaceComplexity: "O(k)"
+timeComplexity: "O(n + R)"
+spaceComplexity: "O(R)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -68,30 +68,50 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Counting Array (Bucket by Value Range)
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This implementation does **not** use a heap. It uses frequency counting across the value range.
 
-### Intuition
+Steps:
+1. Find `min_val` and `max_val`
+2. Build `count` array where `count[x - min_val]` is frequency of value `x`
+3. Iterate values from `max_val` downward, subtracting frequencies from `k`
+4. The first value where `k <= 0` is the k-th largest
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `nums=[3,2,1,5,6,4]`, `k=2`
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+- Value range: 1..6
+- Frequencies: `1:1, 2:1, 3:1, 4:1, 5:1, 6:1`
 
-### Why This Works
+Walk from high to low:
+- at `6`: `k = 2 - 1 = 1`
+- at `5`: `k = 1 - 1 = 0` -> return `5`
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Answer is `5`.
+
+### Code Breakdown
+
+```python
+min_val, max_val = min(nums), max(nums)
+count = [0] * (max_val - min_val + 1)
+for num in nums:
+    count[num - min_val] += 1
+
+for i in range(max_val, min_val - 1, -1):
+    k -= count[i - min_val]
+    if k <= 0:
+        return i
+```
+
+Offset `num - min_val` maps possibly negative values into valid indices.
 
 
 ## Complexity
 
-- **Time**: `O(n log k)`
-- **Space**: `O(k)`
+- **Time**: `O(n + R)` where `R = max(nums) - min(nums) + 1`
+- **Space**: `O(R)`
 
 
 ## Similar Problems

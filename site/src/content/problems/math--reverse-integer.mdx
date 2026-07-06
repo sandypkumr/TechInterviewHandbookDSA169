@@ -74,24 +74,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Digit Reversal
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution reverses digits one by one and rebuilds the result while preserving sign constraints.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Peel the digits off from right to left and append them to a new number from left to right. After reversing, restore the original sign and reject the result if it falls outside the 32-bit signed integer range.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return `0` immediately if the input is `0`.
+2. Save the sign, then work with the absolute value of `x`.
+3. Repeatedly extract the last digit with `% 10` and append it to `res` using `res = res * 10 + digit`.
+4. Reapply the sign and return `0` if the reversed value is outside the 32-bit signed range; otherwise return it.
+
+### Code Breakdown
+
+The loop consumes one digit per iteration by using integer division to drop the last digit. The overflow check is performed after rebuilding the reversed value, matching the problem's requirement to return `0` when the reversed integer does not fit.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct digit order:** Taking digits from the end of `x` and appending them to `res` reconstructs the number in reverse.
+- **Sign preservation:** Separating and restoring the sign keeps negative and positive inputs consistent.
+- **Overflow safety:** The final bounds check ensures only valid 32-bit signed results are returned.
 
 
 ## Complexity

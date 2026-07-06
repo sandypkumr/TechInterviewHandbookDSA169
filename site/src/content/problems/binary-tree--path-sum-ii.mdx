@@ -88,26 +88,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Backtracking on Root-to-Leaf Paths
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+We traverse all root-to-leaf paths while carrying:
+- current `path`
+- remaining `target`
 
-### Intuition
+At each node:
+1. include node value in path
+2. subtract node value from remaining target
+3. if leaf and remaining target equals node value -> record path
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Then recurse to left and right children.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize result container**: Create list to store the answer
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Return result**: Output the computed answer
+For target `22` in example tree:
+- Path `5 -> 4 -> 11 -> 2` gives remaining `22-5-4-11-2 = 0` at leaf -> keep
+- Path `5 -> 8 -> 4 -> 5` also reaches 0 at leaf -> keep
+
+These become output paths.
+
+### Code Breakdown
+
+```python
+if not node.left and not node.right and node.val == target:
+    res.append(path + [node.val])
+    return
+
+dfs(node.left, path + [node.val], target - node.val)
+dfs(node.right, path + [node.val], target - node.val)
+```
+
+`path + [node.val]` creates independent path copies, avoiding shared-state bugs.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Enumerates every root-to-leaf path exactly once
+- Filters only paths whose sum matches `targetSum`
+- Time O(n) traversal with recursion stack O(h)
 
 
 ## Complexity

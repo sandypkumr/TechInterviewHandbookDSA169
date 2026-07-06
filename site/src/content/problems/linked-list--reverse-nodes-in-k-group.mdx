@@ -98,25 +98,47 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Process List in Blocks of k
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+The algorithm repeatedly:
+1. checks whether a full group of `k` nodes exists
+2. detaches that group
+3. reverses it
+4. reconnects it to previous/next parts
 
-### Intuition
+If fewer than `k` nodes remain, processing stops and tail stays unchanged.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Key Pointers
 
-### Algorithm
+- `prev`: node before current group
+- `tail`: walks ahead to confirm group size `k`
+- `next_group`: first node after current group
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+### Code Core
+
+```python
+tail = prev
+for _ in range(k):
+    tail = tail.next
+    if not tail:
+        return dummy.next
+
+next_group = tail.next
+tail.next = None
+tail = prev.next
+prev.next = self.reverse(prev.next)
+tail.next = next_group
+prev = tail
+```
+
+`self.reverse` performs standard in-place linked-list reversal.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each full group is reversed exactly once
+- Reconnection preserves overall list continuity
+- Incomplete final group is untouched as required
+- Overall O(n) time and O(1) extra space
 
 
 ## Complexity

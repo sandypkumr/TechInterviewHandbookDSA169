@@ -87,25 +87,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming + Binary Search
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems. The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution sorts jobs by end time, then combines **Dynamic Programming** with **binary search** to quickly find the best compatible previous job.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+If we process jobs in order of ending time, then for each job we only need to know the best profit achievable before its start time. The `dp` list stores pairs of `(end_time, best_profit_so_far)`, and binary search lets us jump directly to the last non-overlapping job instead of scanning backward.
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Zip and sort the jobs by their end time.
+2. Maintain `dp`, where each entry stores an end time and the maximum profit achievable up to that time.
+3. For each job `(s, e, p)`, binary search `dp` to find the latest entry whose end time is not greater than `s`, then compute the profit of taking this job.
+4. If that profit improves on the current best, append `(e, new_profit)` to `dp`, and return the best profit from the last entry.
+
+### Code Breakdown
+
+The sorted jobs guarantee that every compatible earlier profit is already represented in `dp`. The `bisect` call finds the best previously finished schedule in `O(log n)`, and the append happens only when the current job improves the global best.
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Optimal substructure:** The best schedule ending with a job equals that job's profit plus the best compatible profit before its start.
+- **Binary-search lookup:** Because `dp` is ordered by end time, the last compatible state can be found efficiently.
+- **Monotonic DP states:** Each appended entry improves the best profit so far, so `dp[-1][1]` is always the global optimum seen up to that point.
+- **Correctness:** The algorithm handles all edge cases and produces the expected output
+- **Optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

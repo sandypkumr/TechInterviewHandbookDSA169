@@ -91,24 +91,25 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Stack for Matching Parentheses
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **stack** to match opening and closing parentheses. Each opening bracket is pushed; each closing bracket pops and checks for a match.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Matching Property:** Each closing bracket must match the most recent unmatched opening bracket. This is exactly what a stack provides (LIFO).
 
-### Algorithm
-
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+**Algorithm:**
+1. Push opening brackets
+2. On closing bracket, pop and verify it matches
+3. Stack should be empty at the end
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **LIFO Order:** Stack ensures innermost brackets match first
+- **O(n) Time:** Process each character once
+- **O(n) Space:** Worst case all opening brackets
+- **Correctness:** Any valid bracket sequence requires matching in reverse order
 
 
 ## Complexity

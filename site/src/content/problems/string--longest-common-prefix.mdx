@@ -67,24 +67,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Vertical Scan with `zip`
 
-It uses a **Set** for fast membership testing and duplicate detection.
+Compare all strings character-by-character at the same index. Python's `zip(*strs)` groups the first characters together, then the second characters, and so on. As soon as one column contains different letters, the common prefix ends.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The common prefix can only extend while **every** string agrees at the current position. The first mismatch immediately tells us where to stop.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+1. If the input list is empty, return `""`
+2. Iterate through grouped character columns using `zip(*strs)`
+3. For each column, check whether all characters are the same
+4. If a mismatch appears at index `i`, return `strs[0][:i]`
+5. If every scanned column matches, the shortest string is the answer
+
+### Code Breakdown
+
+- `zip(*strs)`: groups together characters at the same position across all strings
+- `len(set(chars)) > 1`: detects the first mismatch in a column
+- `return strs[0][:i]`: returns the prefix before the mismatch
+- `return min(strs)`: if no mismatch appears, the shortest string is the full common prefix
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- A prefix is common only if every string matches in every prefix position
+- The first mismatching column is exactly where the longest common prefix ends
+- If no mismatch is found, only the shortest string can be the answer because `zip` stops there
 
 
 ## Complexity

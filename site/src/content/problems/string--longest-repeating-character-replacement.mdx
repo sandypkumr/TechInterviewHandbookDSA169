@@ -73,24 +73,31 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sliding Window with Frequency Tracking
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **sliding window** combined with a **frequency map** to find the longest substring with at most k character replacements.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Sliding Window Logic:** Maintain a window where `window_length - max_frequency ≤ k` (needed replacements).
+
+If the condition breaks, shrink from the left. The window always contains a valid substring.
+
+**Track:** Frequency of each character in current window.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+1. Expand window by moving right pointer
+2. Track character frequencies
+3. If `needed replacements > k`, shrink from left
+4. Update maximum length
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Valid Windows:** We maintain the invariant that window is always valid
+- **O(n) Time:** Each pointer moves once through string
+- **Greedy:** Always keep window as large as possible
+- **Frequency Count:** O(26) with constant size map for letters
 
 
 ## Complexity

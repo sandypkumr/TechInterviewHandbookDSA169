@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Two Pointers", "String"]
 patterns: ["Two Pointers"]
 timeComplexity: "O(n)"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(n)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -69,29 +69,44 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Normalize Then Compare with Reverse
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This implementation first builds a cleaned lowercase string containing only alphanumeric characters, then checks whether it equals its reverse.
 
-### Intuition
+### Step-by-Step Example
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Input: `"A man, a plan, a canal: Panama"`
 
-### Algorithm
+1. Filter alphanumeric only -> `"AmanaplanacanalPanama"`
+2. Lowercase -> `"amanaplanacanalpanama"`
+3. Compare with reverse:
+   - original: `amanaplanacanalpanama`
+   - reverse:  `amanaplanacanalpanama`
 
-1. **Return result**: Output the computed answer
+Equal -> palindrome (`true`).
+
+### Code Breakdown
+
+```python
+s = ''.join(filter(str.isalnum, s)).lower()
+return s == s[::-1]
+```
+
+- `filter(str.isalnum, s)`: keeps only letters/digits
+- `.lower()`: case-insensitive comparison
+- `s[::-1]`: reversed string
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Problem definition explicitly ignores case and non-alphanumeric chars
+- Normalization transforms input into canonical form
+- Palindrome check then becomes direct string equality vs reversed string
 
 
 ## Complexity
 
 - **Time**: `O(n)`
-- **Space**: `O(1)`
+- **Space**: `O(n)`
 
 
 ## Similar Problems

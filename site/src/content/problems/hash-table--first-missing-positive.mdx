@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Array", "Hash Table"]
 patterns: ["Index as Hash", "Cyclic Sort"]
 timeComplexity: "O(n)"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(n)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -73,30 +73,39 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash-based approach
 
-It uses a **Set** for fast membership testing and duplicate detection.
+This implementation converts the array into a set so membership checks become O(1) on average. Then it scans upward from `1` until it finds the first positive integer that is missing.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The first missing positive must lie in the range `1` through `len(nums) + 1`. After putting every number into a set, we can test each candidate in increasing order and return the first value that is absent.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+1. Convert `nums` into a set
+2. Check integers from `1` to `len(nums) + 1`
+3. Return the first value that is not in the set
+4. That value is the smallest missing positive
+
+### Code Breakdown
+
+- `nums = set(nums)`: enables fast membership checks
+- `for i in range(1, len(nums) + 2)`: covers every possible answer
+- `if i not in nums`: the first missing positive is found
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- All present positive values are recorded in the set
+- Scanning upward from `1` guarantees the first missing value is the smallest missing positive
+- The pigeonhole argument ensures the answer is never larger than `len(nums) + 1`
+- This implementation is simple and correct, though it uses extra space compared with the optimal in-place solution
 
 
 ## Complexity
 
 - **Time**: `O(n)`
-- **Space**: `O(1)`
+- **Space**: `O(n)`
 
 
 ## Similar Problems

@@ -75,24 +75,44 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash by Canonical Sorted Key
 
-The algorithm starts by **sorting** the input to enable more efficient processing.
+Two strings are anagrams if their sorted characters are identical.
+So for each string, build a canonical key `tuple(sorted(s))`, and group strings by that key in a hash map.
 
-### Intuition
+### Step-by-Step Example
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Input: `['eat','tea','tan','ate','nat','bat']`
 
-### Algorithm
+- `eat` -> key `('a','e','t')`
+- `tea` -> key `('a','e','t')`
+- `ate` -> key `('a','e','t')`
+  -> same bucket
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Return result**: Output the computed answer
+- `tan`, `nat` -> key `('a','n','t')`
+- `bat` -> key `('a','b','t')`
+
+Return all bucket values.
+
+### Code Breakdown
+
+```python
+anagrams = {}
+for s in strs:
+    key = tuple(sorted(s))
+    if key not in anagrams:
+        anagrams[key] = []
+    anagrams[key].append(s)
+return list(anagrams.values())
+```
+
+Tuple is used as hashable dictionary key.
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Canonical key ensures all and only anagrams map together
+- Hash map provides O(1) average insertion per string
+- Sorting dominates per-string cost: O(k log k)
 
 
 ## Complexity

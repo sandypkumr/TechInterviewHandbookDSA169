@@ -82,24 +82,40 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Recursive Structural Equality Check
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+Two trees are the same if all three conditions hold at every corresponding node:
+1. both nodes are null, or both are non-null
+2. values are equal
+3. left subtrees are same AND right subtrees are same
 
-### Intuition
+This naturally maps to recursion.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Base Cases
 
-### Algorithm
+- `p is None` and `q is None` -> `True`
+- exactly one is `None` -> `False`
+- values differ -> `False`
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+Otherwise recurse into children.
+
+### Code Breakdown
+
+```python
+if p is None and q is None:
+    return True
+if p is None or q is None:
+    return False
+if p.val != q.val:
+    return False
+return check(p.left, q.left) and check(p.right, q.right)
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Directly encodes definition of identical trees
+- Compares both structure and node values
+- Visits each paired node once -> O(n) time
 
 
 ## Complexity

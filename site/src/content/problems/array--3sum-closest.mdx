@@ -77,27 +77,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Two Pointers
 
-It uses the **Two Pointers** technique to efficiently search through the data. The algorithm starts by **sorting** the input to enable more efficient processing. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution sorts the input first, then uses the **Two Pointers** technique to converge efficiently.
 
 ### Intuition
 
-After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+After sorting, fixing one number turns the problem into finding two other numbers whose sum is as close as possible to `target - nums[i]`. Because the array is ordered, moving the left pointer increases the sum and moving the right pointer decreases it, which lets us improve the candidate efficiently.
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Iterate through elements**: Process each element systematically
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Sort the array so pointer movements have predictable effects on the sum.
+2. For each index `i`, place `left` at `i + 1` and `right` at the end of the array.
+3. Compute the current triplet sum, update `closest_sum` if this triplet is nearer to `target`, and then move the pointer that brings the sum closer.
+4. Continue until all anchors have been checked, then return the best triplet sum found.
+
+### Code Breakdown
+
+The outer loop chooses the first value of the triplet. The inner while loop explores all useful pairs for that fixed value without restarting from scratch, because the sorted order tells us exactly how a pointer move changes the total
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Sorted monotonicity:** Increasing `left` makes the sum larger, while decreasing `right` makes it smaller.
+- **Complete search per anchor:** For each fixed `i`, the two-pointer sweep considers every relevant pair in linear time.
+- **Best-so-far tracking:** Updating `closest_sum` whenever a better candidate appears guarantees the final answer is the closest triplet encountered.
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

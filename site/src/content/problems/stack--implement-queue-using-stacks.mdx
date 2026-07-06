@@ -111,25 +111,36 @@ class MyQueue:
 
 ## Explanation
 
-### Approach
+### Approach: Two Stacks (Input Stack + Output Stack)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This implementation uses:
+- `stack`: incoming elements (push side)
+- `queue`: outgoing elements in front-to-back pop order
 
-### Intuition
+Operations:
+- `push(x)`: push onto `stack`
+- `pop/peek`: if `queue` empty, move all items from `stack` to `queue` (reverses order), then pop/peek from `queue`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why This Simulates FIFO
 
-### Algorithm
+Moving all elements from `stack` to `queue` reverses LIFO order into queue order, so oldest element becomes top of `queue`.
 
-1. **Initialize queue**: Start with the root/initial elements
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+### Code Core
 
-### Why This Works
+```python
+if not self.queue:
+    while self.stack:
+        self.queue.append(self.stack.pop())
+```
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Then:
+- `pop()` returns `self.queue.pop()`
+- `peek()` returns `self.queue[-1]`
+
+### Amortized O(1) Explanation
+
+Each element moves from `stack` to `queue` at most once before being popped.
+So over many operations total work is linear, giving O(1) amortized per operation.
 
 
 ## Complexity

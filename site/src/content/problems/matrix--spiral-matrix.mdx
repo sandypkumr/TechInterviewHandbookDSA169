@@ -76,25 +76,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Layer-by-Layer Simulation
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution simulates traversing a matrix layer by layer (spiral), where each layer is peeled off as we traverse.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The traversal always keeps moving in the current direction until it would leave the matrix or revisit a cell. At that moment, the path must turn right. By tracking visited cells and cycling through the four directions, we can simulate the spiral directly.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return an empty list if the matrix is empty.
+2. Create a `visited` grid and a direction list for right, down, left, and up.
+3. Starting at the top-left cell, append the current value, mark it visited, and try to move forward.
+4. If the next step is invalid or already visited, rotate to the next direction and continue until all cells have been collected.
+
+### Code Breakdown
+
+The `direction` index determines which movement vector is currently active. The loop runs exactly `rows * cols` times, so each matrix entry is appended once and only once.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Deterministic turning rule:** Turning only when blocked reproduces the spiral path exactly.
+- **Visited-cell protection:** The `visited` grid prevents the traversal from crossing back into already processed cells.
+- **Full coverage:** Since the loop iterates once per cell, every matrix value appears in the output exactly once.
 
 
 ## Complexity

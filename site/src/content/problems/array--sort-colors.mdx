@@ -81,26 +81,42 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dutch National Flag (Three Pointers)
 
-It uses the **Two Pointers** technique to efficiently search through the data. The algorithm starts by **sorting** the input to enable more efficient processing.
+Maintain three regions:
+- `[0 .. left-1]` are all `0`
+- `[left .. i-1]` are all `1`
+- `[right+1 .. end]` are all `2`
 
-### Intuition
+Process index `i` while `i <= right`:
+- if `nums[i] == 0`: swap with `left`, increment both `left` and `i`
+- if `nums[i] == 2`: swap with `right`, decrement `right` only
+- if `nums[i] == 1`: just increment `i`
 
-After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+### Why `i` Is Not Incremented After Swapping with `right`
 
-### Algorithm
+The element swapped in from `right` has not been processed yet, so it must be checked in the next iteration.
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+### Code Core
+
+```python
+while i <= right:
+    if nums[i] == 0:
+        nums[left], nums[i] = nums[i], nums[left]
+        left += 1
+        i += 1
+    elif nums[i] == 2:
+        nums[right], nums[i] = nums[i], nums[right]
+        right -= 1
+    else:
+        i += 1
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Maintains the three-region invariant throughout
+- Each element moves to its correct region in O(1) operations
+- Single pass, O(n) time and O(1) extra space
 
 
 ## Complexity

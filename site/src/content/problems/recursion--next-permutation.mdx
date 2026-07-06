@@ -97,24 +97,35 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Pivot, Swap, Reverse Suffix
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+To get the lexicographically next permutation:
 
-### Intuition
+1. Scan from right to find first `i` where `nums[i] < nums[i+1]` (pivot)
+2. If pivot exists, scan from right to find first `j` with `nums[j] > nums[i]`
+3. Swap `nums[i]` and `nums[j]`
+4. Reverse suffix from `i+1` to end
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+If no pivot exists, array is non-increasing (highest permutation), so reversing whole array gives the smallest permutation.
 
-### Algorithm
+### Code Core
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+```python
+while i >= 0 and nums[i] >= nums[i + 1]:
+    i -= 1
+if i >= 0:
+    while j >= 0 and nums[j] <= nums[i]:
+        j -= 1
+    nums[i], nums[j] = nums[j], nums[i]
+reverse(i + 1)
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Pivot identifies first position we can increase minimally
+- Rightmost greater element ensures smallest increase at pivot
+- Reversing suffix makes tail lexicographically smallest
+- In-place and O(n)
 
 
 ## Complexity

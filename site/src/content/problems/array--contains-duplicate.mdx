@@ -76,23 +76,46 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Set for Duplicate Detection
 
-It uses a **Set** for fast membership testing and duplicate detection.
-
-### Intuition
-
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
-
-### Algorithm
-
-1. **Return result**: Output the computed answer
+The simplest and most elegant solution: **convert the array to a set and compare sizes**. If any duplicates exist, the set will be smaller than the original array.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+A set only stores unique values. If `len(set(nums)) < len(nums)`, then some values appeared more than once.
+
+### The Intuition
+
+Sets automatically discard duplicates. So:
+- **Original array has duplicates:** `len(nums) != len(set(nums))`  ✓ Return True
+- **No duplicates:** `len(nums) == len(set(nums))` → Return False
+
+### Single Line Solution
+
+```python
+return len(nums) != len(set(nums))
+```
+
+That's it! One line, O(n) time, O(n) space.
+
+### Alternative: Hash Set with Early Exit
+
+If you want to find the first duplicate early without creating the full set:
+
+```python
+seen = set()
+for num in nums:
+    if num in seen:
+        return True  # Found a duplicate!
+    seen.add(num)
+return False
+```
+
+**Why this matters:** If the array has duplicates near the start, we exit immediately instead of processing the entire array.
+
+### Why O(n) is Optimal
+
+You need to look at every element at least once, so O(n) is the theoretical minimum. The set approach achieves this minimum while being incredibly concise!
 
 
 ## Complexity

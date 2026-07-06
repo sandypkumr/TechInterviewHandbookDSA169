@@ -75,24 +75,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Union-Find (Disjoint Set Union)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+A graph is a valid tree iff:
+1. it has exactly `n - 1` edges
+2. it has no cycle (with `n-1` edges, this also implies connectivity)
 
-### Intuition
+This solution checks both conditions with Union-Find.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step 1: Necessary Edge Count Check
 
-### Algorithm
+```python
+if n - 1 != len(edges):
+    return False
+```
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+Without exactly `n-1` edges, graph cannot be a tree.
+
+### Step 2: Union-Find Cycle Detection
+
+For each edge `(u, v)`:
+- find roots of `u` and `v`
+- if roots are same, adding this edge creates a cycle -> not a tree
+- otherwise union them
+
+### Code Breakdown
+
+```python
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+
+def union(x, y):
+    root_x, root_y = find(x), find(y)
+    if root_x == root_y:
+        return False
+    parent[root_x] = root_y
+    return True
+```
+
+Path compression in `find` improves performance.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Edge count enforces tree-size structure
+- Union-Find guarantees no cycle is introduced
+- Together they are sufficient for an undirected graph to be a valid tree
 
 
 ## Complexity

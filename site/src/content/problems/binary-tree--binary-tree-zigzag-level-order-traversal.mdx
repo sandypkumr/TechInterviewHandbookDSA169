@@ -92,29 +92,39 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It uses the **Two Pointers** technique to efficiently search through the data. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution uses **Breadth-First Search (BFS)** with a queue to explore states level by level.
 
 ### Intuition
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+We still want a normal level-order traversal, but the output direction alternates at each depth. BFS already groups nodes by level, so the only extra work is to reverse the values on every other level before appending them.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize result container**: Create list to store the answer
-3. **Initialize queue**: Start with the root/initial elements
-4. **Main loop**: Continue until condition is met
-5. **Move pointers**: Adjust left/right pointers based on current sum
-6. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return an empty list if the tree is empty.
+2. Use a queue to process one level at a time.
+3. Collect the node values for the current level while building the queue for the next level.
+4. Reverse the collected values on even-numbered levels, append them to the result, and continue.
+
+### Code Breakdown
+
+The variable `level` tracks whether the current depth should be read left-to-right or right-to-left. The code stores the next layer in `new_q`, so each outer-loop iteration works on exactly one tree level
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **BFS preserves levels:** Every pass through the outer loop handles a single tree depth.
+- **Alternating order:** Reversing `level_res` on every other level produces the zigzag pattern without changing traversal correctness.
+- **Children still expand normally:** Nodes are always explored left child first, then right child, so the tree structure is processed consistently.
+
+### Why This Works
+
+- **Level-by-level exploration:** Guarantees we find the shortest path (if it's a path problem) and systematically covers all nodes
+- **No nested loops:** Two pointers avoid O(n²) complexity by moving intelligently through the data
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

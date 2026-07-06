@@ -72,24 +72,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Monotonic Stack
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **monotonic increasing stack** of bar indices to determine how far each bar can extend as the limiting height of a rectangle.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+When we see a bar shorter than the one on top of the stack, we know the taller bar's rectangle must end at the current index. Popping that bar reveals both boundaries of the widest rectangle for which that height is the minimum.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Scan the histogram from left to right while keeping indices of nondecreasing heights on the stack.
+2. When a shorter bar appears, repeatedly pop taller bars and compute the rectangle area they can form.
+3. Use the current index and the new stack top to determine each popped bar's width.
+4. After the scan, pop any remaining bars and compute their final areas.
+
+### Code Breakdown
+
+The stack stores indices rather than heights so the code can compute widths precisely. Each index is pushed once and popped once, which makes the total work linear.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Left and right boundaries:** A bar is popped exactly when its first smaller bar on the right is found, and the new stack top gives the first smaller bar on the left.
+- **Maximal width per height:** That pair of boundaries defines the widest rectangle where the popped bar is the limiting height.
+- **Complete coverage:** Every possible maximal rectangle is evaluated when its limiting bar is popped.
 
 
 ## Complexity

@@ -96,24 +96,43 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Build Reversed Number Bit-by-Bit
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Read bits from `n` from right to left (least significant bit first), and append them to `result` from left to right by shifting `result` left each step.
 
-### Intuition
+Because this is a 32-bit problem, we do exactly 32 iterations.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Core Operation Per Iteration
 
-### Algorithm
+1. `result <<= 1` -> make room for next bit
+2. `result |= (n & 1)` -> copy current last bit from `n`
+3. `n >>= 1` -> move to next bit in `n`
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+### Small Example (conceptual)
+
+Suppose bits are `...abc` (where `c` is current LSB):
+- take `c` from `n`
+- append to right side of `result`
+- repeat for all 32 bits
+
+After 32 steps, bit positions are fully reversed.
+
+### Code Breakdown
+
+```python
+result = 0
+for _ in range(32):
+	result <<= 1
+	result |= n & 1
+	n >>= 1
+return result
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each loop transfers one bit from input to mirrored position in output
+- Exactly 32 iterations ensure full 32-bit reversal
+- Bitwise ops are constant-time
 
 
 ## Complexity

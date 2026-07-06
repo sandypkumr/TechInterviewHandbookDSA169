@@ -87,24 +87,51 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Backtracking with Start Index and Pruning
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+We build combinations recursively while tracking:
+- `start`: which candidate indices are allowed next
+- `target`: remaining sum
+- `path`: current combination
 
-### Intuition
+Key choices:
+- Reuse is allowed, so recursive call keeps same index `i`
+- Candidates are sorted, so if `candidates[i] > target`, we `break` (pruning)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `candidates=[2,3,6,7]`, `target=7`
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+- pick `2` -> remaining `5`
+  - pick `2` -> remaining `3`
+    - pick `2` -> remaining `1` (prune next choices)
+    - pick `3` -> remaining `0` -> record `[2,2,3]`
+- pick `3` first path...
+- pick `7` -> remaining `0` -> record `[7]`
+
+Result: `[[2,2,3],[7]]`
+
+### Code Breakdown
+
+```python
+if target == 0:
+    res.append(path)
+    return
+
+for i in range(start, len(candidates)):
+    if candidates[i] > target:
+        break
+    backtrack(i, target - candidates[i], path + [candidates[i]])
+```
+
+- `backtrack(i, ...)` keeps `i` to allow unlimited reuse
+- `path + [x]` creates next combination state
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Explores all valid non-decreasing index combinations exactly once
+- Sorting + pruning avoids unnecessary branches
+- Backtracking naturally handles variable combination lengths
 
 
 ## Complexity

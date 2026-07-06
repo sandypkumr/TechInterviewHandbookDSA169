@@ -107,25 +107,51 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Split -> Reverse Second Half -> Merge Alternately
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+The reorder pattern `L0 -> Ln -> L1 -> Ln-1 ...` is achieved in three deterministic steps:
 
-### Intuition
+1. Find middle with fast/slow pointers
+2. Cut list into two halves and reverse second half
+3. Merge the two halves alternately
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `1 -> 2 -> 3 -> 4 -> 5`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+- Middle at `3`, split into:
+  - first: `1 -> 2 -> 3`
+  - second: `4 -> 5`
+- Reverse second: `5 -> 4`
+- Merge alternating:
+  - `1 -> 5 -> 2 -> 4 -> 3`
+
+Exactly the required order.
+
+### Code Breakdown
+
+```python
+# 1) find middle
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+# 2) split and reverse second half
+mid = slow.next
+slow.next = None
+mid = self.reverse(mid)
+
+# 3) merge alternating
+self.merge(head, mid)
+```
+
+`merge()` weaves one node from first list, then one from reversed second list.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Split isolates positions to interleave
+- Reversal converts tail order into needed sequence for alternating merge
+- Every node is processed O(1) times -> O(n) time, O(1) extra space
 
 
 ## Complexity

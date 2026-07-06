@@ -74,24 +74,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Expand Around Center
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+This solution treats each index (and each gap between indices) as a possible palindrome center and expands outward while the characters match.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Every palindrome is centered either on one character (odd length) or between two characters (even length). If we expand from every possible center and keep the longest span we find, we are guaranteed to discover the longest palindromic substring.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return an empty string immediately if the input string is empty.
+2. For each index `i`, expand around center `(i, i)` for odd-length palindromes and `(i, i + 1)` for even-length palindromes.
+3. Keep the longer of those two palindrome lengths and update the best `[start, end]` window when needed.
+4. Return the substring defined by the final best window.
+
+### Code Breakdown
+
+The helper `expandAroundCenter` keeps moving outward as long as the mirrored characters stay equal, then returns the palindrome length it discovered. The main loop converts that length back into start and end indices for slicing the answer.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Complete center coverage:** Every palindrome has a valid odd or even center that the algorithm checks.
+- **Maximal local expansion:** Expanding until mismatch ensures each checked center contributes its longest possible palindrome.
+- **Global optimum tracking:** Recording the longest palindrome seen across all centers yields the final answer.
+- **Optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

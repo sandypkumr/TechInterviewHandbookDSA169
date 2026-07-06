@@ -78,25 +78,43 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Make Circular, Then Break at New Tail
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Steps:
+1. find list length and tail
+2. connect tail to head (circular list)
+3. normalize rotations: `k %= length`
+4. move `length - k` steps from old tail to reach new tail
+5. new head is `new_tail.next`; break cycle
 
-### Intuition
+### Why `k %= length`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Rotating by full list length returns original list, so only remainder matters.
 
-### Algorithm
+### Code Core
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+```python
+current.next = head   # make circular
+k %= length
+for _ in range(length - k):
+    current = current.next
+head = current.next
+current.next = None
+```
+
+### Example
+
+`[1,2,3,4,5]`, `k=2`
+- circular: `...5->1`
+- move `length-k = 3` from old tail (`5`) => lands on `3` (new tail)
+- new head `4`, break after `3`
+- result `[4,5,1,2,3]`
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Circular connection converts rotation into finding a split point
+- One pass for length + one pass to split
+- O(n) time, O(1) extra space
 
 
 ## Complexity

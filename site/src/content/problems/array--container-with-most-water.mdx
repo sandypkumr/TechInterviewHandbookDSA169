@@ -74,25 +74,54 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Two Pointers - Greedy Strategy
 
-It uses the **Two Pointers** technique to efficiently search through the data.
+Start with pointers at both ends (maximum width), then move the pointer pointing to the **shorter bar** inward. This greedy choice works because: if we move the taller bar, we lose width and can't gain height. But moving the shorter bar gives us a chance to find a taller one.
 
-### Intuition
+### Why This Greedy Choice is Optimal
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+At any point, area = `min(height[left], height[right]) × width`. The minimum height is the bottleneck. Moving the taller bar can only decrease width - even if we find a taller bar, we'd need it to be significantly taller to compensate for lost width. Moving the shorter bar is the only way to potentially improve.
 
-### Algorithm
+### Step-by-Step Walkthrough
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+**Input:** `height = [1,8,6,2,5,4,8,3,7]`
 
-### Why This Works
+```
+Initial: left=0 (h=1), right=8 (h=7)
+Area = min(1,7) * 8 = 8
+Shorter is left (1), move it →
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+left=1 (h=8), right=8 (h=7)
+Area = min(8,7) * 7 = 49 ✓ NEW MAX!
+Shorter is right (7), move it →
+
+left=1 (h=8), right=7 (h=3)
+Area = min(8,3) * 6 = 18 (less than 49)
+Shorter is right (3), move it →
+
+Continue until left >= right...
+```
+
+Maximum area: **49** at indices 1 and 8
+
+### Code Breakdown
+
+```python
+left, right = 0, len(height) - 1
+while left < right:
+    # Calculate area: min height * width
+    res = max(res, min(height[left], height[right]) * (right - left))
+
+    # Move the pointer at the shorter bar
+    if height[left] < height[right]:
+        left += 1
+    else:
+        right -= 1
+```
+
+### Why O(n) is Optimal
+
+Each pointer makes at most n moves, never backtracks. We guarantee checking the best configuration through the invariant that moving the taller bar is always suboptimal.
 
 
 ## Complexity

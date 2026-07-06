@@ -89,24 +89,34 @@ class FileSystem:
 
 ## Explanation
 
-### Approach
+### Approach: Trie with Nested Dictionary (Hybrid Data Structure)
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution implements a **Trie-like structure using nested dictionaries** to represent file system hierarchy, combining benefits of tries with flexibility of nested data structures.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**File System is Tree-like:**
+- Root is the top directory
+- Each node contains files and subdirectories
+- Paths are like trie paths
+
+**Use Nested Dicts:** Each directory is a dict with:
+- Content: actual file data
+- Subdirectories: nested dicts
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Return result**: Output the computed answer
+1. **MkDir:** Navigate/create directory path
+2. **AddContentToFile:** Navigate to file, add/append content
+3. **GetContentOfFile:** Navigate to file, return content
+4. **ListDirectory:** Return sorted list of files/dirs
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Hierarchical:** Nested structure mirrors file system
+- **Path Navigation:** Traverse like trie from root
+- **O(m) Operations:** m = path length (not n = total files)
+- **Flexible:** Easy to extend with more operations
 
 
 ## Complexity

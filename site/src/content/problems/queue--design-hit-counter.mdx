@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Array", "Binary Search", "Design", "Queue", "Data Stream"]
 patterns: ["Circular Buffer", "Binary Search", "Sliding Window"]
 timeComplexity: "O(1) hit, O(n) getHits"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(k)"
 hasProblemStatement: true
 hasConstraints: false
 hasExamples: true
@@ -74,29 +74,42 @@ class HitCounter:
 
 ## Explanation
 
-### Approach
+### Approach: Sliding Time Window with Compressed Deque
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Store hits as `(timestamp, count)` in a deque.
 
-### Intuition
+- `hit(t)`: if latest timestamp equals `t`, increment its count; otherwise append new bucket
+- `getHits(t)`: remove buckets older than 300 seconds, then sum counts in remaining buckets
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+This keeps only relevant recent data.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Main loop**: Continue until condition is met
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+Operations:
+
+- `hit(1), hit(2), hit(3)` -> deque `[(1,1),(2,1),(3,1)]`
+- `getHits(4)` -> none expired -> total `3`
+- `hit(300)` -> deque `[(1,1),(2,1),(3,1),(300,1)]`
+- `getHits(300)` -> timestamp `1` still valid (`300-1 < 300`) -> total `4`
+
+At `getHits(301)`, bucket `1` expires (`301-1 >= 300`) and is removed.
+
+### Code Breakdown
+
+```python
+while self.hits and timestamp - self.hits[0][0] >= 300:
+    self.hits.popleft()
+return sum(hit[1] for hit in self.hits)
+```
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Deque is ordered by time (timestamps are monotonic)
+- Expired hits are always at front, so cleanup is efficient
+- Compression by timestamp avoids storing every individual hit
 
 
 ## Complexity
 
 - **Time**: `O(1) hit, O(n) getHits`
-- **Space**: `O(1)`
+- **Space**: `O(k)` where `k` is number of timestamp buckets in last 300 seconds

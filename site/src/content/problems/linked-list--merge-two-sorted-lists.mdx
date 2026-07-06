@@ -87,24 +87,55 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Iterative Merge with Two Pointers
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Both lists are already sorted, so we merge exactly like merge step in merge sort.
+Keep pointers on `list1` and `list2`, always attach the smaller node to the result, and move that list forward.
 
-### Intuition
+### Why Dummy Node Helps
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Using a dummy head avoids special-casing the first insertion.
+`current` always points to the last node in merged list.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Input:
+- `list1 = 1 -> 2 -> 4`
+- `list2 = 1 -> 3 -> 4`
+
+Process:
+- compare `1` and `1` -> take from `list2`
+- compare `1` and `3` -> take from `list1`
+- compare `2` and `3` -> take from `list1`
+- compare `4` and `3` -> take from `list2`
+- compare `4` and `4` -> take from `list2`
+- `list2` exhausted -> append remaining `list1` (`4`)
+
+Result: `1 -> 1 -> 2 -> 3 -> 4 -> 4`
+
+### Code Breakdown
+
+```python
+dummy = ListNode()
+current = dummy
+while list1 and list2:
+    if list1.val < list2.val:
+        current.next = list1
+        list1 = list1.next
+    else:
+        current.next = list2
+        list2 = list2.next
+    current = current.next
+current.next = list1 or list2
+```
+
+`current.next = list1 or list2` attaches whichever list still has nodes.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- At each step we pick the smallest available head, preserving sorted order
+- Every node is visited once
+- No new nodes are created; we only relink pointers
 
 
 ## Complexity

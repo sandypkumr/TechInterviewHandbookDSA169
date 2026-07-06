@@ -86,23 +86,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Stack-based Expression Evaluation
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **stack** to evaluate the expression while preserving operator precedence and parentheses.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The key challenge is operator precedence: multiplication and division must be applied before addition and subtraction. We can handle that in one pass by pushing signed numbers for `+` and `-`, but immediately collapsing the top of the stack for `*` and `/`.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Scan the expression while building the current number digit by digit.
+2. Whenever an operator or the end of the string is reached, apply the previous `sign` to the current number.
+3. Push numbers for `+` and `-`, but for `*` and `/`, combine the current number with the top stack value immediately.
+4. Sum the stack at the end to get the final result.
+
+### Code Breakdown
+
+The stack stores values that are ready to be added together at the end. Multiplication and division are resolved eagerly, so the stack never contains pending high-precedence operations.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Precedence preservation:** `*` and `/` are evaluated as soon as their right operand is known.
+- **Signed-term representation:** After eager high-precedence evaluation, the remaining stack entries can be safely summed.
+- **Linear parsing:** Each character and each number participates in constant-time work overall.
 
 
 ## Complexity

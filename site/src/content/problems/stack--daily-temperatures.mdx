@@ -70,33 +70,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Monotonic Decreasing Stack of Indices
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Use a stack to store indices of days whose next warmer day is not found yet.
+Maintain temperatures on stack in decreasing order.
 
-### Intuition
+When current temperature is warmer than the day at stack top, we found that day's answer.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `[73,74,75,71,69,72,76,73]`
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+- day0=73 -> push 0
+- `day1=74 > day0` -> pop 0, `res[0]=1`; push 1
+- `day2=75 > day1` -> pop 1, `res[1]=1`; push 2
+- day3=71 -> push 3
+- day4=69 -> push 4
+- `day5=72 > day4` -> pop 4, `res[4]=1`
+  - `72 > day3` -> pop 3, `res[3]=2`
+  - push 5
+- `day6=76 > day5` -> pop 5, `res[5]=1`
+  - `76 > day2` -> pop 2, `res[2]=4`
+  - push 6
+- day7=73 -> push 7
 
-### Why This Works
+Remaining stack entries have no warmer future day, stay 0.
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Result: `[1,1,4,2,1,1,0,0]`
 
+### Code Breakdown
 
-## Complexity
+```python
+while stack and temp > temperatures[stack[-1]]:
+    prev_idx = stack.pop()
+    res[prev_idx] = i - prev_idx
+stack.append(i)
+```
 
-- **Time**: `O(n)`
-- **Space**: `O(n)`
+- Pop unresolved colder days
+- Fill answer by index difference
+- Push current day as unresolved
 
+### Why This is O(n)
 
-## Similar Problems
+Each index is pushed once and popped once at most. So total stack operations are linear.
 
-- [Asteroid Collision](/TechInterviewHandbookDSA169/problems/asteroid-collision)
-- [Largest Rectangle In Histogram](/TechInterviewHandbookDSA169/problems/largest-rectangle-in-histogram)

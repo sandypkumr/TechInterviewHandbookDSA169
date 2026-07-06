@@ -77,24 +77,51 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Bottom-Up DP (Unbounded Knapsack)
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+Let `dp[i]` be the minimum number of coins needed to make amount `i`.
 
-### Intuition
+Transition:
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+`dp[i] = min(dp[i], dp[i - coin] + 1)` for every coin where `i >= coin`.
 
-### Algorithm
+This works because if you use one `coin` as the last coin, then you only need the best solution for `i - coin`.
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+### Step-by-Step Example
+
+**Input:** `coins=[1,2,5]`, `amount=11`
+
+- Initialize: `dp[0]=0`, all others = `inf`
+- Build from `1` to `11`:
+  - `dp[1]=1` (1)
+  - `dp[2]=1` (2)
+  - `dp[3]=2` (2+1)
+  - ...
+  - `dp[10]=2` (5+5)
+  - `dp[11]=3` (5+5+1)
+
+Answer: `3`
+
+### Code Breakdown
+
+```python
+dp = [float("inf")] * (amount + 1)
+dp[0] = 0
+for i in range(1, amount + 1):
+    for coin in coins:
+        if i >= coin:
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+```
+
+- `dp[0]=0`: zero coins needed to make amount 0
+- `inf` marks currently unreachable amounts
+- final check returns `-1` if still unreachable
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every state `dp[i]` depends only on smaller states (`i-coin`)
+- We compute states in increasing order, so dependencies are ready
+- Tries all coin choices for each amount, guaranteeing optimal minimum
 
 
 ## Complexity

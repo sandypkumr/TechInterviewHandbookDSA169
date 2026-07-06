@@ -76,26 +76,35 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search
 
-It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+This solution uses **Binary Search** to efficiently find the target by halving the search space with each iteration.
 
 ### Intuition
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+The answer must be a contiguous window of length `k` in the sorted array. Instead of choosing elements one by one, we binary search the starting index of that window by comparing which side is farther from `x`: `arr[mid]` or `arr[mid + k]`.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Handle the easy boundary cases where `x` lies entirely to the left or right of the array, or where `k` already equals the array length.
+2. Binary search the window start in the range `[0, len(arr) - k]`.
+3. At each `mid`, compare `x - arr[mid]` with `arr[mid + k] - x` to decide whether the better window starts to the right or left.
+4. Return the length-`k` slice starting at the final `left` index.
+
+### Code Breakdown
+
+The search does not look for `x` directly. It looks for the best window start, shrinking the candidate range until only one starting position remains.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Contiguous-answer property:** In a sorted array, the `k` closest elements always form a consecutive block.
+- **Window comparison:** If `arr[mid]` is farther from `x` than `arr[mid + k]`, the optimal window must start to the right of `mid`.
+- **Binary search validity:** That comparison is monotonic across start positions, so binary search can find the best window efficiently.
+- **No nested loops:** Two pointers avoid O(n²) complexity by moving intelligently through the data
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

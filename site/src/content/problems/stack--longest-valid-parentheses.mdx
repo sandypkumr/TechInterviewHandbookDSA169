@@ -75,23 +75,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Stack of Indices
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+This solution uses a **stack of indices** to track unmatched parentheses and measure the length of valid segments.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+The stack stores the most recent unmatched position. When we see `'('`, we push its index. When we see `')'`, we pop. If the stack becomes empty, the current `')'` becomes the new boundary; otherwise, the distance from the current index to the new stack top is the length of a valid suffix.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Initialize the stack with `-1` as a sentinel boundary.
+2. Traverse the string character by character.
+3. Push indices of `'('`; for `')'`, pop once. If the stack becomes empty, push the current index as the new boundary.
+4. Otherwise, update the best answer with `i - stack[-1]`.
+
+### Code Breakdown
+
+The sentinel `-1` lets valid substrings starting at index `0` compute their lengths correctly. Every unmatched closing parenthesis resets the base boundary for future valid substrings.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Boundary tracking:** The stack top always marks the index before the current valid suffix begins.
+- **Correct matching behavior:** Pushing `'('` indices and popping on `')'` mirrors parenthesis matching directly.
+- **Maximum extraction:** Every time a valid suffix ends at `i`, `i - stack[-1]` gives its exact length.
 
 
 ## Complexity

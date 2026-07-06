@@ -66,24 +66,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Greedy Algorithm
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+This solution uses a **Greedy** strategy to make locally optimal decisions that lead to the global optimum.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Every pair of identical characters can be placed symmetrically on the left and right sides of a palindrome. After using all possible pairs, at most one leftover odd-count character can sit in the center.
 
 ### Algorithm
 
-1. **Update hash map**: Store elements for future lookups
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Count the frequency of each character.
+2. For every frequency, add its largest even contribution to the answer.
+3. If no center has been used yet and the current frequency is odd, add one extra character for the middle.
+4. Return the total palindrome length.
+
+### Code Breakdown
+
+`v // 2 * 2` extracts the biggest even number not exceeding `v`, which is exactly how many copies of that character can be placed symmetrically. The condition `ans % 2 == 0 and v % 2 == 1` ensures that only one odd leftover is used as the center.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Pair maximization:** Using all available pairs is always optimal because pairs contribute two positions each.
+- **Single center rule:** A palindrome can contain at most one unpaired middle character.
+- **Independent character counts:** The contribution of each character frequency can be computed separately and safely combined.
 
 
 ## Complexity

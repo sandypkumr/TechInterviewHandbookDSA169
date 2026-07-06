@@ -89,26 +89,43 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Build Parent Links, Then BFS from Target
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It employs a **Sliding Window** to track a contiguous subset of elements.
+Tree edges are naturally child-directional, but distance-k search needs movement in all directions (left, right, parent).
 
-### Intuition
+So the solution does two phases:
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+1. DFS to attach `parent` reference to each node
+2. BFS-like expansion from `target` for exactly `k` layers using neighbors `(left, right, parent)`
 
-### Algorithm
+### Phase 1: Parent Mapping
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Return result**: Output the computed answer
+```python
+def dfs(node, parent):
+    if not node:
+        return
+    node.parent = parent
+    dfs(node.left, node)
+    dfs(node.right, node)
+```
+
+### Phase 2: k-Level Expansion
+
+`cur_arr` holds current frontier. Repeat `k` times:
+- gather unvisited neighbors into `new_arr`
+- set `cur_arr = new_arr`
+
+After k rounds, `cur_arr` contains nodes at distance k.
+
+### Why `visited` is Needed
+
+Once parent links exist, graph becomes undirected-like; without `visited`, traversal would bounce back and loop.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Parent augmentation enables full graph-neighbor traversal
+- Layered expansion guarantees exact distance by BFS levels
+- Each node visited at most once -> O(n) time, O(n) space
 
 
 ## Complexity

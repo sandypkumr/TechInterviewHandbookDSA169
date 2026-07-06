@@ -70,24 +70,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Monotonic Stack
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **monotonic decreasing stack** to identify bounded valleys where water can accumulate.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Water above a bar is trapped only when there is a taller bar on both the left and the right. When a new bar is taller than the one on top of the stack, it may close a container, and the popped bar becomes the basin floor whose trapped water can now be computed.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the height array while storing indices of bars in decreasing-height order.
+2. When the current bar is taller than the stack top, pop the top as a potential basin floor.
+3. If a left boundary still exists, compute the trapped water using the distance between boundaries and the bounded height.
+4. Continue until the stack is valid again, then push the current index.
+
+### Code Breakdown
+
+The variable `top` represents the bottom of a trapped region. After popping it, the current index is the right boundary and the new stack top is the left boundary, which is exactly the information needed to compute the trapped water above `top`.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Valid basin detection:** A trapped region exists only when both left and right boundaries are present.
+- **Exact area formula:** `distance * bounded_height` measures the water above the popped basin floor.
+- **Linear processing:** Each bar is pushed and popped at most once, so all trapped regions are accounted for efficiently.
 
 
 ## Complexity

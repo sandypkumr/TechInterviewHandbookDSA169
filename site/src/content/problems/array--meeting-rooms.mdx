@@ -55,24 +55,36 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sort by Start and Check Adjacent Overlaps
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+If meetings are sorted by start time, any conflict must appear between neighboring intervals in sorted order.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+After sorting, if `intervals[i].start < intervals[i-1].end`, those two overlap, so one person cannot attend both.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+1. Sort intervals by start time
+2. Scan from second interval onward
+3. If any interval starts before previous one ends, return `False`
+4. If no overlap found, return `True`
+
+### Code Breakdown
+
+```python
+intervals.sort(key=lambda x: x.start)
+for i in range(1, len(intervals)):
+    if intervals[i].start < intervals[i - 1].end:
+        return False
+return True
+```
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Sorting creates chronological order of starts.
+- Any overlap must involve some adjacent pair in this order.
+- One linear pass after sort is sufficient.
 
 
 ## Complexity

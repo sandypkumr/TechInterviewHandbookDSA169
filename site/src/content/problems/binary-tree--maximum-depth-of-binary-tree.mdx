@@ -73,24 +73,46 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Recursive DFS Depth Formula
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+Maximum depth of a node is:
 
-### Intuition
+`1 + max(depth(left), depth(right))`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Base case:
+- empty node has depth `0`
 
-### Algorithm
+So we recursively compute depth of both subtrees and combine.
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+### Step-by-Step Example
+
+For tree `[3,9,20,null,null,15,7]`:
+
+- depth(9) = 1
+- depth(15) = 1
+- depth(7) = 1
+- depth(20) = 1 + max(1,1) = 2
+- depth(3) = 1 + max(1,2) = 3
+
+Answer = 3
+
+### Code Breakdown
+
+```python
+def check(root):
+    if root is None:
+        return 0
+    left = check(root.left)
+    right = check(root.right)
+    return 1 + max(left, right)
+return check(root)
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- The definition of depth is recursive by nature
+- Every node contributes once to one recursive call
+- Therefore time O(n), recursion stack O(h)
 
 
 ## Complexity

@@ -99,23 +99,48 @@ class FreqStack:
 
 ## Explanation
 
-### Approach
+### Approach: Frequency Map + Stack per Frequency
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Data structures:
+- `freq[val]` -> current frequency of value
+- `group[f]` -> stack of values that reached frequency `f` in push order
+- `max_freq` -> current highest frequency present
 
-### Intuition
+### push(val)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+1. increment `freq[val]`
+2. update `max_freq`
+3. append `val` to `group[freq[val]]`
 
-### Algorithm
+### pop()
 
-1. **Return result**: Output the computed answer
+1. pop top from `group[max_freq]` (most recent among most frequent)
+2. decrement that value's frequency
+3. if `group[max_freq]` becomes empty, decrement `max_freq`
+
+### Code Core
+
+```python
+freq = self.freq.get(val, 0) + 1
+self.freq[val] = freq
+if freq > self.max_freq:
+    self.max_freq = freq
+self.group.setdefault(freq, []).append(val)
+```
+
+```python
+val = self.group[self.max_freq].pop()
+self.freq[val] -= 1
+if not self.group[self.max_freq]:
+    self.max_freq -= 1
+return val
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Frequency criterion handled by `max_freq`
+- Tie-break by recency handled by stack order inside `group[max_freq]`
+- Both operations are O(1)
 
 
 ## Complexity

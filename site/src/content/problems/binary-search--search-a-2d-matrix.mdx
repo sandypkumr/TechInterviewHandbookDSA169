@@ -79,27 +79,54 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search on a Virtual 1D Array
 
-It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+Because:
+- each row is sorted, and
+- each row's first element is greater than previous row's last,
 
-### Intuition
+the whole matrix behaves like one sorted array of length `m*n`.
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+So we can binary search over indices `[0 .. m*n-1]`.
 
-### Algorithm
+### Index Mapping Trick
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Return result**: Output the computed answer
+For a virtual index `idx`:
+
+- row = `idx // n`
+- col = `idx % n`
+
+So matrix value is `matrix[idx // n][idx % n]`.
+
+### Step-by-Step Example
+
+Input: `matrix=[[1,3,5,7],[10,11,16,20],[23,30,34,60]]`, `target=16`
+
+- `m=3, n=4`, search range `0..11`
+- `mid=5` -> `(1,1)` -> value `11 < 16`, go right
+- `mid=8` -> `(2,0)` -> value `23 > 16`, go left
+- `mid=6` -> `(1,2)` -> value `16` -> found
+
+### Code Breakdown
+
+```python
+left, right = 0, m * n - 1
+while left <= right:
+    mid = (left + right) // 2
+    val = matrix[mid // n][mid % n]
+    if val == target:
+        return True
+    elif val < target:
+        left = mid + 1
+    else:
+        right = mid - 1
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Virtual 1D ordering is globally sorted
+- Binary search discards half each step
+- Uses O(1) extra space and meets required O(log(m*n)) time
 
 
 ## Complexity

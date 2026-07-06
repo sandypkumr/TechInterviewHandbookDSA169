@@ -90,25 +90,52 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Topological Sort (Kahn's Algorithm)
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+To produce a valid course order, we perform topological sorting on the prerequisite graph.
 
-### Intuition
+- Edge `v -> u` means: take `v` before `u`
+- `indegree[u]` = number of prerequisites still needed for course `u`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Start with all courses of indegree 0 (no prerequisites). Repeatedly take one, add to answer, and reduce indegree of its neighbors.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Iterate through elements**: Process each element systematically
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+`numCourses=4`, prerequisites `[[1,0],[2,0],[3,1],[3,2]]`
+
+- indegree: `0:0, 1:1, 2:1, 3:2`
+- queue starts `[0]`
+- pop `0` -> order `[0]`, indegree of `1,2` becomes 0 -> queue `[1,2]`
+- pop `1` -> order `[0,1]`, indegree of `3` becomes 1
+- pop `2` -> order `[0,1,2]`, indegree of `3` becomes 0 -> queue `[3]`
+- pop `3` -> order `[0,1,2,3]`
+
+All courses scheduled -> valid answer.
+
+### Code Breakdown
+
+```python
+for u, v in prerequisites:
+    graph[v].append(u)
+    indegree[u] += 1
+
+queue = [i for i in indegree if indegree[i] == 0]
+while queue:
+    node = queue.pop(0)
+    order.append(node)
+    for neighbor in graph[node]:
+        indegree[neighbor] -= 1
+        if indegree[neighbor] == 0:
+            queue.append(neighbor)
+```
+
+If `len(order) < numCourses`, a cycle exists -> return `[]`.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Kahn's algorithm returns a topological order iff graph is acyclic
+- Exactly captures prerequisite constraints
+- Detects impossible cases via unfinished nodes
 
 
 ## Complexity

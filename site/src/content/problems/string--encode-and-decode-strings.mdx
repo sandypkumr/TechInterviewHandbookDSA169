@@ -64,25 +64,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Length-Prefixed Encoding
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Each string is encoded as:
 
-### Intuition
+`<length>#<content>`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Example:
+- `"Hello"` -> `"5#Hello"`
 
-### Algorithm
+Concatenate all encoded pieces into one stream.
 
-1. **Initialize result container**: Create list to store the answer
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+### Why This is Unambiguous
+
+Delimiter `#` only separates length from content. Content can contain any characters, including `#`, because decoder reads exact number of characters based on parsed length.
+
+### Decode Process
+
+Scan with pointer `i`:
+1. advance `j` until `s[j] == '#'` to parse length
+2. read next `length` characters as one decoded string
+3. move `i` to start of next token
+
+### Code Core
+
+```python
+while i < len(s):
+    j = i
+    while s[j] != '#':
+        j += 1
+    length = int(s[i:j])
+    res.append(s[j + 1:j + 1 + length])
+    i = j + 1 + length
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Length prefix gives exact boundaries for each string
+- Encoding and decoding are inverse operations
+- Runs in linear time over encoded data length
 
 
 ## Complexity

@@ -74,26 +74,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search for Left Boundary
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+Versions are monotonic by quality:
+- good...good, bad...bad
 
-### Intuition
+We need the first index where predicate `isBadVersion(x)` becomes `True`.
+That is a classic left-boundary binary search.
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+### Decision Rule
 
-### Algorithm
+- If `mid` is bad, first bad is at `mid` or left side -> `right = mid`
+- If `mid` is good, first bad is strictly right -> `left = mid + 1`
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Loop ends when `left == right`, which is the first bad version.
 
-### Why This Works
+### Step-by-Step Example
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+`n=5`, first bad = 4
+
+- `left=1, right=5, mid=3` -> good -> `left=4`
+- `left=4, right=5, mid=4` -> bad -> `right=4`
+- stop (`left==right==4`) -> answer 4
+
+### Code Breakdown
+
+```python
+left, right = 1, n
+while left < right:
+    mid = left + (right - left) // 2
+    if isBadVersion(mid):
+        right = mid
+    else:
+        left = mid + 1
+return left
+```
+
+### Why This Minimizes API Calls
+
+Each query halves the remaining range, so total calls are O(log n), which is optimal for monotonic predicate search.
 
 
 ## Complexity

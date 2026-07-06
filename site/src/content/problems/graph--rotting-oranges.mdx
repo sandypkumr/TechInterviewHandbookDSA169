@@ -101,26 +101,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Multi-Source BFS
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses **multi-source BFS** starting from every rotten orange, because rot spreads outward one minute at a time.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+All initially rotten oranges begin spreading simultaneously. That matches BFS perfectly: each level of the search represents one minute, and any fresh orange reached in that level becomes rotten for the next minute.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize queue**: Start with the root/initial elements
-3. **Iterate through elements**: Process each element systematically
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Scan the grid to collect all initially rotten oranges and count the fresh ones.
+2. If there are no fresh oranges, return `0` immediately.
+3. Run BFS level by level, rotting all fresh neighbors of the current rotten oranges and decreasing the fresh count.
+4. Return the minutes used if all fresh oranges rot; otherwise return `-1`.
+
+### Code Breakdown
+
+The queue stores the oranges that are currently rotten. Each outer-loop iteration represents one minute, and the inner loop processes exactly the oranges that can spread rot during that minute.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Simultaneous spread:** Multi-source BFS models all rotten oranges infecting neighbors at the same time.
+- **Minute-by-minute layering:** Each BFS level corresponds to one minute elapsed.
+- **Fresh count validation:** If fresh oranges remain after the queue is exhausted, they were unreachable and the answer must be `-1`.
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

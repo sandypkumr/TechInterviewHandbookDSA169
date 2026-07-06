@@ -72,26 +72,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses **Breadth-First Search** from the starting cell because every move has equal cost and we want the shortest path.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+In a grid where you can move one step at a time, BFS finds the nearest target by exploring all cells at distance `d` before any cell at distance `d + 1`. That means the first time we see `'#'`, we have found the shortest route to food.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize queue**: Start with the root/initial elements
-3. **Main loop**: Continue until condition is met
-4. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Locate the starting cell `'*'` and place it in the queue.
+2. Expand the search level by level, exploring the four neighboring cells of each position.
+3. Skip walls and already visited cells; when a neighbor is food `'#'`, return the current step count.
+4. If the queue empties without reaching food, return `-1`.
+
+### Code Breakdown
+
+The code marks visited cells in-place by turning them into `'X'`, which avoids a separate visited set. The `steps` counter increases once per BFS layer, so it stays aligned with path length.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Shortest-path guarantee:** BFS explores positions in increasing order of distance from the start.
+- **No revisits:** Marking visited cells prevents cycles and redundant work.
+- **First food found is optimal:** The first reachable food cell encountered must be the minimum-step answer.
 
 
 ## Complexity

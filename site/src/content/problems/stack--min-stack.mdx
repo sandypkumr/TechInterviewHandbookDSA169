@@ -89,23 +89,43 @@ class MinStack:
 
 ## Explanation
 
-### Approach
+### Approach: Main Stack + Auxiliary Min Stack
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Maintain two stacks:
+- `stack`: all values
+- `min_stack`: monotonic stack of current minimum values
 
-### Intuition
+Push rule:
+- push to `stack`
+- push to `min_stack` only if the new value is `<=` the current minimum
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Pop rule:
+- pop from `stack`
+- if popped value equals top of `min_stack`, pop `min_stack` too
 
-### Algorithm
+Then `getMin()` is always `min_stack[-1]` in O(1).
 
-1. **Return result**: Output the computed answer
+### Code Core
+
+```python
+def push(self, val):
+    self.stack.append(val)
+    if not self.min_stack or val <= self.min_stack[-1]:
+        self.min_stack.append(val)
+
+def pop(self):
+    if self.stack.pop() == self.min_stack[-1]:
+        self.min_stack.pop()
+```
+
+### Why Duplicates Need `<=`
+
+If minimum value appears multiple times, each occurrence must be tracked. Using `<=` ensures min remains correct after popping one duplicate.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- `min_stack` always mirrors minima history of `stack`
+- `top`, `pop`, `push`, and `getMin` all remain O(1)
 
 
 ## Complexity

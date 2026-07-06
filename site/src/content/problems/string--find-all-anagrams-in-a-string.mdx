@@ -78,26 +78,36 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sliding Window + Frequency Counters
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+An anagram has the same character counts as `p`. So we slide a window of length `len(p)` across `s`, maintain the frequency counts of the current window, and compare them with the target counts from `p`.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Recounting every substring from scratch would be too expensive. A sliding window lets us update counts in constant time: add the new right character and remove the old left character.
 
 ### Algorithm
 
-1. **Initialize result container**: Create list to store the answer
-2. **Iterate through elements**: Process each element systematically
-3. **Update hash map**: Store elements for future lookups
-4. **Return result**: Output the computed answer
+1. Build `p_count = Counter(p)`
+2. Walk through `s` from left to right
+3. Add the current character to the window counter
+4. If the window becomes longer than `p`, remove the character that slides out
+5. Whenever the two counters are equal, record the window's starting index
+
+### Code Breakdown
+
+- `p_count = Counter(p)`: target frequency signature
+- `s_count = Counter()`: current sliding-window frequencies
+- `s_count[s[i]] += 1`: expand the window to the right
+- `if i >= len(p)`: remove the character that leaves the fixed-size window
+- `if s_count == p_count`: current window is an anagram of `p`
+- `result.append(i - len(p) + 1)`: record the start index
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Two strings are anagrams exactly when their character counts match
+- The window always represents the current substring of length `len(p)`
+- Each step updates the window in constant time, so the whole scan is linear in `len(s)`
 
 
 ## Complexity

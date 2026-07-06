@@ -69,25 +69,36 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BST Search with Successor Candidate
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+We want the smallest value greater than `p.val`.
 
-### Intuition
+Traverse from root:
+- if `root.val > p.val`, root is a valid successor candidate; go left to find smaller valid one
+- else (`root.val <= p.val`), successor must be on right
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Keep best candidate in `ans`.
 
-### Algorithm
+### Code Logic
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+```python
+ans = None
+while root:
+    if root.val > p.val:
+        ans = root
+        root = root.left
+    else:
+        root = root.right
+return ans
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- BST ordering guarantees pruning of irrelevant subtrees
+- `ans` always stores the best (smallest-so-far) value greater than `p.val`
+- If no greater value exists, `ans` stays `None`
+
+Time is O(h), where `h` is tree height.
 
 
 ## Complexity

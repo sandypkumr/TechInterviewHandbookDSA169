@@ -94,29 +94,39 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It uses the **Two Pointers** technique to efficiently search through the data. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution uses **Breadth-First Search (BFS)** with a queue to explore states level by level.
 
 ### Intuition
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+The right side view contains exactly one value from each level: the node that appears last when that level is scanned from left to right. A level-order traversal naturally groups nodes by depth, so after processing one level we can simply record its final value.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize result container**: Create list to store the answer
-3. **Initialize queue**: Start with the root/initial elements
-4. **Main loop**: Continue until condition is met
-5. **Move pointers**: Adjust left/right pointers based on current sum
-6. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return an empty list if the tree is empty.
+2. Start a queue with the root node.
+3. For each level, pop all nodes currently in the queue, collect their values, and push their children for the next level.
+4. Append the last value seen at that level to the result list.
+
+### Code Breakdown
+
+The queue always contains exactly the nodes of the current level before the inner loop starts. The temporary `level` list stores their values in left-to-right order, which makes `level[-1]` the visible node from the right
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Level separation:** BFS processes nodes depth by depth, so values from different levels never mix.
+- **Rightmost selection:** Because children are enqueued left first, then right, the last value collected for a level is the rightmost node.
+- **One answer per level:** Recording one value after each level produces the full right side view.
+
+### Why This Works
+
+- **Level-by-level exploration:** Guarantees we find the shortest path (if it's a path problem) and systematically covers all nodes
+- **No nested loops:** Two pointers avoid O(n²) complexity by moving intelligently through the data
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

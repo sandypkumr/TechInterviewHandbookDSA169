@@ -80,25 +80,38 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Returning Max Downward Gain + Global Max Path
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+At each node we compute:
+- best downward gain to parent: `node.val + max(left_gain, right_gain)`
+- best path passing through this node: `node.val + left_gain + right_gain`
 
-### Intuition
+Global answer tracks maximum of all "through-node" paths.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Important Detail: Ignore Negative Gains
 
-### Algorithm
+```python
+left = max(0, dfs(node.left))
+right = max(0, dfs(node.right))
+```
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Negative subtree contributions are dropped (treated as 0) because they only reduce path sum.
+
+### Code Breakdown
+
+```python
+self.max_sum = max(self.max_sum, left + right + node.val)
+return max(left, right) + node.val
+```
+
+- update global with possible split path using both sides
+- return single-branch gain upward (parent path cannot branch twice)
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every optimal path has a highest node where path may split left/right
+- We evaluate that split candidate at each node
+- Single DFS visit per node gives O(n) time and O(h) recursion stack
 
 
 ## Complexity

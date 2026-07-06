@@ -82,24 +82,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Row and Column Marking
 
-It uses a **Set** for fast membership testing and duplicate detection.
+This solution records which rows and columns must become zero, then performs a second pass to update the matrix in place.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+If a cell contains `0`, then its entire row and entire column must be zeroed. Instead of modifying the matrix immediately and accidentally spreading extra zeros, we first remember the affected row indices and column indices, then apply the changes afterward.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the matrix and store every row index and column index that contains a zero.
+2. Traverse the matrix again.
+3. If a cell belongs to a marked row or a marked column, set it to zero.
+4. Finish in place without returning anything.
+
+### Code Breakdown
+
+The `rows` and `cols` sets separate discovery from modification. That avoids corrupting the scan by turning additional cells to zero before the algorithm has finished identifying the original zero positions
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct dependency tracking:** Every original zero contributes exactly one row marker and one column marker.
+- **No accidental propagation:** Delaying writes until the second pass prevents newly written zeros from triggering extra row/column clears.
+- **Complete coverage:** Any cell sharing a row or column with an original zero is guaranteed to be reset.
 
 
 ## Complexity

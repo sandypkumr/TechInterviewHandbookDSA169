@@ -64,27 +64,52 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sweep Line with Sorted Start/End Arrays
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+Split intervals into:
+- `start_times` sorted
+- `end_times` sorted
 
-### Intuition
+Then sweep through time:
+- if next meeting starts before earliest ending meeting ends, need a new room
+- otherwise one meeting ended, so a room is freed
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Track maximum simultaneous rooms.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Sort the input**: Arrange elements in ascending order
-3. **Sort the input**: Arrange elements in ascending order
-4. **Main loop**: Continue until condition is met
-5. **Return result**: Output the computed answer
+Input: `[[0,30],[5,10],[15,20]]`
+
+- `starts = [0,5,15]`
+- `ends   = [10,20,30]`
+
+Sweep:
+- start `0 < 10` -> rooms=1
+- start `5 < 10` -> rooms=2
+- start `15 >= 10` -> free one (rooms=1), then occupy for 15 -> rooms=2
+
+Maximum rooms needed = 2.
+
+### Code Breakdown
+
+```python
+start_pointer = end_pointer = 0
+num_rooms = res = 0
+while start_pointer < len(start_times):
+    if start_times[start_pointer] < end_times[end_pointer]:
+        num_rooms += 1
+        start_pointer += 1
+    else:
+        num_rooms -= 1
+        end_pointer += 1
+    res = max(res, num_rooms)
+```
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Comparing next start with earliest end simulates room allocation greedily
+- Sorted arrays ensure chronological processing
+- Maximum concurrent meetings equals minimum rooms required
 
 
 ## Complexity

@@ -98,25 +98,35 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Reverse Flow DFS from Ocean Borders
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses a **Set** for fast membership testing and duplicate detection.
+Directly simulating water from every cell is expensive.
+Instead, reverse the perspective:
 
-### Intuition
+- Start DFS from Pacific borders and mark cells that can reach Pacific
+- Start DFS from Atlantic borders and mark cells that can reach Atlantic
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+In reverse traversal, we can move from `(i,j)` to neighbor `(x,y)` only if
+`heights[x][y] >= heights[i][j]` (because original flow would go downhill/equal in opposite direction).
 
-### Algorithm
+Final answer is intersection of the two reachable sets.
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+### Code Core
+
+```python
+if 0 <= x < rows and 0 <= y < cols and (x, y) not in ocean and heights[x][y] >= heights[i][j]:
+    dfs(x, y, ocean)
+```
+
+Border starts:
+- Pacific: top row + left column
+- Atlantic: bottom row + right column
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Reverse reachability exactly captures whether water can flow to an ocean
+- Each cell is visited at most once per ocean set
+- Intersection gives cells that reach both oceans
 
 
 ## Complexity

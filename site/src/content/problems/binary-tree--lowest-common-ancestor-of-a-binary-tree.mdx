@@ -87,25 +87,37 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Postorder DFS Returning Found Nodes Upward
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+Each DFS call returns one of:
+- `None` (neither `p` nor `q` in this subtree)
+- `p` or `q` (found one target)
+- LCA node (when targets split across left/right)
 
-### Intuition
+### Core Cases
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+For current `node`:
+1. if `node` is `None` -> return `None`
+2. if `node` is `p` or `q` -> return `node`
+3. recurse left and right
+4. if both sides return non-null, current node is LCA
+5. otherwise return whichever side is non-null
 
-### Algorithm
+### Code Breakdown
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+```python
+left = dfs(node.left)
+right = dfs(node.right)
+if left and right:
+    return node
+return left or right
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- If one target is in left subtree and the other in right subtree, current node is the first split point from bottom -> lowest common ancestor
+- If both are in one side, that side's result propagates upward
+- Visits each node once -> O(n) time, O(h) recursion stack
 
 
 ## Complexity

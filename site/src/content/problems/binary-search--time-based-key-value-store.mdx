@@ -92,29 +92,45 @@ class TimeMap:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map of Time-Series + Right-Boundary Binary Search
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It uses a **Set** for fast membership testing and duplicate detection.
+For each key, store ordered `(timestamp, value)` pairs in a list.
+Because `set` timestamps are strictly increasing, each list is already sorted by timestamp.
 
-### Intuition
+`get(key, t)` needs the value at largest timestamp `<= t`, i.e., rightmost valid position.
+That is a classic right-boundary binary search.
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+### Data Structure
 
-### Algorithm
+- `self.map[key] -> [(t1,v1), (t2,v2), ...]` (sorted by timestamp)
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Update hash map**: Store elements for future lookups
-5. **Return result**: Output the computed answer
+### get() Search Logic
+
+Binary search over `arr = self.map[key]`:
+
+- if `arr[mid].timestamp <= t`, mid is valid -> move right (`left = mid`)
+- else move left (`right = mid - 1`)
+
+Use upper-mid `(left + right + 1)//2` to avoid infinite loops.
+
+### Code Breakdown
+
+```python
+left, right = 0, len(arr) - 1
+while left < right:
+    mid = (left + right + 1) // 2
+    if arr[mid][0] <= timestamp:
+        left = mid
+    else:
+        right = mid - 1
+return arr[left][1] if arr[left][0] <= timestamp else ""
+```
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Per-key list remains sorted due to input guarantee
+- Binary search returns nearest timestamp not exceeding query time
+- `set` is O(1) append amortized, `get` is O(log n) per key-history size
 
 
 ## Complexity

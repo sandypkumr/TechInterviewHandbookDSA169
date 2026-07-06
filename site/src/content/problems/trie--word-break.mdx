@@ -82,24 +82,33 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems. It uses a **Set** for fast membership testing and duplicate detection.
+This solution uses **Dynamic Programming** to build answers from smaller subproblems and avoid recomputation.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+Let `dp[i]` mean whether the prefix `s[:i]` can be segmented into words from the dictionary. If there is some split point `j < i` such that `dp[j]` is true and `s[j:i]` is a dictionary word, then the prefix up to `i` is also valid.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Convert `wordDict` into a set for fast membership checks.
+2. Create a boolean DP array of length `n + 1` and set `dp[0] = True` for the empty prefix.
+3. For each ending index `i`, try every earlier split point `j`. If `dp[j]` is true and `s[j:i]` is in the set, mark `dp[i] = True`.
+4. Return `dp[n]` to indicate whether the whole string can be segmented.
+
+### Code Breakdown
+
+The outer loop grows the prefix length, and the inner loop searches for the first valid split point. The `break` stops early once `dp[i]` becomes true, which avoids unnecessary substring checks.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct state meaning:** `dp[i]` is true exactly when `s[:i]` can be segmented.
+- **Complete transitions:** Trying every split point guarantees that every possible last word is considered.
+- **Bottom-up construction:** Smaller prefixes are solved before larger ones, so each decision uses already computed information.
+- **Optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

@@ -82,24 +82,47 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: One Pass with Three Cases
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Because `intervals` is already sorted and non-overlapping, insertion is simpler than full merge-intervals.
 
-### Intuition
+For each interval, only three possibilities exist relative to `newInterval`:
+1. **Completely before** new interval: keep it
+2. **Completely after** new interval: place `newInterval`, then append the rest and return
+3. **Overlapping**: merge into `newInterval`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Walkthrough
 
-### Algorithm
+**Input:** `intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]`, `newInterval = [4,8]`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+- `[1,2]` is before `[4,8]` -> output `[[1,2]]`
+- `[3,5]` overlaps -> merge -> `newInterval = [3,8]`
+- `[6,7]` overlaps -> merge -> `newInterval = [3,8]`
+- `[8,10]` overlaps -> merge -> `newInterval = [3,10]`
+- `[12,16]` is after -> append `[3,10]`, then remaining intervals
+
+Result: `[[1,2],[3,10],[12,16]]`
+
+### Code Breakdown
+
+```python
+if interval[1] < newInterval[0]:
+    merged.append(interval)           # case 1: before
+elif interval[0] > newInterval[1]:
+    merged.append(newInterval)        # case 2: after
+    return merged + intervals[i:]
+else:
+    newInterval[0] = min(newInterval[0], interval[0])
+    newInterval[1] = max(newInterval[1], interval[1])  # case 3: overlap
+```
+
+After loop, if we never inserted `newInterval`, append it at the end.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Sorted/non-overlapping input guarantees local decisions are globally correct
+- Once we hit "after", no later interval can overlap
+- Each interval is visited once, giving linear time
 
 
 ## Complexity

@@ -78,24 +78,54 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Check Least Significant Bit, Then Right Shift
 
-This solution implements an efficient algorithm to solve the problem systematically.
+At each step:
+1. Read the rightmost bit using `n & 1`
+2. Add it to the answer
+3. Right shift `n` by one (`n >>= 1`) to process next bit
 
-### Intuition
+Repeat until `n` becomes 0.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why `n & 1` Works
 
-### Algorithm
+- If last bit is `1`, then `n & 1 = 1`
+- If last bit is `0`, then `n & 1 = 0`
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+So this gives exactly whether the current least significant bit is set.
 
-### Why This Works
+### Step-by-Step Walkthrough
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+**Input:** `n = 11` (binary `1011`)
+
+```
+n = 1011, n&1 = 1 -> count = 1
+n = 0101, n&1 = 1 -> count = 2
+n = 0010, n&1 = 0 -> count = 2
+n = 0001, n&1 = 1 -> count = 3
+n = 0000 -> stop
+```
+
+Answer = `3`
+
+### Code Breakdown
+
+```python
+count = 0
+while n:
+    count += n & 1
+    n >>= 1
+return count
+```
+
+This exactly scans every bit from right to left.
+
+### Why This Complexity
+
+- Time: O(number of bits in n) = O(log n)
+- Space: O(1)
+
+Note: A slightly faster variant is Brian Kernighan's trick (`n &= n-1`), which runs in O(number of set bits).
 
 
 ## Complexity

@@ -87,23 +87,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Stack-based Expression Evaluation
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **stack** to evaluate the expression while preserving operator precedence and parentheses.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+The expression only contains `+`, `-`, and parentheses, so we can keep a running total for the current level of parentheses. When we enter a new parenthesized expression, we save the previous result and sign on stacks. When we close the parentheses, we evaluate the inner result and merge it back into the outer context.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Scan the string character by character, building multi-digit numbers as needed.
+2. When a `+` or `-` is reached, apply the previous sign to the current number and add it into `res`.
+3. When `(` appears, push the current `res` and `sign`, then reset the inner-expression state. When `)` appears, finish the inner expression and combine it with the saved outer state.
+4. Return the final accumulated result after the scan finishes.
+
+### Code Breakdown
+
+`num_stack` stores the accumulated result before each opening parenthesis, and `sign_stack` stores whether that subexpression should be added or subtracted when it closes. This lets the parser evaluate nested expressions in one pass without building an explicit syntax tree.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct local evaluation:** At any point, `res` stores the value of the current parenthesis level processed so far.
+- **Proper nesting support:** Saving outer state before `(` and restoring it after `)` correctly models recursive expression structure.
+- **Single-pass parsing:** Every character is processed once, and each parenthesis pair is resolved when closed.
 
 
 ## Complexity

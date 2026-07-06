@@ -96,23 +96,45 @@ class MedianFinder:
 
 ## Explanation
 
-### Approach
+### Approach: Two Heaps with Balance Invariants
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It utilizes a **Heap** to efficiently maintain ordered elements.
+Maintain two heaps:
+- `small` (max-heap via negative values): lower half of numbers
+- `large` (min-heap): upper half of numbers
 
-### Intuition
+Invariants:
+1. every value in `small` is `<=` every value in `large`
+2. size difference is at most 1 (`small` may hold one extra)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Add Number
 
-### Algorithm
+1. push into `small`
+2. if top of `small` is greater than top of `large`, move one element to `large`
+3. rebalance sizes if needed
 
-1. **Return result**: Output the computed answer
+### Find Median
+
+- equal sizes -> average of two tops
+- otherwise top of `small`
+
+### Code Core
+
+```python
+heapq.heappush(self.small, -num)
+if self.small and self.large and -self.small[0] > self.large[0]:
+    heapq.heappush(self.large, -heapq.heappop(self.small))
+
+if len(self.small) > len(self.large) + 1:
+    heapq.heappush(self.large, -heapq.heappop(self.small))
+elif len(self.large) > len(self.small):
+    heapq.heappush(self.small, -heapq.heappop(self.large))
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Heaps keep median candidates at roots
+- Rebalancing preserves ordering and size invariants
+- Therefore `findMedian()` is O(1), insertion O(log n)
 
 
 ## Complexity

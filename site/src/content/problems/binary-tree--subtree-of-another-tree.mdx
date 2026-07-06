@@ -82,24 +82,41 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Candidate Scan + Exact Tree Match
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+Use two recursive functions:
 
-### Intuition
+1. `is_same(p, q)` -> checks whether two trees are exactly identical
+2. `isSubtree(root, subRoot)` -> scans each node in `root` as potential start of matching subtree
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+For each node in `root`, either:
+- it matches `subRoot` exactly (`is_same`), or
+- recurse into left/right child and continue searching
 
-### Algorithm
+### Code Breakdown
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+```python
+if root is None:
+    return False
+if is_same(root, subRoot):
+    return True
+return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
+```
+
+`is_same` itself recursively checks structure and values:
+
+```python
+if p is None and q is None: return True
+if p is None or q is None: return False
+if p.val != q.val: return False
+return is_same(p.left, q.left) and is_same(p.right, q.right)
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- We test every possible root candidate in `root`
+- For each candidate, exact structural/value equality is verified
+- If any candidate succeeds, `subRoot` is a subtree; otherwise not
 
 
 ## Complexity

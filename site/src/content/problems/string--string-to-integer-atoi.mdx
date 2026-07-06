@@ -148,24 +148,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: String Parsing with State Tracking
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution parses the string character by character, handling signs, leading whitespace, and overflow conditions.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**State Machine Approach:** Track parsing state:
+1. Skip leading whitespace
+2. Optional sign
+3. Read digits until non-digit
+4. Check overflow boundaries
+
+**Overflow:** INT_MIN = -2^31, INT_MAX = 2^31 - 1
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+1. Skip leading whitespace
+2. Check for optional '+' or '-'
+3. Read digits and build number
+4. Clamp to [INT_MIN, INT_MAX]
+5. Return result
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Robust Parsing:** Handles edge cases per spec
+- **Overflow Safe:** Checks before multiplying
+- **O(n) Time:** Single pass through string
+- **State Machine:** Clean logic for each state
 
 
 ## Complexity

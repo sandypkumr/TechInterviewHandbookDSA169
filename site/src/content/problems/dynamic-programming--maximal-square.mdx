@@ -80,25 +80,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+This solution uses **Dynamic Programming** to build answers from smaller subproblems and avoid recomputation.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+For each cell, we want to know the side length of the largest all-`1` square whose **bottom-right corner** is at that cell. If the current cell contains `'1'`, then its square size depends on the three neighboring squares above, left, and top-left. The smallest of those three limits how large the new square can be.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return `0` if the matrix is empty.
+2. Create a DP table where `dp[i][j]` stores the side length of the largest square ending at cell `(i, j)`.
+3. If `matrix[i][j]` is `'1'`, set `dp[i][j] = 1` on the first row or column; otherwise set it to `min(top, left, top_left) + 1`.
+4. Track the largest side length seen and return its area, `max_side * max_side`.
+
+### Code Breakdown
+
+The DP table mirrors the matrix dimensions. Each `1` cell either starts a new square of side `1` or extends smaller neighboring squares by one. The `max_side` variable avoids an extra pass by recording the best square as the table is filled.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Local dependency:** A square can only grow if the top, left, and top-left neighbors can all support that larger square.
+- **Correct recurrence:** `min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1` gives the largest valid square ending at `(i, j)`.
+- **Direct final answer:** The largest side seen anywhere in the table corresponds to the maximal square in the matrix.
 
 
 ## Complexity

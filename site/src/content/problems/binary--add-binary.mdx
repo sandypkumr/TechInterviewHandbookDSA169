@@ -55,23 +55,44 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Convert from Binary -> Add -> Convert Back
 
-It applies **Binary Search** to find the target in logarithmic time.
+This implementation uses Python's built-ins:
+1. Parse both strings as base-2 integers
+2. Add the two integers
+3. Convert the result back to binary string
 
-### Intuition
+### Why This Matches the Problem
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+Binary addition is mathematically identical to integer addition once values are decoded. The built-ins handle carry logic internally.
 
-### Algorithm
+### Step-by-Step Example
 
-1. **Return result**: Output the computed answer
+Input: `a = "1010"`, `b = "1011"`
 
-### Why This Works
+- `int("1010", 2) = 10`
+- `int("1011", 2) = 11`
+- Sum = `21`
+- `bin(21) = "0b10101"`
+- Remove `"0b"` prefix -> `"10101"`
 
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+Output: `"10101"`
+
+### Code Breakdown
+
+```python
+return bin(int(a, 2) + int(b, 2))[2:]
+```
+
+- `int(a, 2)`: parse `a` as base-2
+- `+`: normal integer addition
+- `bin(...)`: convert integer to binary format string
+- `[2:]`: strip the `0b` prefix
+
+### Complexity
+
+- Parsing and formatting touch each digit, so O(n)
+- Output string uses O(n) space
 
 
 ## Complexity

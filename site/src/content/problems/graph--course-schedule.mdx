@@ -88,25 +88,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Cycle Detection in Directed Graph
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Model courses as a directed graph:
+- edge `course -> prereq`
 
-### Intuition
+You can finish all courses **iff** graph has no cycle.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+This DFS uses 3 states in `visited`:
+- `0` = unvisited
+- `-1` = currently in recursion stack (visiting)
+- `1` = fully processed (safe)
 
-### Algorithm
+If DFS reaches a node already marked `-1`, we found a back-edge -> cycle exists.
 
-1. **Iterate through elements**: Process each element systematically
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+### Step-by-Step Intuition
+
+For prerequisites `[[1,0],[0,1]]`:
+
+- DFS(0): mark `0` as visiting (`-1`)
+- Explore prereq `1`: DFS(1), mark `1` as visiting
+- Explore prereq `0`: sees `visited[0] == -1` -> cycle -> cannot finish
+
+Return `False`.
+
+### Code Breakdown
+
+```python
+if visited[i] == -1:
+    return False    # cycle
+if visited[i] == 1:
+    return True     # already verified acyclic
+
+visited[i] = -1
+for j in graph[i]:
+    if not self.dfs(graph, visited, j):
+        return False
+visited[i] = 1
+return True
+```
+
+Outer loop runs DFS from every course to cover disconnected components.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Detects exactly the condition that blocks completion: directed cycle
+- Each node and edge is processed at most once in successful traversal
+- Complexity O(V+E)
 
 
 ## Complexity

@@ -66,24 +66,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: 2D DP Grid Accumulation
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+Let `dp[i][j]` be number of ways to reach cell `(i, j)`.
 
-### Intuition
+Robot can only come from:
+- top: `(i-1, j)`
+- left: `(i, j-1)`
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+So recurrence is:
 
-### Algorithm
+`dp[i][j] = dp[i-1][j] + dp[i][j-1]`
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Base cases:
+- first row: only move right -> all 1
+- first column: only move down -> all 1
+
+### Step-by-Step Example
+
+For `m=3, n=2`, initialize:
+
+```
+1 1
+1 1
+1 1
+```
+
+Fill inner cells:
+- `dp[1][1] = dp[0][1] + dp[1][0] = 1 + 1 = 2`
+- `dp[2][1] = dp[1][1] + dp[2][0] = 2 + 1 = 3`
+
+Final answer: `dp[2][1] = 3`.
+
+### Code Breakdown
+
+```python
+dp = [[1] * n for _ in range(m)]
+for i in range(1, m):
+    for j in range(1, n):
+        dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+return dp[-1][-1]
+```
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every path to `(i,j)` must end with one valid move from top or left
+- DP computes each subproblem exactly once
+- Time O(m*n), space O(m*n)
 
 
 ## Complexity

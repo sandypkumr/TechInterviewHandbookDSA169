@@ -81,24 +81,47 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Iterative Pointer Reversal
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Walk through the list once and reverse each node's `next` pointer.
 
-### Intuition
+Maintain:
+- `prev`: already reversed part
+- `head`: current node to process
+- `current` (temp): node being rewired
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `1 -> 2 -> 3 -> 4 -> 5`
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+- Start: `prev = None`, `head = 1`
+- Process 1: point `1.next` to `None` -> `prev = 1`, `head = 2`
+- Process 2: point `2.next` to `1` -> `prev = 2`, `head = 3`
+- Process 3: point `3.next` to `2` -> ...
+
+End state: `5 -> 4 -> 3 -> 2 -> 1`
+
+`prev` is the new head.
+
+### Code Breakdown
+
+```python
+prev = None
+while head:
+    current = head
+    head = head.next
+    current.next = prev
+    prev = current
+return prev
+```
+
+The order of operations matters: save `head.next` before rewiring.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each node moves exactly once from original chain to reversed chain
+- Reversal is complete when original traversal pointer (`head`) reaches `None`
+- O(n) time, O(1) extra space
 
 
 ## Complexity

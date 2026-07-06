@@ -95,29 +95,40 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution uses **Breadth-First Search (BFS)** with a queue to explore states level by level.
 
 ### Intuition
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+The width of a level depends on where its leftmost and rightmost nodes would sit in a complete binary tree, not just on how many nodes exist. By carrying an index with each node during BFS, we can compute the width of every level as `last_index - first_index + 1`.
 
 ### Algorithm
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Initialize queue**: Start with the root/initial elements
-3. **Main loop**: Continue until condition is met
-4. **Move pointers**: Adjust left/right pointers based on current sum
-5. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Return `0` if the tree is empty.
+2. Start BFS with the root assigned index `0`.
+3. For each level, compute its width from the first and last indices currently in the queue.
+4. Push children into the next level with indices `2 * idx` and `2 * idx + 1`, and keep the maximum width seen.
+
+### Code Breakdown
+
+Each queue entry stores `(node, idx)`, where `idx` represents the node's position in an imaginary complete binary tree. That lets the algorithm measure gaps between nodes correctly, even when some children are missing
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Positional indexing:** The complete-tree indices preserve the horizontal distance between nodes on the same level.
+- **Correct width formula:** `last - first + 1` counts all slots between the outermost nodes, which matches the problem definition.
+- **Level-order traversal:** BFS ensures the first and last queued indices belong to the same depth when width is computed.
+
+### Why This Works
+
+- **Level-by-level exploration:** Guarantees we find the shortest path (if it's a path problem) and systematically covers all nodes
+- **Logarithmic search:** By eliminating half the search space with each iteration, we achieve O(log n) time complexity
+- **No nested loops:** Two pointers avoid O(n²) complexity by moving intelligently through the data
+- **Handles edge cases:** Correctly processes boundary conditions and special inputs
+- **Time-space optimization:** Balances time complexity gains with reasonable space usage
 
 
 ## Complexity

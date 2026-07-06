@@ -69,24 +69,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+This solution uses **Dynamic Programming** to build answers from smaller subproblems and avoid recomputation.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+If the array can be split into two equal subsets, then one subset must sum to exactly half of the total. That turns the problem into a classic subset-sum question: can we pick some numbers that add up to `total // 2`? A 1D DP array is enough because each number is used at most once.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Compute the total sum. If it is odd, return `False` immediately because two equal subsets are impossible.
+2. Let `target = total // 2` and create a boolean DP array where `dp[i]` means sum `i` is reachable.
+3. Set `dp[0] = True`, then process each number by iterating backward from `target` down to that number.
+4. Update `dp[i] = dp[i] or dp[i - num]` and return `dp[target]` at the end.
+
+### Code Breakdown
+
+The backward iteration is the key detail: it prevents the current number from being reused multiple times in the same pass. Each update asks whether the current sum `i` was already reachable or can be reached by adding `num` to a previously reachable sum `i - num`.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Equivalent reformulation:** Partitioning into two equal subsets is exactly the same as finding one subset with sum `total // 2`.
+- **Correct state meaning:** `dp[i]` records whether some subset of processed numbers can make sum `i`.
+- **Single-use guarantee:** Iterating backward ensures each number contributes at most once, matching the problem constraints.
 
 
 ## Complexity

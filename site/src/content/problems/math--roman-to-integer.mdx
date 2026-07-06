@@ -104,23 +104,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map Lookup
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **hash map** for symbol values and scans the Roman numeral once from left to right.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Most Roman numerals are additive, but a smaller value before a larger one means subtraction, as in `IV` or `IX`. By remembering the previous value while scanning, we can detect those subtractive pairs and adjust the running total correctly.
 
 ### Algorithm
 
-1. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Create a map from Roman symbols to their integer values.
+2. Traverse the string from left to right, converting each character to its value.
+3. Add the current value to the result, but if it is larger than the previous value, subtract twice the previous value to undo the earlier addition and apply the subtractive rule.
+4. Return the final accumulated total.
+
+### Code Breakdown
+
+`roman_to_int` provides constant-time access to each symbol's value. The variable `prev` keeps track of the previous numeral so the code can recognize patterns like `IV`, `XL`, or `CM` without extra lookahead logic.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Additive baseline:** Every numeral is added once by default.
+- **Subtractive correction:** When a larger numeral follows a smaller one, subtracting `2 * prev` converts the earlier addition into the correct subtraction.
+- **Single-pass evaluation:** The algorithm processes each symbol once while maintaining exactly the information needed for Roman numeral rules.
 
 
 ## Complexity

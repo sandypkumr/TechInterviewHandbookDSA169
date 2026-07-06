@@ -69,25 +69,38 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS per Unvisited Node
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It uses a **Set** for fast membership testing and duplicate detection.
+Build an adjacency list for the undirected graph, then:
+- iterate all nodes
+- if node not visited, it starts a new connected component
+- run DFS to mark its entire component visited
 
-### Intuition
+Count how many DFS starts happen.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Code Structure
 
-### Algorithm
+```python
+graph = {i: [] for i in range(n)}
+for u, v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
 
-1. **Iterate through elements**: Process each element systematically
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+visited = set()
+count = 0
+for i in range(n):
+    if i not in visited:
+        count += 1
+        dfs(i)
+```
+
+DFS marks all nodes reachable from the start node.
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each DFS call covers exactly one connected component
+- No node belongs to two components, so count is exact
+- Every node and edge is processed at most once -> O(V+E)
 
 
 ## Complexity

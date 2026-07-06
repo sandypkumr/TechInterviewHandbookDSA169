@@ -67,34 +67,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Backtracking with Open/Close Counts
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+Build strings of length `2*n` while maintaining validity constraints:
 
-### Intuition
+- we can add `'('` if `left < n`
+- we can add `')'` only if `right < left` (cannot close more than opened)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+When length reaches `2*n`, current string is a complete valid combination.
 
-### Algorithm
+### Why Constraints Guarantee Validity
 
-1. **Initialize result container**: Create list to store the answer
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+`right < left` ensures at every prefix there are never more closing than opening parentheses, so no invalid prefix is generated.
+
+### Code Core
+
+```python
+if len(s) == 2 * n:
+    res.append(s)
+    return
+if left < n:
+    backtrack(s + '(', left + 1, right)
+if right < left:
+    backtrack(s + ')', left, right + 1)
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Explores all valid decisions recursively
+- Prunes invalid branches immediately
+- Produces exactly the Catalan-number set of well-formed strings
 
-
-## Complexity
-
-- **Time**: `O(4^n / sqrt(n))`
-- **Space**: `O(n)`
-
-
-## Similar Problems
-
-- [Valid Parentheses](/TechInterviewHandbookDSA169/problems/valid-parentheses)
-- [Letter Combinations Of A Phone Number](/TechInterviewHandbookDSA169/problems/letter-combinations-of-a-phone-number)

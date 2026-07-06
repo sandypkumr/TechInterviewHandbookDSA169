@@ -77,24 +77,47 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sliding Window + Last Seen Index Map
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Maintain a window `[start..i]` with all unique characters.
+If current character was seen inside the current window, move `start` right after its previous index.
 
-### Intuition
+`used_char` stores the latest index of each character.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input: `"abcabcbb"`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Return result**: Output the computed answer
+- `i=0, 'a'`: window `"a"`, max=1
+- `i=1, 'b'`: window `"ab"`, max=2
+- `i=2, 'c'`: window `"abc"`, max=3
+- `i=3, 'a'`: duplicate in window, move `start` from 0 to 1
+  - window becomes `"bca"`, max stays 3
+- `i=4, 'b'`: move `start` to 2
+- `i=5, 'c'`: move `start` to 3
+- `i=6, 'b'`: move `start` to 5
+- `i=7, 'b'`: move `start` to 7
 
-### Why This Works
+Final answer: 3
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+### Why `start <= used_char[char]` Matters
+
+It ensures we only move `start` if duplicate is inside current window.
+If duplicate is before `start`, we ignore it.
+
+### Code Breakdown
+
+```python
+if char in used_char and start <= used_char[char]:
+    start = used_char[char] + 1
+else:
+    max_len = max(max_len, i - start + 1)
+used_char[char] = i
+```
+
+### Why This is O(n)
+
+Each index is processed once, and `start` only moves forward. Hash map operations are O(1) average.
 
 
 ## Complexity

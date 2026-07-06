@@ -88,24 +88,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Greedy Algorithm
 
-This solution implements an efficient algorithm to solve the problem systematically.
+Use two running balances:
+- `total_tank`: total gas - total cost across all stations
+- `cur_tank`: running balance from current candidate start
+
+If `cur_tank` becomes negative at index `i`, then no station between current start and `i` can be a valid start. So we reset start to `i + 1` and `cur_tank = 0`.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Two facts drive the solution:
+
+1. If total gas is less than total cost, answer is impossible (`-1`).
+2. When a segment fails (`cur_tank < 0`), every start inside that segment also fails, so we can skip them all.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+1. Iterate stations once, updating `total_tank` and `cur_tank` by `gas[i] - cost[i]`
+2. If `cur_tank < 0`, reset candidate start to `i + 1`
+3. After loop, return candidate start if `total_tank >= 0`, else `-1`
+
+### Code Breakdown
+
+```python
+total_tank += gas[i] - cost[i]
+cur_tank += gas[i] - cost[i]
+if cur_tank < 0:
+    starting_station = i + 1
+    cur_tank = 0
+```
+
+Final feasibility check:
+
+```python
+return starting_station if total_tank >= 0 else -1
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Feasibility:** `total_tank` determines whether any full circuit is possible.
+- **Optimal skip:** Resetting start after a deficit is mathematically safe.
+- **Linear scan:** Single pass gives O(n) time and O(1) space.
 
 
 ## Complexity

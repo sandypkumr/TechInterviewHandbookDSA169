@@ -87,24 +87,35 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Row-by-Row Backtracking with Conflict Sets
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses a **Set** for fast membership testing and duplicate detection.
+Place one queen per row. For each candidate `(row, col)`, ensure no conflict with existing queens:
 
-### Intuition
+- same column tracked in `cols`
+- main diagonal tracked by `row - col` in `diags`
+- anti-diagonal tracked by `row + col` in `anti_diags`
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+If safe, place queen, recurse to next row, then backtrack.
 
-### Algorithm
+### Code Core
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+```python
+if col in cols or diag in diags or anti_diag in anti_diags:
+    continue
+board[row][col] = "Q"
+cols.add(col); diags.add(diag); anti_diags.add(anti_diag)
+backtrack(row + 1, cols, diags, anti_diags, board)
+board[row][col] = "."
+cols.remove(col); diags.remove(diag); anti_diags.remove(anti_diag)
+```
+
+When `row == n`, current board is a complete valid arrangement.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Constraint sets give O(1) safety checks
+- Backtracking explores all legal placements and prunes illegal ones early
+- Every returned board is valid and distinct by construction
 
 
 ## Complexity

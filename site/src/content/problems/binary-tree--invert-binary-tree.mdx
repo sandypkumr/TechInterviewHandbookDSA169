@@ -75,24 +75,52 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Recursive Mirror Swap
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+To invert a binary tree, each node swaps its left and right children.
+Do this recursively for every node.
 
-### Intuition
+### Recursive Rule
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+- Base case: `None` stays `None`
+- For a node:
+  - invert right subtree
+  - invert left subtree
+  - assign swapped results
 
-### Algorithm
+In code, this is expressed in one line:
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+```python
+root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+```
+
+### Step-by-Step Example
+
+Input root:
+
+```
+    4
+   / \
+  2   7
+ / \ / \
+1  3 6  9
+```
+
+After inversion:
+
+```
+    4
+   / \
+  7   2
+ / \ / \
+9  6 3  1
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Inversion is local at each node (swap children)
+- Recursion ensures this local operation is applied globally to entire tree
+- Each node is visited exactly once -> O(n) time
 
 
 ## Complexity

@@ -75,24 +75,29 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Fast Exponentiation (Binary Exponentiation)
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses **fast exponentiation** to compute x^n efficiently in O(log n) time using the binary representation of n.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Divide and Conquer:** Instead of multiplying x by itself n times, use binary representation:
+- x^13 = x^(1101₂) = x^8 × x^4 × x^1
+
+We compute x^2, x^4, x^8, ... and combine based on binary digits of n.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+1. If n is negative, convert to positive (invert result)
+2. Build powers: x^1, x^2, x^4, x^8, ...
+3. For each '1' bit in n, include that power
+4. Multiply all selected powers
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **O(log n) Time:** We only need log n multiplications
+- **Binary Representation:** Any exponent can be expressed as sum of powers of 2
+- **Efficient:** Much faster than naive O(n) multiplication
 
 
 ## Complexity

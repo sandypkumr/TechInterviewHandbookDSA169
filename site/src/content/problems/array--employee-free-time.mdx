@@ -63,26 +63,46 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Flatten All Intervals, Sort, Then Find Gaps
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+All employee busy intervals are first combined into one list and sorted by start time.
+Then we merge overlapping busy windows implicitly while scanning with a running `end`.
 
-### Intuition
+Whenever the next interval starts **after** current merged `end`, that gap is common free time.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+Input:
+`[[[1,3],[6,7]], [[2,4]], [[2,5],[9,12]]]`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Sort the input**: Arrange elements in ascending order
-3. **Iterate through elements**: Process each element systematically
-4. **Return result**: Output the computed answer
+Flatten + sort by start:
+`[ [1,3], [2,4], [2,5], [6,7], [9,12] ]`
+
+Scan:
+- merged busy end starts at 3
+- `[2,4]` overlaps -> end=4
+- `[2,5]` overlaps -> end=5
+- `[6,7]` starts after 5 -> free `[5,6]`, update end=7
+- `[9,12]` starts after 7 -> free `[7,9]`, update end=12
+
+Output free intervals: `[[5,6],[7,9]]`.
+
+### Code Core
+
+```python
+intervals = sorted([interval for employee in schedule for interval in employee], key=lambda x: x.start)
+end = intervals[0].end
+for i in range(1, len(intervals)):
+    if intervals[i].start > end:
+        free_time.append(Interval(end, intervals[i].start))
+    end = max(intervals[i].end, end)
+```
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Sorted order lets us track merged busy coverage in one pass
+- Any gap between merged busy blocks is free for everyone
+- Time is dominated by sorting: O(n log n)
 
 
 ## Complexity

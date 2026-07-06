@@ -66,24 +66,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Greedy Algorithm
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **Greedy** strategy to make locally optimal decisions that lead to the global optimum.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Instead of asking, "How far can I go from the start?", this solution works backward and asks, "What is the leftmost position that can still reach the end?" If an index `i` can jump to that position or beyond, then `i` becomes the new leftmost good position. In the end, we only need to check whether index `0` is good.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Start with `can_start_here` set to the last index, since the last index can trivially reach itself.
+2. Scan the array from right to left.
+3. Whenever `i + nums[i]` reaches `can_start_here` or goes beyond it, update `can_start_here = i`.
+4. After the scan, return whether `can_start_here` moved all the way back to index `0`.
+
+### Code Breakdown
+
+The loop checks each position exactly once. The variable `can_start_here` tracks the nearest index to the left that must be reachable. Each successful update shrinks the problem, because now we only need to reach an even earlier index.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Greedy invariant:** `can_start_here` is always the leftmost index currently known to reach the end.
+- **Backward reduction:** If index `i` can reach `can_start_here`, then `i` can also reach the end, so it is safe to replace the target with `i`.
+- **Final check:** If the target is reduced to `0`, then the start can reach the end; otherwise it cannot.
 
 
 ## Complexity

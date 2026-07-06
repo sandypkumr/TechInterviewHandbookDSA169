@@ -60,24 +60,41 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Frequency Count Comparison with `Counter`
 
-It leverages a **Hash Map** for O(1) lookups and efficient tracking.
+Two strings are anagrams if and only if every character appears the same number of times in both strings.
 
-### Intuition
+`Counter` builds frequency maps, so equality check directly answers the problem.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+`s = "anagram"`, `t = "nagaram"`
 
-1. **Update hash map**: Store elements for future lookups
-2. **Return result**: Output the computed answer
+- `Counter(s)` -> `{a:3, n:1, g:1, r:1, m:1}`
+- `Counter(t)` -> `{a:3, n:1, g:1, r:1, m:1}`
 
-### Why This Works
+Equal -> anagram (`True`).
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+`s = "rat"`, `t = "car"`
+
+- `Counter(s)` has `t:1`
+- `Counter(t)` has `c:1`
+
+Not equal -> not anagram (`False`).
+
+### Code Breakdown
+
+```python
+return Counter(s) == Counter(t)
+```
+
+- Build two frequency dictionaries
+- Compare key-value pairs
+
+### Complexity Note
+
+For fixed lowercase English alphabet, auxiliary space is bounded by alphabet size, often treated as O(1).
+For general Unicode, distinct characters can grow with input, so space is O(k) where `k` is number of unique chars.
 
 
 ## Complexity

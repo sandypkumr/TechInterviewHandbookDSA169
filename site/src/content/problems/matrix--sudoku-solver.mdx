@@ -101,25 +101,37 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Backtracking with Row/Col/Box Constraint Sets
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It leverages a **Hash Map** for O(1) lookups and efficient tracking. It uses a **Set** for fast membership testing and duplicate detection.
+Before solving, collect existing digits into:
+- `rows[r]`: digits used in row `r`
+- `cols[c]`: digits used in column `c`
+- `boxes[(r//3,c//3)]`: digits used in 3x3 box
 
-### Intuition
+Then recurse cell by cell:
+- if fixed cell, move on
+- if empty, try digits `1..9` that are absent in row/col/box
+- place digit, recurse
+- if recursion fails, undo placement (backtrack)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Code Core
 
-### Algorithm
-
-1. **Iterate through elements**: Process each element systematically
-2. **Update hash map**: Store elements for future lookups
-3. **Return result**: Output the computed answer
+```python
+if num in rows[row] or num in cols[col] or num in boxes[box]:
+    continue
+board[row][col] = num
+rows[row].add(num); cols[col].add(num); boxes[box].add(num)
+if self.solve(...):
+    return True
+board[row][col] = '.'
+rows[row].remove(num); cols[col].remove(num); boxes[box].remove(num)
+```
 
 ### Why This Works
 
-- **Hash map efficiency**: O(1) average-case lookups dramatically reduce time complexity
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Constraint sets give O(1) legality checks per candidate
+- Backtracking explores only valid partial boards
+- Guaranteed unique solution means first full success is final answer
 
 
 ## Complexity

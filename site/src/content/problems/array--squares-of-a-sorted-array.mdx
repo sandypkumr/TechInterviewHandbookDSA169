@@ -74,26 +74,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Two Pointers
 
-It uses the **Two Pointers** technique to efficiently search through the data. The algorithm starts by **sorting** the input to enable more efficient processing. It employs a **Sliding Window** to track a contiguous subset of elements.
+This solution sorts the input first, then uses the **Two Pointers** technique to converge efficiently.
 
 ### Intuition
 
-After sorting, we can use two pointers moving from opposite ends. This allows us to adjust our search based on whether the current sum is too large or too small, eliminating many unnecessary comparisons.
+Even though `nums` is already sorted, the largest square may come from either end because large negative values become large positive squares. By comparing absolute values at the left and right ends, we can place the larger square into the result from back to front.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Create an output array of the same length as `nums`.
+2. Set one pointer at the left end and one at the right end.
+3. Fill the result array from right to left by comparing `abs(nums[left])` and `abs(nums[right])`, placing the larger square and moving that pointer inward.
+4. Return the filled result array.
+
+### Code Breakdown
+
+The loop writes exactly one value per position in the output array. Because the largest remaining square is always at one of the ends, each step decides between two candidates and shrinks the search interval.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Largest square at an end:** In a sorted array, the greatest absolute value must be at the leftmost or rightmost position.
+- **Back-to-front construction:** Writing the largest square into the last open slot keeps the result sorted without an extra sort step.
+- **Linear processing:** Each pointer moves only inward, so the algorithm finishes in one pass.
 
 
 ## Complexity

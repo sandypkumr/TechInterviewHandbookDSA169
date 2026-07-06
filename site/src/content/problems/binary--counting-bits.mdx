@@ -78,24 +78,45 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DP on Half + Last Bit
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+For any number `i`:
 
-### Intuition
+`bits(i) = bits(i >> 1) + (i & 1)`
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+- `i >> 1` removes the last bit
+- `(i & 1)` is 1 if last bit is set, else 0
 
-### Algorithm
+So we can build answers from smaller numbers.
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+### Step-by-Step Example (`n = 5`)
+
+`dp[0] = 0`
+
+- `i=1 (001)`: `dp[1] = dp[0] + 1 = 1`
+- `i=2 (010)`: `dp[2] = dp[1] + 0 = 1`
+- `i=3 (011)`: `dp[3] = dp[1] + 1 = 2`
+- `i=4 (100)`: `dp[4] = dp[2] + 0 = 1`
+- `i=5 (101)`: `dp[5] = dp[2] + 1 = 2`
+
+Result: `[0,1,1,2,1,2]`
+
+### Code Breakdown
+
+```python
+dp = [0] * (n + 1)
+for i in range(1, n + 1):
+    dp[i] = dp[i >> 1] + (i & 1)
+```
+
+- `dp[i >> 1]`: already computed smaller state
+- `+ (i & 1)`: add contribution of dropped last bit
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Valid recurrence directly from binary representation
+- Bottom-up DP computes each state once
+- O(n) total time with O(n) output array
 
 
 ## Complexity

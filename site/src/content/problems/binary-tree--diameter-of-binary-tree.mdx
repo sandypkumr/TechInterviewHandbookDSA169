@@ -79,25 +79,44 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Postorder DFS with Global Diameter Tracking
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+For each node, the longest path passing through that node is:
 
-### Intuition
+`height(left) + height(right)` (in edges)
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+So we run DFS to compute subtree heights and update a global answer at every node.
 
-### Algorithm
+### Key Idea
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+- `check(node)` returns height of node (max edges down to leaf + 1 in node count style)
+- while returning height, update `self.ans` with `left + right`
+
+`left + right` is exactly number of edges in the best path through current node.
+
+### Step-by-Step Example
+
+Tree: `[1,2,3,4,5]`
+
+- At node `2`: left height from `4` is 1, right height from `5` is 1 -> local diameter 2
+- At node `1`: left height 2, right height 1 -> local diameter 3
+
+Global maximum becomes 3.
+
+### Code Breakdown
+
+```python
+left = check(root.left)
+right = check(root.right)
+self.ans = max(self.ans, left + right)
+return 1 + max(left, right)
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every possible diameter has a highest node where path splits; we evaluate that case at each node
+- One DFS pass computes all needed heights and candidate diameters
+- O(n) time, O(h) recursion stack
 
 
 ## Complexity

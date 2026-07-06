@@ -100,24 +100,43 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Track Seen Digits in Rows, Columns, and Boxes
 
-It uses a **Set** for fast membership testing and duplicate detection.
+As we scan the board, each filled digit must be unique in three places at once:
+
+1. its row
+2. its column
+3. its `3 x 3` sub-box
+
+We keep three arrays of sets to record what has already appeared. If a digit is already present in any of those sets, the board is invalid.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Sudoku validity is entirely local: a digit only conflicts with other digits in the same row, column, or box. That makes sets a natural fit for constant-time duplicate checks while scanning the grid exactly once.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+1. Create 9 sets for rows, 9 sets for columns, and 9 sets for boxes
+2. Visit every cell in the board
+3. Skip `'.'` because empty cells do not matter
+4. Compute the box index with `(row // 3) * 3 + col // 3`
+5. If the digit is already in the matching row, column, or box set, return `False`
+6. Otherwise insert it into all three sets
+7. If the whole board is processed without conflict, return `True`
+
+### Code Breakdown
+
+- `rows = [set() for _ in range(9)]`: digits already seen in each row
+- `cols = [set() for _ in range(9)]`: digits already seen in each column
+- `boxes = [set() for _ in range(9)]`: digits already seen in each `3 x 3` box
+- `box = (row // 3) * 3 + col // 3`: maps a cell to box `0..8`
+- `if board[row][col] in rows[row] ...`: duplicate check before insertion
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every filled cell is validated against exactly the three Sudoku rules
+- A duplicate is detected immediately when it first becomes illegal
+- Because the board size is fixed at `9 x 9`, the work is bounded and constant in practice
 
 
 ## Complexity

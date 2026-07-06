@@ -86,25 +86,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Multi-Source BFS
 
-This solution uses **Breadth-First Search (BFS)** with a queue to explore nodes level by level.
+This solution starts BFS from **all zero cells at once**, letting distances spread outward to the nearest ones.
 
 ### Intuition
 
-BFS guarantees we explore nodes in order of their distance from the start. This is perfect for finding shortest paths or processing elements level by level.
+Every `0` cell is already at distance `0` from the nearest zero, so they can all be treated as simultaneous BFS sources. As the search expands level by level, the first time we improve a `1` cell is guaranteed to be through the shortest path to some zero.
 
 ### Algorithm
 
-1. **Initialize queue**: Start with the root/initial elements
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the matrix and enqueue every cell containing `0`.
+2. Set every `1` cell to `infinity` so it can later be relaxed to its true shortest distance.
+3. Run BFS from the queue, and whenever a neighbor can be improved to `current + 1`, update it and enqueue it.
+4. Return the modified matrix once all reachable cells have been assigned their minimum distance.
+
+### Code Breakdown
+
+The matrix itself is reused as the distance table. Initial zero cells seed the queue, and each BFS step tries the four adjacent directions, updating a neighbor only when the new distance is smaller than its current value.
 
 ### Why This Works
 
-- **Level-order processing**: Guarantees shortest path and systematic exploration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Shortest-path layering:** BFS explores cells in nondecreasing distance order.
+- **All zeros as sources:** Starting from every zero at once guarantees each `1` cell is reached from its nearest zero first.
+- **Monotonic updates:** Once a cell gets its minimum distance, no later path can improve it with fewer steps.
 
 
 ## Complexity

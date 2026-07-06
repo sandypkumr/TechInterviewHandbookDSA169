@@ -109,27 +109,50 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Divide-and-Conquer Pairwise Merging
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+This implementation recursively splits the list of linked lists into two halves,
+merges each half, then merges the two sorted results.
 
-### Intuition
+It is analogous to merge sort on lists.
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+### Why This Is Efficient
 
-### Algorithm
+If total nodes are `N` across `k` lists:
+- each merge level processes all `N` nodes once
+- number of levels is `log k`
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Move pointers**: Adjust left/right pointers based on current sum
-4. **Return result**: Output the computed answer
+So total time is `O(N log k)`.
+
+### Code Structure
+
+```python
+left = self.merge(lists, start, mid)
+right = self.merge(lists, mid + 1, end)
+return self.merge_two_lists(left, right)
+```
+
+`merge_two_lists` is standard linear two-pointer merge using a dummy head.
+
+### Two-List Merge Core
+
+```python
+while left and right:
+    if left.val < right.val:
+        current.next = left
+        left = left.next
+    else:
+        current.next = right
+        right = right.next
+    current = current.next
+current.next = left or right
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Base case (`start == end`) returns one already-sorted list
+- Recursive combining preserves sorted order at every level
+- Eventually all lists are merged into one globally sorted list
 
 
 ## Complexity

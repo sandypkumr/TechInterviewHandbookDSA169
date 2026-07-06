@@ -82,25 +82,34 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS with Valid Value Range Propagation
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+For each node, keep allowed value bounds:
+- all nodes in left subtree must be `< node.val`
+- all nodes in right subtree must be `> node.val`
 
-### Intuition
+So each recursive call receives `(lower, upper)` constraints and checks whether current value is inside them.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Code Logic
 
-### Algorithm
+```python
+if val <= lower or val >= upper:
+    return False
+return helper(node.right, val, upper) and helper(node.left, lower, val)
+```
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+At root, bounds are `(-inf, +inf)`.
+
+### Why Simple Parent-Only Check Fails
+
+A node can violate BST rules relative to an ancestor, not just its direct parent.
+Range propagation correctly captures all ancestor constraints.
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Every node is validated against full allowable interval
+- Bounds tighten as recursion goes deeper
+- One pass over nodes gives O(n) time and O(h) recursion stack
 
 
 ## Complexity

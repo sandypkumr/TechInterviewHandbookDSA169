@@ -89,25 +89,53 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: DFS Flood Fill on Grid
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Treat each land cell (`'1'`) as a graph node connected in 4 directions.
+Every time we find an unvisited `'1'`, we discovered a new island.
+Run DFS to mark its entire connected component as visited (by turning `'1'` into `'0'`).
 
-### Intuition
+### Step-by-Step Example
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+For grid:
 
-### Algorithm
+```
+1 1 0
+1 0 0
+0 0 1
+```
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Iterate through elements**: Process each element systematically
-3. **Return result**: Output the computed answer
+- At `(0,0)`, find land -> island count = 1
+  - DFS marks `(0,0),(0,1),(1,0)` as water
+- Continue scan; next unvisited land at `(2,2)` -> island count = 2
+  - DFS marks that component
+
+Final count = 2
+
+### Code Breakdown
+
+```python
+for i in range(rows):
+    for j in range(cols):
+        if grid[i][j] == '1':
+            dfs(i, j)
+            count += 1
+```
+
+DFS:
+
+```python
+if out_of_bounds or grid[i][j] == '0':
+    return
+grid[i][j] = '0'   # mark visited
+dfs(i+1, j); dfs(i-1, j); dfs(i, j+1); dfs(i, j-1)
+```
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Each DFS call marks exactly one connected land component
+- We increment count once per component, so count equals number of islands
+- Each cell is visited at most once, giving O(m*n) time
 
 
 ## Complexity

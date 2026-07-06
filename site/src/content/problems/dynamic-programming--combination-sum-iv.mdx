@@ -82,24 +82,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Dynamic Programming
 
-It employs **Dynamic Programming** to build up the solution by solving smaller subproblems.
+This solution uses **Dynamic Programming** to build answers from smaller subproblems and avoid recomputation.
 
 ### Intuition
 
-The problem exhibits optimal substructure - the solution to a larger problem can be built from solutions to smaller subproblems. By storing these intermediate results, we avoid redundant calculations.
+Let `dp[i]` represent the number of ordered combinations that add up to `i`. If we want to build a total of `i`, we can choose any number `num` as the last element, as long as `num <= i`. Every way to form `i - num` can then be extended with `num`, so we add `dp[i - num]` into `dp[i]`.
 
 ### Algorithm
 
-1. **Iterate through elements**: Process each element systematically
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Create a DP array of length `target + 1` and set `dp[0] = 1` because there is exactly one way to make sum `0`: choose nothing.
+2. Iterate `i` from `1` to `target`, treating `i` as the current total we want to build.
+3. For each number in `nums`, if it can fit into the current total, add `dp[i - num]` to `dp[i]`.
+4. After filling the table, return `dp[target]` as the number of ordered combinations.
+
+### Code Breakdown
+
+The outer loop fills the answer for every intermediate total from `1` up to `target`. The inner loop tries each candidate number as the last pick in the combination. Because `dp[i]` depends only on smaller totals, the table is built in a valid bottom-up order.
 
 ### Why This Works
 
-- **Memoization**: Stores subproblem solutions to avoid redundant calculations
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Correct state definition:** `dp[i]` stores exactly the number of ordered ways to build total `i`.
+- **Valid transition:** Every combination ending with `num` comes from a unique combination that builds `i - num`, so adding `dp[i - num]` counts all possibilities.
+- **Bottom-up completeness:** By the time we compute `dp[i]`, all smaller states have already been computed, so no combination is missed.
 
 
 ## Complexity

@@ -98,25 +98,50 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Merge Sort on Linked List
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+Linked lists are ideal for merge sort:
 
-### Intuition
+1. Split list into two halves (fast/slow pointers)
+2. Recursively sort each half
+3. Merge two sorted halves
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Split Logic
 
-### Algorithm
+`fast` moves two steps, `slow` one step. When `fast` ends, `slow` is near midpoint.
+Then cut at `slow.next`.
 
-1. **Handle edge cases**: Check for empty or invalid input
-2. **Main loop**: Continue until condition is met
-3. **Return result**: Output the computed answer
+### Merge Logic
+
+Use dummy head and repeatedly pick smaller front node from two lists.
+
+### Code Core
+
+```python
+mid = slow.next
+slow.next = None
+return self.merge(self.sortList(head), self.sortList(mid))
+```
+
+Merge function:
+
+```python
+while list1 and list2:
+    if list1.val < list2.val:
+        current.next = list1
+        list1 = list1.next
+    else:
+        current.next = list2
+        list2 = list2.next
+    current = current.next
+current.next = list1 if list1 else list2
+```
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Divide-and-conquer guarantees sorted merge of sorted halves
+- Every level touches all nodes once, with `log n` levels
+- Time O(n log n), recursion stack O(log n)
 
 
 ## Complexity

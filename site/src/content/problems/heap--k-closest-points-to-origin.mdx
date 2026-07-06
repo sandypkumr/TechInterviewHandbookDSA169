@@ -70,24 +70,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Sorting by Distance
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution computes each point's squared distance from the origin, sorts the points by that value, and returns the first `k`.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+For comparing distances, we do not need square roots because `x^2 + y^2` preserves the same ordering. Once the points are sorted by squared distance, the first `k` points are exactly the `k` closest to the origin.
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Define a helper that returns a point's squared distance from the origin.
+2. Sort the list of points using that helper as the key.
+3. Take the first `k` points from the sorted order.
+4. Return that slice.
+
+### Code Breakdown
+
+The `distance` helper avoids repeated inline arithmetic and keeps the `sorted(..., key=distance)` call readable. Because only relative order matters, using squared distance is both correct and cheaper than computing Euclidean distance.
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Equivalent ordering:** Sorting by `x^2 + y^2` gives the same ranking as sorting by actual distance.
+- **Sorted prefix answer:** After sorting, every point before index `k` is no farther than any point after it.
+- **Simple correctness:** Returning the first `k` points therefore yields a valid set of `k` closest points.
 
 
 ## Complexity

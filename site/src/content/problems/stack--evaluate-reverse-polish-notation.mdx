@@ -100,23 +100,27 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Stack-Based Evaluation of Postfix Notation
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **stack** to evaluate expressions in Reverse Polish Notation (postfix), where operators come after operands.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**RPN Advantage:** No need for parentheses or operator precedence!
+- "3 4 +" means "push 3, push 4, add" = 7
+- Standard: We push numbers and pop them when we see an operator
 
-### Algorithm
-
-1. **Return result**: Output the computed answer
+**Algorithm:**
+1. If token is a number, push it
+2. If token is an operator, pop two operands, compute, push result
+3. Final stack has one element: the result
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Stack Property:** LIFO matches the operand order
+- **No Precedence:** Postfix notation eliminates precedence issues
+- **O(n) Time:** Each token processed once
+- **Elegant:** Simpler than infix parsing
 
 
 ## Complexity

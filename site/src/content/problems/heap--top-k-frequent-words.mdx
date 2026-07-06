@@ -72,24 +72,30 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Hash Map + Min Heap for Top K
 
-The algorithm starts by **sorting** the input to enable more efficient processing.
+This solution uses a **hash map to count frequencies**, then a **min heap of size k** to find the top k most frequent words.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+**Two-Phase Approach:**
+1. Count frequency of each word (hash map)
+2. Keep a min heap of k most frequent words
+3. When we see a new frequent word, remove the least frequent
+
+**Custom Comparator:** Sort by frequency (descending), then lexicographically for ties.
 
 ### Algorithm
 
-1. **Sort the input**: Arrange elements in ascending order
-2. **Return result**: Output the computed answer
+1. Count word frequencies with hash map
+2. Build min heap of k most frequent
+3. Heap root is the k-th most frequent
 
 ### Why This Works
 
-- **Sorting benefit**: Enables binary search, two pointers, and easy duplicate handling
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Counting:** O(n) with hash map
+- **Heap:** O(n log k) to find top k
+- **Space:** O(k) instead of O(unique words)
 
 
 ## Complexity

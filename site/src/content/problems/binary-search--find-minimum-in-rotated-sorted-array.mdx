@@ -87,26 +87,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Binary Search on the Pivot Side
 
-It uses the **Two Pointers** technique to efficiently search through the data. It applies **Binary Search** to find the target in logarithmic time.
+In a rotated sorted array, the minimum is the pivot point where order breaks.
+We use binary search with `mid` vs `right` comparison to decide which side contains the minimum.
 
-### Intuition
+### Key Observation
 
-By maintaining a sorted search space, we can eliminate half of the remaining candidates with each comparison, leading to logarithmic time complexity.
+- If `nums[mid] < nums[right]`, then right half `[mid..right]` is sorted and minimum is in `[left..mid]` (including `mid`).
+- Else (`nums[mid] > nums[right]`), minimum must be in `[mid+1..right]`.
 
-### Algorithm
+This lets us discard half the array each step.
 
-1. **Main loop**: Continue until condition is met
-2. **Move pointers**: Adjust left/right pointers based on current sum
-3. **Return result**: Output the computed answer
+### Step-by-Step Walkthrough
+
+Input: `nums = [4,5,6,7,0,1,2]`
+
+- `left=0, right=6, mid=3, nums[mid]=7, nums[right]=2`
+  - `7 > 2` -> minimum is right side -> `left = 4`
+- `left=4, right=6, mid=5, nums[mid]=1, nums[right]=2`
+  - `1 < 2` -> minimum in left side incl mid -> `right = 5`
+- `left=4, right=5, mid=4, nums[mid]=0, nums[right]=1`
+  - `0 < 1` -> `right = 4`
+
+Now `left == right == 4`, answer is `nums[4] = 0`.
+
+### Code Breakdown
+
+```python
+while left < right:
+    mid = (left + right) // 2
+    if nums[mid] < nums[right]:
+        right = mid
+    else:
+        left = mid + 1
+return nums[left]
+```
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Logarithmic search**: Halves search space with each iteration
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Invariant: minimum is always inside `[left, right]`
+- Each iteration shrinks interval by about half
+- Distinct values make comparison decisions unambiguous
 
 
 ## Complexity

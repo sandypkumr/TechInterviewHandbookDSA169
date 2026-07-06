@@ -80,24 +80,48 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Postorder DFS with Height or Failure Sentinel
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths. It uses the **Two Pointers** technique to efficiently search through the data.
+For each node, we need heights of left and right subtrees.
+So this is naturally postorder: process children first, then current node.
 
-### Intuition
+The helper returns:
+- subtree height if balanced
+- `-1` if unbalanced (failure sentinel)
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Why Sentinel `-1` Helps
 
-### Algorithm
+As soon as any subtree is unbalanced, we propagate `-1` upward and skip further meaningful height computation.
 
-1. **Move pointers**: Adjust left/right pointers based on current sum
-2. **Return result**: Output the computed answer
+### Code Logic
+
+```python
+left = check(root.left)
+right = check(root.right)
+if left == -1 or right == -1 or abs(left - right) > 1:
+    return -1
+return 1 + max(left, right)
+```
+
+Final answer:
+
+```python
+return check(root) != -1
+```
+
+### Step-by-Step Intuition
+
+At every node:
+- if left/right heights differ by more than 1 -> not balanced
+- otherwise height is one plus taller child
+
+Because each node is visited once, this is O(n) (better than recomputing heights repeatedly).
 
 ### Why This Works
 
-- **Two pointers optimization**: Eliminates need for nested loops by intelligently moving pointers
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Exactly matches balance definition at every node
+- Postorder guarantees child heights are known when needed
+- Single traversal with early failure propagation
 
 
 ## Complexity

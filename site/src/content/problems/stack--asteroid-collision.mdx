@@ -92,24 +92,32 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Monotonic Stack
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This solution uses a **stack** to keep the asteroids that are still alive after resolving all collisions seen so far.
 
 ### Intuition
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Only a right-moving asteroid followed later by a left-moving asteroid can collide. The stack stores unresolved asteroids, and when a new left-moving asteroid arrives, it repeatedly fights the right-moving asteroid on top of the stack until one side is destroyed or no collision is possible.
 
 ### Algorithm
 
-1. **Main loop**: Continue until condition is met
-2. **Return result**: Output the computed answer
+Here's the step-by-step approach:
+
+1. Traverse the asteroids from left to right.
+2. If the current asteroid cannot collide with the top of the stack, push it.
+3. Otherwise, while the top of the stack is moving right and the current asteroid is moving left, resolve collisions by comparing magnitudes and removing destroyed asteroids.
+4. Append the current asteroid only if it survives all possible collisions, then return the stack.
+
+### Code Breakdown
+
+The `while` loop handles chain reactions, where one incoming asteroid may destroy multiple smaller asteroids already on the stack. The `else` attached to the loop runs only when the current asteroid survives the collision checks and should be kept.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- **Only relevant collisions are checked:** A collision is possible exactly when the stack top moves right and the current asteroid moves left.
+- **Correct elimination:** Comparing absolute sizes matches the rule that the smaller asteroid explodes, or both explode if equal.
+- **Stable survivors:** After processing each asteroid, the stack represents the correct final state for the prefix seen so far.
 
 
 ## Complexity

@@ -71,23 +71,55 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Boyer-Moore Voting (Pair Cancellation)
 
-This solution implements an efficient algorithm to solve the problem systematically.
+This algorithm keeps a current `candidate` and a `count`.
+- Same value as candidate -> `count += 1`
+- Different value -> `count -= 1`
+- If `count == 0`, choose current number as new candidate
 
-### Intuition
+### Why Cancellation Works
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+Think of pairing one majority element with one non-majority element and removing both.
+Because majority appears more than `n/2` times, it cannot be fully canceled. It will survive as the final candidate.
 
-### Algorithm
+### Step-by-Step Walkthrough
 
-1. **Return result**: Output the computed answer
+**Input:** `[2,2,1,1,1,2,2]`
 
-### Why This Works
+```
+start: candidate=None, count=0
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+2: count==0 -> candidate=2, then match -> count=1
+2: match candidate -> count=2
+1: different -> count=1
+1: different -> count=0
+1: count==0 -> candidate=1, then match -> count=1
+2: different -> count=0
+2: count==0 -> candidate=2, then match -> count=1
+```
+
+Final candidate = `2`
+
+### Code Breakdown
+
+```python
+if count == 0:
+    candidate = num
+count += 1 if num == candidate else -1
+```
+
+These two lines are the core of the algorithm.
+
+### Important Note
+
+In some variants where majority is not guaranteed, a second pass is needed to verify the candidate count. In this problem, majority is guaranteed by constraints, so one pass is enough.
+
+### Why This is Optimal
+
+- Time: O(n), one scan
+- Space: O(1), only two variables
+- Meets the follow-up requirement exactly
 
 
 ## Complexity

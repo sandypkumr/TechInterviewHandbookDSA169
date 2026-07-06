@@ -9,7 +9,7 @@ githubUrl: "https://github.com/sandypkumr/TechInterviewHandbookDSA169/blob/maste
 tags: ["Two Pointers", "String", "Stack", "Simulation"]
 patterns: ["Stack Simulation", "Two Pointers"]
 timeComplexity: "O(n)"
-spaceComplexity: "O(1)"
+spaceComplexity: "O(n)"
 hasProblemStatement: true
 hasConstraints: true
 hasExamples: true
@@ -80,29 +80,58 @@ class Solution:
 
 ## Explanation
 
-### Approach
+### Approach: Simulate Typing with a Stack
 
-This solution uses **Depth-First Search (DFS)** to explore all possible paths.
+Process each string as if typing into an editor:
+- normal character -> push to stack
+- `#` -> pop last character if stack is not empty
 
-### Intuition
+After simulation, the stack content is the final typed text.
+Run this for both strings and compare.
 
-The solution breaks down the problem into manageable steps, processing elements systematically to build the final answer.
+### Step-by-Step Example
 
-### Algorithm
+`s = "ab#c"`
+- `a` -> `[a]`
+- `b` -> `[a,b]`
+- `#` -> pop -> `[a]`
+- `c` -> `[a,c]` -> final `"ac"`
 
-1. **Return result**: Output the computed answer
+`t = "ad#c"`
+- `a` -> `[a]`
+- `d` -> `[a,d]`
+- `#` -> pop -> `[a]`
+- `c` -> `[a,c]` -> final `"ac"`
+
+Both equal -> `True`.
+
+### Code Breakdown
+
+```python
+def build(s: str) -> str:
+    stack = []
+    for c in s:
+        if c == '#':
+            if stack:
+                stack.pop()
+        else:
+            stack.append(c)
+    return ''.join(stack)
+```
+
+Then compare `build(s) == build(t)`.
 
 ### Why This Works
 
-- **Systematic approach**: Processes elements in a logical order to build the solution
-- **Correctness**: The algorithm handles all edge cases and produces the expected output
-- **Efficiency**: Optimized for both time and space constraints
+- Stack exactly models backspace behavior (LIFO delete)
+- Handles extra backspaces safely with `if stack`
+- Each character processed once -> O(n) time
 
 
 ## Complexity
 
 - **Time**: `O(n)`
-- **Space**: `O(1)`
+- **Space**: `O(n)`
 
 
 ## Similar Problems
